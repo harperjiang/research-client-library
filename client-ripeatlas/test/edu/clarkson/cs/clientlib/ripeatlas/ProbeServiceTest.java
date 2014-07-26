@@ -1,4 +1,4 @@
-package edu.clarkson.cs.clientlib.ripeatlas.api.probe;
+package edu.clarkson.cs.clientlib.ripeatlas;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,9 +7,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.clarkson.cs.clientlib.ipinfo.TestContextSet;
 import edu.clarkson.cs.clientlib.lang.BeanContext;
-import edu.clarkson.cs.clientlib.ripeatlas.ProbeService;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Probe;
 
 public class ProbeServiceTest {

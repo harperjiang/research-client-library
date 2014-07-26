@@ -1,4 +1,4 @@
-package edu.clarkson.cs.clientlib.ripeatlas.api;
+package edu.clarkson.cs.clientlib.ripeatlas;
 
 import org.apache.http.impl.client.HttpClients;
 
