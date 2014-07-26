@@ -13,7 +13,7 @@ public class MeasurementService {
 
 	private Environment env;
 
-	public MeasurementGetRequest get(String id) {
+	public MeasurementGetRequest get(int id) {
 		MeasurementGetRequest req = new MeasurementGetRequest();
 		req.setMeasurementId(id);
 

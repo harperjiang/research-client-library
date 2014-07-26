@@ -7,7 +7,7 @@ public class ProbeService {
 
 	private Environment env;
 
-	public ProbeGetRequest get(String id) {
+	public ProbeGetRequest get(int id) {
 		ProbeGetRequest req = new ProbeGetRequest();
 		req.setId(id);
 

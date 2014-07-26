@@ -10,13 +10,13 @@ import edu.clarkson.cs.clientlib.ripeatlas.api.Configuration;
 
 public class ProbeGetRequest extends Request<ProbeGetResponse> {
 
-	private String id;
+	private int id;
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -27,7 +27,8 @@ public class ProbeGetRequest extends Request<ProbeGetResponse> {
 
 	@Override
 	protected HttpUriRequest buildRequest() {
-		HttpGet get = new HttpGet(MessageFormat.format("{0}{1}/", getUrl(), id));
+		HttpGet get = new HttpGet(MessageFormat.format("{0}{1}/", getUrl(),
+				String.valueOf(id)));
 		return get;
 	}
 

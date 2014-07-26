@@ -24,7 +24,7 @@ public class ProbeServiceTest {
 
 	@Test
 	public void testGet() throws Exception {
-		Probe probe = service.get("12698").execute().getResult();
+		Probe probe = service.get(12698).execute().getResult();
 		assertEquals("128.153.18.184", probe.getAddressV4());
 		assertEquals(null, probe.getAddressV6());
 		assertEquals(92, probe.getAsnV4());

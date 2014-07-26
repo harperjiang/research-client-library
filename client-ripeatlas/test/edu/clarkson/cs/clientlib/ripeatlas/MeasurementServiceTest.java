@@ -32,7 +32,7 @@ public class MeasurementServiceTest {
 
 	@Test
 	public void testGet() throws Exception {
-		Measurement measurement = service.get("1033381").execute().getResult();
+		Measurement measurement = service.get(1033381).execute().getResult();
 		assertEquals("Test measurement", measurement.getDescription());
 		assertEquals(4, measurement.getAf());
 		assertEquals(1381982713000l, measurement.getCreationTime().getTime());
