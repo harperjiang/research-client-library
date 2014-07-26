@@ -4,9 +4,8 @@ import edu.clarkson.cs.clientlib.common.http.Request;
 import edu.clarkson.cs.clientlib.common.http.Response;
 
 public class DefaultHttpService {
-	
-	protected <T extends Response<?>> T execute(Request<T> request)
-			throws Exception {
+
+	protected <T extends Response<?>> T execute(Request<T> request) {
 		while (true) {
 			try {
 				T response = request.execute();
@@ -18,7 +17,11 @@ public class DefaultHttpService {
 				Thread.sleep(2000);
 			} catch (Exception e) {
 				e.printStackTrace();
-				Thread.sleep(2000);
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException ie) {
+					throw new RuntimeException(ie);
+				}
 			}
 		}
 	}
