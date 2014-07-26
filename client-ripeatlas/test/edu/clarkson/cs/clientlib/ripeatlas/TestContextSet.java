@@ -11,8 +11,8 @@ import edu.clarkson.cs.clientlib.common.json.BeanSerializer;
 import edu.clarkson.cs.clientlib.lang.BeanContext;
 import edu.clarkson.cs.clientlib.lang.ContextSet;
 import edu.clarkson.cs.clientlib.ripeatlas.Environment;
-import edu.clarkson.cs.clientlib.ripeatlas.MeasurementService;
-import edu.clarkson.cs.clientlib.ripeatlas.ProbeService;
+import edu.clarkson.cs.clientlib.ripeatlas.MeasurementAccess;
+import edu.clarkson.cs.clientlib.ripeatlas.ProbeAccess;
 import edu.clarkson.cs.clientlib.ripeatlas.json.MeasurementDeserializer;
 import edu.clarkson.cs.clientlib.ripeatlas.json.MeasurementResultDeserializer;
 import edu.clarkson.cs.clientlib.ripeatlas.json.TracerouteDeserializer;
@@ -62,11 +62,11 @@ public class TestContextSet implements ContextSet {
 		
 		
 		// Beans
-		MeasurementService ms = new MeasurementService();
+		MeasurementAccess ms = new MeasurementAccess();
 		ms.setEnv(env);
 		BeanContext.get().put("measurementService", ms);
 		
-		ProbeService ps = new ProbeService();
+		ProbeAccess ps = new ProbeAccess();
 		ps.setEnv(env);
 		BeanContext.get().put("probeService", ps);
 		

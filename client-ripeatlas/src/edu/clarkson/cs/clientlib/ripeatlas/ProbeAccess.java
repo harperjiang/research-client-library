@@ -3,7 +3,7 @@ package edu.clarkson.cs.clientlib.ripeatlas;
 import edu.clarkson.cs.clientlib.ripeatlas.api.probe.ProbeGetRequest;
 import edu.clarkson.cs.clientlib.ripeatlas.api.probe.ProbeListRequest;
 
-public class ProbeService {
+public class ProbeAccess {
 
 	private Environment env;
 

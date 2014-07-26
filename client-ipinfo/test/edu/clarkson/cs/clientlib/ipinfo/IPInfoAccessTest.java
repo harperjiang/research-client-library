@@ -8,9 +8,9 @@ import org.junit.Test;
 import edu.clarkson.cs.clientlib.ipinfo.model.IPInfo;
 import edu.clarkson.cs.clientlib.lang.BeanContext;
 
-public class IPInfoServiceTest {
+public class IPInfoAccessTest {
 
-	private IPInfoService service;
+	private IPInfoAccess service;
 	
 	@Before
 	public void init() {

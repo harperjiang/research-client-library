@@ -15,7 +15,7 @@ import edu.clarkson.cs.clientlib.ipinfo.dao.IPInfoDao;
 import edu.clarkson.cs.clientlib.ipinfo.model.IPInfo;
 import edu.clarkson.cs.clientlib.ipinfo.util.CapChecker;
 
-public class IPInfoService {
+public class IPInfoAccess {
 
 	private BloomFilter<CharSequence> filter;
 
@@ -27,7 +27,7 @@ public class IPInfoService {
 
 	private Environment env;
 
-	public IPInfoService() {
+	public IPInfoAccess() {
 		super();
 	}
 

@@ -10,9 +10,9 @@ import org.junit.Test;
 import edu.clarkson.cs.clientlib.lang.BeanContext;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Probe;
 
-public class ProbeServiceTest {
+public class ProbeAccessTest {
 
-	private ProbeService service;
+	private ProbeAccess service;
 
 	@Before
 	public void init() {

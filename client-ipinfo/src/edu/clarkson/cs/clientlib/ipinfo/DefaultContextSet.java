@@ -40,7 +40,7 @@ public class DefaultContextSet implements ContextSet {
 
 		BeanContext.get().put("ipInfoDao", ipInfoDao);
 
-		IPInfoService ipInfoService = new IPInfoService();
+		IPInfoAccess ipInfoService = new IPInfoAccess();
 		ipInfoService.setEnv(env);
 		ipInfoService.setIpInfoDao(ipInfoDao);
 		ipInfoService.afterPropertySet();

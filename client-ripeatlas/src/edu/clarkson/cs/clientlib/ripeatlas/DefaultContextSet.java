@@ -59,11 +59,11 @@ public class DefaultContextSet implements ContextSet {
 		
 		
 		// Beans
-		MeasurementService ms = new MeasurementService();
+		MeasurementAccess ms = new MeasurementAccess();
 		
 		BeanContext.get().put("measurementService", ms);
 		
-		ProbeService ps = new ProbeService();
+		ProbeAccess ps = new ProbeAccess();
 		
 		BeanContext.get().put("probeService", ps);
 		

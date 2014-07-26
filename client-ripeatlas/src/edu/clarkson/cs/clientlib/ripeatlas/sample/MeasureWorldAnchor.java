@@ -9,8 +9,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.clarkson.cs.clientlib.ripeatlas.MeasurementService;
-import edu.clarkson.cs.clientlib.ripeatlas.ProbeService;
+import edu.clarkson.cs.clientlib.ripeatlas.MeasurementAccess;
+import edu.clarkson.cs.clientlib.ripeatlas.ProbeAccess;
 import edu.clarkson.cs.clientlib.ripeatlas.api.probe.ProbeListResponse;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementCreate;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Probe;
@@ -22,9 +22,9 @@ public class MeasureWorldAnchor {
 
 	static Logger logger = LoggerFactory.getLogger(MeasureWorldAnchor.class);
 
-	static ProbeService probeService = new ProbeService();
+	static ProbeAccess probeService = new ProbeAccess();
 
-	static MeasurementService measurementService = new MeasurementService();
+	static MeasurementAccess measurementService = new MeasurementAccess();
 
 	static Random random = new Random(System.currentTimeMillis());
 

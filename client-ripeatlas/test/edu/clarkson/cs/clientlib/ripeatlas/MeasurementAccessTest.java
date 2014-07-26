@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.clarkson.cs.clientlib.lang.BeanContext;
-import edu.clarkson.cs.clientlib.ripeatlas.MeasurementService;
+import edu.clarkson.cs.clientlib.ripeatlas.MeasurementAccess;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Measurement;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementCreate;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementResult;
@@ -18,9 +18,9 @@ import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteOutput;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteOutput.TracerouteData;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteTarget;
 
-public class MeasurementServiceTest {
+public class MeasurementAccessTest {
 
-	private MeasurementService service;
+	private MeasurementAccess service;
 
 	@Before
 	public void init() {

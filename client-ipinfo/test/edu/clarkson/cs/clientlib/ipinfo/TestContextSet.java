@@ -33,7 +33,7 @@ public class TestContextSet implements ContextSet {
 
 		BeanContext.get().put("ipInfoDao", ipInfoDao);
 
-		IPInfoService ipInfoService = new IPInfoService();
+		IPInfoAccess ipInfoService = new IPInfoAccess();
 		ipInfoService.setIpInfoDao(ipInfoDao);
 		ipInfoService.setEnv(env);
 		ipInfoService.afterPropertySet();

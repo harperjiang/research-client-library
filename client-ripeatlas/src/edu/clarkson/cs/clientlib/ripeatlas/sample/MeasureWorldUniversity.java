@@ -8,7 +8,7 @@ import java.text.MessageFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.clarkson.cs.clientlib.ripeatlas.MeasurementService;
+import edu.clarkson.cs.clientlib.ripeatlas.MeasurementAccess;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementCreate;
 import edu.clarkson.cs.clientlib.ripeatlas.model.ProbeSpec;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteTarget;
@@ -18,7 +18,7 @@ public class MeasureWorldUniversity {
 	static Logger logger = LoggerFactory
 			.getLogger(MeasureWorldUniversity.class);
 
-	static MeasurementService service = new MeasurementService();
+	static MeasurementAccess service = new MeasurementAccess();
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(

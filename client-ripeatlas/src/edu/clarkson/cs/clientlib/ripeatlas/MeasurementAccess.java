@@ -5,9 +5,9 @@ import edu.clarkson.cs.clientlib.ripeatlas.api.measurement.MeasurementGetRequest
 import edu.clarkson.cs.clientlib.ripeatlas.api.measurement.MeasurementResultRequest;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementCreate;
 
-public class MeasurementService {
+public class MeasurementAccess {
 
-	public MeasurementService() {
+	public MeasurementAccess() {
 		super();
 	}
 
