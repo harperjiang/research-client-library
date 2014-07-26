@@ -1,4 +1,4 @@
-package edu.clarkson.cs.clientlib.ipinfo.api;
+package edu.clarkson.cs.clientlib.ipinfo.dao;
 
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
@@ -6,12 +6,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.eclipse.persistence.queries.ScrollableCursor;
-
 import edu.clarkson.cs.clientlib.ipinfo.model.IPInfo;
 import edu.clarkson.cs.persistence.JpaDao;
 
-public class IPInfoDao extends JpaDao {
+public class JpaIPInfoDao extends JpaDao<IPInfo> implements IPInfoDao {
 
 	public IPInfo find(String ip) {
 		CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
@@ -35,10 +33,5 @@ public class IPInfoDao extends JpaDao {
 		transaction.commit();
 	}
 
-	public ScrollableCursor all() {
-		return (ScrollableCursor) getEntityManager()
-				.createQuery("select i from IPInfo i")
-				.setHint("eclipselink.cursor.scrollable", true)
-				.getSingleResult();
-	}
+	
 }

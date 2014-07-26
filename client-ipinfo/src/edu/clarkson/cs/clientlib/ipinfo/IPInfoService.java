@@ -1,4 +1,4 @@
-package edu.clarkson.cs.clientlib.ipinfo.api;
+package edu.clarkson.cs.clientlib.ipinfo;
 
 import java.nio.charset.Charset;
 import java.util.List;
@@ -10,8 +10,10 @@ import org.slf4j.LoggerFactory;
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
 
-import edu.clarkson.cs.clientlib.ipinfo.Environment;
+import edu.clarkson.cs.clientlib.ipinfo.api.QueryIPInfoRequest;
+import edu.clarkson.cs.clientlib.ipinfo.dao.IPInfoDao;
 import edu.clarkson.cs.clientlib.ipinfo.model.IPInfo;
+import edu.clarkson.cs.clientlib.ipinfo.util.CapChecker;
 
 public class IPInfoService {
 
@@ -23,13 +25,13 @@ public class IPInfoService {
 
 	private CapChecker capChecker;
 
+	private Environment env;
+
 	public IPInfoService() {
 		super();
+	}
 
-		ipInfoDao = new IPInfoDao();
-		ipInfoDao.setEntityManager(Environment.getEnvironment()
-				.getEntityManager());
-
+	public void afterPropertySet() {
 		// Initalize Bloom Filter
 		filter = BloomFilter.create(
 				Funnels.stringFunnel(Charset.forName("utf8")), 100000, 0.001);
@@ -55,9 +57,9 @@ public class IPInfoService {
 
 	public QueryIPInfoRequest queryip(String ip) {
 		QueryIPInfoRequest request = new QueryIPInfoRequest();
-		request.setHttpClient(Environment.getEnvironment().getHttpClient());
-		request.setGson(Environment.getEnvironment().getGson());
-		request.setParser(Environment.getEnvironment().getReader());
+		request.setHttpClient(env.getHttpClient());
+		request.setGson(env.getGson());
+		request.setParser(env.getReader());
 		request.setIp(ip);
 		return request;
 	}
@@ -89,6 +91,22 @@ public class IPInfoService {
 			logger.error("Exception when requesting ip info", e);
 			return null;
 		}
+	}
+
+	public IPInfoDao getIpInfoDao() {
+		return ipInfoDao;
+	}
+
+	public void setIpInfoDao(IPInfoDao ipInfoDao) {
+		this.ipInfoDao = ipInfoDao;
+	}
+
+	public Environment getEnv() {
+		return env;
+	}
+
+	public void setEnv(Environment env) {
+		this.env = env;
 	}
 
 	private static final int REQ_PER_MIN = 300;

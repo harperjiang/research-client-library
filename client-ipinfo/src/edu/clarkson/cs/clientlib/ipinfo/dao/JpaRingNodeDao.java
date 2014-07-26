@@ -1,16 +1,11 @@
-package edu.clarkson.cs.clientlib.ipinfo.api;
+package edu.clarkson.cs.clientlib.ipinfo.dao;
 
 import java.util.List;
 
 import edu.clarkson.cs.clientlib.ipinfo.model.RingNode;
 import edu.clarkson.cs.persistence.JpaDao;
 
-public class RingNodeDao extends JpaDao {
-
-	public List<RingNode> allatonce() {
-		return getEntityManager().createQuery("select rn from RingNode rn",
-				RingNode.class).getResultList();
-	}
+public class JpaRingNodeDao extends JpaDao<RingNode> implements RingNodeDao {
 
 	public List<RingNode> incountry(String country) {
 		return getEntityManager()

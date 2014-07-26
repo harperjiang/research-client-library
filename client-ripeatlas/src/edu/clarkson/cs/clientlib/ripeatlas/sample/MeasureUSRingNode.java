@@ -7,9 +7,9 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.clarkson.cs.clientlib.ipinfo.api.RingNodeDao;
+import edu.clarkson.cs.clientlib.ipinfo.dao.JpaRingNodeDao;
 import edu.clarkson.cs.clientlib.ipinfo.model.RingNode;
-import edu.clarkson.cs.clientlib.ripeatlas.api.measurement.MeasurementService;
+import edu.clarkson.cs.clientlib.ripeatlas.MeasurementService;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementCreate;
 import edu.clarkson.cs.clientlib.ripeatlas.model.ProbeSpec;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteTarget;
@@ -20,7 +20,7 @@ public class MeasureUSRingNode {
 
 	static MeasurementService service = new MeasurementService();
 
-	static RingNodeDao ringNodeDao = new RingNodeDao();
+	static JpaRingNodeDao ringNodeDao = new JpaRingNodeDao();
 
 	static Random random = new Random(System.currentTimeMillis());
 

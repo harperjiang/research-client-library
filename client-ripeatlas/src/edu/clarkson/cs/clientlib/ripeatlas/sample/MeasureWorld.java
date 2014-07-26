@@ -15,9 +15,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.clarkson.cs.clientlib.ripeatlas.api.measurement.MeasurementService;
+import edu.clarkson.cs.clientlib.ripeatlas.MeasurementService;
+import edu.clarkson.cs.clientlib.ripeatlas.ProbeService;
 import edu.clarkson.cs.clientlib.ripeatlas.api.probe.ProbeListResponse;
-import edu.clarkson.cs.clientlib.ripeatlas.api.probe.ProbeService;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementCreate;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Probe;
 import edu.clarkson.cs.clientlib.ripeatlas.model.ProbeSpec;

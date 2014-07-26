@@ -5,8 +5,12 @@ import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import edu.clarkson.cs.clientlib.lang.BeanContext;
+import edu.clarkson.cs.clientlib.ripeatlas.MeasurementService;
+import edu.clarkson.cs.clientlib.ripeatlas.api.TestContextSet;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Measurement;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementCreate;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementResult;
@@ -17,7 +21,15 @@ import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteTarget;
 
 public class MeasurementServiceTest {
 
-	private MeasurementService service = new MeasurementService();
+	private MeasurementService service;
+
+	@Before
+	public void init() {
+		if (null == service) {
+			new TestContextSet().apply();
+		}
+		service = BeanContext.get().get("measurementService");
+	}
 
 	@Test
 	public void testGet() throws Exception {

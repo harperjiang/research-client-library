@@ -1,4 +1,4 @@
-package edu.clarkson.cs.clientlib.ipinfo;
+package edu.clarkson.cs.clientlib.ipinfo.api;
 
 public interface Constants {
 

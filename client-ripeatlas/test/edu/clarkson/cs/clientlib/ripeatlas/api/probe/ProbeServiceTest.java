@@ -4,13 +4,25 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import edu.clarkson.cs.clientlib.ipinfo.TestContextSet;
+import edu.clarkson.cs.clientlib.lang.BeanContext;
+import edu.clarkson.cs.clientlib.ripeatlas.ProbeService;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Probe;
 
 public class ProbeServiceTest {
 
-	private ProbeService service = new ProbeService();
+	private ProbeService service;
+
+	@Before
+	public void init() {
+		if (null == service) {
+			new TestContextSet().apply();
+		}
+		service = BeanContext.get().get("probeService");
+	}
 
 	@Test
 	public void testGet() throws Exception {

@@ -13,8 +13,6 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.message.BasicNameValuePair;
 
 import edu.clarkson.cs.clientlib.common.http.Request;
-import edu.clarkson.cs.clientlib.ipinfo.Configuration;
-import edu.clarkson.cs.clientlib.ipinfo.Constants;
 
 public class QueryIPInfoRequest extends Request<QueryIPInfoResponse> {
 

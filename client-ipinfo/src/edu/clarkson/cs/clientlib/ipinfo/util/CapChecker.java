@@ -1,4 +1,4 @@
-package edu.clarkson.cs.clientlib.ipinfo.api;
+package edu.clarkson.cs.clientlib.ipinfo.util;
 
 import java.util.ArrayList;
 import java.util.Calendar;

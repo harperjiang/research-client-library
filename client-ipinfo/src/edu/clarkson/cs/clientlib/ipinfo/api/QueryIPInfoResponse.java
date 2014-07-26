@@ -13,7 +13,7 @@ import edu.clarkson.cs.clientlib.ipinfo.model.IPInfo;
 
 public class QueryIPInfoResponse extends Response<IPInfo> {
 
-	protected QueryIPInfoResponse() throws IOException {
+	public QueryIPInfoResponse() throws IOException {
 		super();
 	}
 

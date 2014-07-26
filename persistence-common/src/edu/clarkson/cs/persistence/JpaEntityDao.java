@@ -2,7 +2,7 @@ package edu.clarkson.cs.persistence;
 
 import javax.persistence.EntityTransaction;
 
-public abstract class JpaEntityDao<T extends EntityObject> extends JpaDao {
+public abstract class JpaEntityDao<T extends EntityObject> extends JpaDao<T> {
 
 	public void save(T object) {
 		EntityTransaction t = getEntityManager().getTransaction();
