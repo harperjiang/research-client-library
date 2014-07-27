@@ -5,7 +5,7 @@ import edu.clarkson.cs.clientlib.ripeatlas.api.probe.ProbeListRequest;
 
 public class ProbeAccess {
 
-	private Environment env;
+	private RipeAtlasEnvironment env;
 
 	public ProbeGetRequest get(int id) {
 		ProbeGetRequest req = new ProbeGetRequest();
@@ -31,11 +31,11 @@ public class ProbeAccess {
 		return request;
 	}
 
-	public Environment getEnv() {
+	public RipeAtlasEnvironment getEnv() {
 		return env;
 	}
 
-	public void setEnv(Environment env) {
+	public void setEnv(RipeAtlasEnvironment env) {
 		this.env = env;
 	}
 

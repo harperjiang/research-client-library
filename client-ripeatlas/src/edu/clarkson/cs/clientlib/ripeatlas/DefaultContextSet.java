@@ -25,7 +25,7 @@ public class DefaultContextSet implements ContextSet {
 
 	@Override
 	public void apply() {
-		Environment env = new Environment();
+		RipeAtlasEnvironment env = new RipeAtlasEnvironment();
 		// Create HTTP Client
 		env.setHttpClient(HttpClients.createDefault());
 
@@ -60,11 +60,11 @@ public class DefaultContextSet implements ContextSet {
 		
 		// Beans
 		MeasurementAccess ms = new MeasurementAccess();
-		
+		ms.setEnv(env);
 		BeanContext.get().put("measurementService", ms);
 		
 		ProbeAccess ps = new ProbeAccess();
-		
+		ps.setEnv(env);
 		BeanContext.get().put("probeService", ps);
 		
 	}

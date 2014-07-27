@@ -10,7 +10,7 @@ import edu.clarkson.cs.clientlib.common.json.BeanDeserializer;
 import edu.clarkson.cs.clientlib.common.json.BeanSerializer;
 import edu.clarkson.cs.clientlib.lang.BeanContext;
 import edu.clarkson.cs.clientlib.lang.ContextSet;
-import edu.clarkson.cs.clientlib.ripeatlas.Environment;
+import edu.clarkson.cs.clientlib.ripeatlas.RipeAtlasEnvironment;
 import edu.clarkson.cs.clientlib.ripeatlas.MeasurementAccess;
 import edu.clarkson.cs.clientlib.ripeatlas.ProbeAccess;
 import edu.clarkson.cs.clientlib.ripeatlas.json.MeasurementDeserializer;
@@ -28,7 +28,7 @@ public class TestContextSet implements ContextSet {
 
 	@Override
 	public void apply() {
-		Environment env = new Environment();
+		RipeAtlasEnvironment env = new RipeAtlasEnvironment();
 		// Create HTTP Client
 		env.setHttpClient(HttpClients.createDefault());
 

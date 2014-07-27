@@ -5,9 +5,9 @@ import org.apache.http.client.HttpClient;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 
-public class Environment {
+public class RipeAtlasEnvironment {
 
-	public Environment() {
+	public RipeAtlasEnvironment() {
 		super();
 	}
 

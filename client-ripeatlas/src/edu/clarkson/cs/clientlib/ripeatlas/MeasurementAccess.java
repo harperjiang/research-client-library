@@ -11,7 +11,7 @@ public class MeasurementAccess {
 		super();
 	}
 
-	private Environment env;
+	private RipeAtlasEnvironment env;
 
 	public MeasurementGetRequest get(int id) {
 		MeasurementGetRequest req = new MeasurementGetRequest();
@@ -46,11 +46,11 @@ public class MeasurementAccess {
 		return mcr;
 	}
 
-	public Environment getEnv() {
+	public RipeAtlasEnvironment getEnv() {
 		return env;
 	}
 
-	public void setEnv(Environment env) {
+	public void setEnv(RipeAtlasEnvironment env) {
 		this.env = env;
 	}
 
