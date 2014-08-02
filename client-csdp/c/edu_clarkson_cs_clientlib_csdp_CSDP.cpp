@@ -5,7 +5,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-int myijtok(int size, int i, int j) {
+int myijtok(int i, int j, int size) {
+	return 0;
+}
+
+int triangle_matrix_size(int dim) {
 	return 0;
 }
 
@@ -200,11 +204,51 @@ void extract_constraints(JNIEnv * env, jobjectArray cons, double* b,
 	}
 }
 
-void setup_ret_value(JNIEnv* env, jobject self, struct blockmatrix* X,
+void setup_ret_value(JNIEnv* env, jobject self, int size, struct blockmatrix* X,
 		double pobj, double dobj) {
 	env->SetDoubleField(self, FID_CSDP_OBJVAL, (pobj + dobj) / 2);
 
+	// Matrix Size
+	env->SetIntField(self, FID_BM_SIZE, size);
 
+	// Allocate Matrix Blocks
+	jobject varmtx = env->AllocObject(CLS_BM);
+	jobjectArray blockArray = env->NewObjectArray(X->nblocks, CLS_MB, NULL);
+	env->SetObjectField(varmtx, FID_BM_BLOCKS, blockArray);
+
+	for (int blk_idx = 0; blk_idx < X->nblocks; blk_idx++) {
+		struct blockrec* cblock = X->blocks + blk_idx + 1;
+
+		jobject jblock = env->AllocObject(CLS_MB);
+
+		env->SetIntField(jblock, FID_MB_SIZE, cblock->blocksize);
+		if (cblock->blockcategory == MATRIX) {
+			env->SetIntField(jblock, FID_MB_TYPE, 0);
+			jdoubleArray dataArray = env->NewDoubleArray(
+					triangle_matrix_size(cblock->blocksize));
+			env->SetObjectField(jblock, FID_MB_DATA, dataArray);
+			jdouble* datas = env->GetDoubleArrayElements(dataArray, 0);
+			for (int data_i = 0; data_i < cblock->blocksize; data_i++) {
+				for (int data_j = data_i; data_j < cblock->blocksize;
+						data_j++) {
+					datas[myijtok(data_i, data_j, cblock->blocksize)] =
+							cblock->data.mat[ijtok(data_i+1, data_j + 1,
+									cblock->blocksize)];
+				}
+			}
+		} else if (cblock->blockcategory == DIAG) {
+			env->SetIntField(jblock, FID_MB_TYPE, 1);
+			jdoubleArray dataArray = env->NewDoubleArray(cblock->blocksize);
+			env->SetObjectField(jblock, FID_MB_DATA, dataArray);
+			jdouble* datas = env->GetDoubleArrayElements(dataArray, 0);
+
+			memcpy(datas,cblock->data.vec+1,cblock->blocksize);
+		}
+
+		env->SetObjectArrayElement(blockArray, blk_idx, jblock);
+	}
+
+	env->SetObjectField(self, FID_CSDP_VAR, varmtx);
 }
 
 /*
@@ -249,7 +293,7 @@ JNIEXPORT void JNICALL Java_edu_clarkson_cs_clientlib_csdp_CSDP_solve(
 			&pobj, &dobj);
 
 	if (ret == 0) {
-		setup_ret_value(env, self, &X, pobj, dobj);
+		setup_ret_value(env, self, matrix_size, &X, pobj, dobj);
 		free_prob(matrix_size, cons_size, C, b, constraints, X, y, Z);
 	} else {
 		free_prob(matrix_size, cons_size, C, b, constraints, X, y, Z);
