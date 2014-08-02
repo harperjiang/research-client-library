@@ -1,7 +1,9 @@
 #include "edu_clarkson_cs_clientlib_csdp_CSDP.h"
+#include "error_handle.h"
 #include "declarations.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 int from_array_size(int size) {
 	return 0;
@@ -17,7 +19,7 @@ void extract_param_matrix(JNIEnv * env, jobjectArray blockMatrix,
 	C->blocks = (struct blockrec*) malloc(
 			(C->nblocks + 1) * sizeof(struct blockrec));
 	if (C->blocks == NULL) {
-		// TODO Throw an error
+		throw_memory_error(env);
 	}
 
 	for (int i = 0; i < C->nblocks; i++) {
@@ -31,7 +33,7 @@ void extract_param_matrix(JNIEnv * env, jobjectArray blockMatrix,
 		block->data.mat = (double*) malloc(
 				block_size * block_size * sizeof(double));
 		if (block->data.mat == NULL) {
-			// TODO Throw an error
+			throw_memory_error(env);
 		}
 
 		jdouble* values = env->GetDoubleArrayElements(data, 0);
@@ -46,7 +48,26 @@ void extract_param_matrix(JNIEnv * env, jobjectArray blockMatrix,
 
 void extract_constraints(JNIEnv * env, jobjectArray cons, jdoubleArray consval,
 		double* b, struct constraintmatrix * constraints, int* cons_size) {
+	*cons_size = env->GetArrayLength(cons);
+	// Right hand side value
+	jdouble* consval_inarray = env->GetDoubleArrayElements(consval, 0);
+	b = (double*) malloc((*cons_size + 1) * sizeof(double));
+	if (b == NULL) {
+		throw_memory_error(env);
+	}
+	memcpy(b + 1, consval_inarray, *cons_size * sizeof(double));
 
+	// Constraint matrix
+	constraints = (struct constraintmatrix*) malloc(
+			(*cons_size + 1) * sizeof(struct constraintmatrix));
+	if (NULL == constraints) {
+		throw_memory_error(env);
+	}
+
+	for (int i = 0; i < *cons_size; i++) {
+		struct constraintmatrix* cmatrix = constraints + i + 1;
+
+	}
 }
 
 void setup_ret_value(JNIEnv* env, jobject self, struct blockmatrix* X,
@@ -54,9 +75,6 @@ void setup_ret_value(JNIEnv* env, jobject self, struct blockmatrix* X,
 
 }
 
-void setup_error(JNIEnv*env, int ret) {
-
-}
 /*
  * Part of the code are directly copied from the example contained in CSDP
  *
@@ -102,7 +120,7 @@ JNIEXPORT void JNICALL Java_edu_clarkson_cs_clientlib_csdp_CSDP_solve(
 		free_prob(matrix_size, cons_size, C, b, constraints, X, y, Z);
 	} else {
 		free_prob(matrix_size, cons_size, C, b, constraints, X, y, Z);
-		setup_error(env, ret);
+		throw_csdp_error(env, ret);
 	}
 
 }

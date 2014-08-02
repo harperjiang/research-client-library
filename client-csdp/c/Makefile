@@ -7,6 +7,7 @@ ifeq ($(OS),Darwin)
 	GCC=g++
 	OUTPUT=libcsdp.dylib
 	LIBFLAG=-dynamiclib -undefined suppress -flat_namespace -L"$(CSDP_HOME)/lib" -lsdp
+	CFLAG=-fPIC -c $(JAVA_HEADER) $(CSDP_HEADER) 
 else
 	JAVA_HOME=/usr/lib/jvm/jdk_1.8.0
 	JAVA_HEADER=-I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/linux"
@@ -15,6 +16,7 @@ else
 	GCC=g++
 	OUTPUT=libcsdp.so
 	LIBFLAG=-shared -L"$(CSDP_HOME)/lib" -Wl,-whole-archive -lsdp -Wl,-no-whole-archive
+	CFLAG=-fPIC -c $(JAVA_HEADER) $(CSDP_HEADER) 
 endif
 
 
@@ -22,11 +24,14 @@ all:
 	make clean
 	make libcsdp
 	
-libcsdp: edu_clarkson_cs_clientlib_csdp_CSDP.o
-	$(GCC) -o $(OUTPUT) edu_clarkson_cs_clientlib_csdp_CSDP.o $(LIBFLAG) 
+libcsdp: edu_clarkson_cs_clientlib_csdp_CSDP.o error_handle.o
+	$(GCC) -o $(OUTPUT) edu_clarkson_cs_clientlib_csdp_CSDP.o error_handle.o $(LIBFLAG) 
+
+error_handle.o : error_handle.cpp
+	$(GCC) $(CFLAG) -o $@ error_handle.cpp
 
 edu_clarkson_cs_clientlib_csdp_CSDP.o : edu_clarkson_cs_clientlib_csdp_CSDP.cpp
-	$(GCC) -fPIC -c -o $@ edu_clarkson_cs_clientlib_csdp_CSDP.cpp $(JAVA_HEADER) $(CSDP_HEADER) 
+	$(GCC) $(CFLAG) -o $@ edu_clarkson_cs_clientlib_csdp_CSDP.cpp  
 
 clean:
 	rm -rf *.o
