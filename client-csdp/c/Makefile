@@ -9,7 +9,7 @@ ifeq ($(OS),Darwin)
 	LIBFLAG=-dynamiclib -undefined suppress -flat_namespace -L"$(CSDP_HOME)/lib" -lsdp
 	CFLAG=-fPIC -c $(JAVA_HEADER) $(CSDP_HEADER) 
 else
-	JAVA_HOME=/usr/lib/jvm/jdk_1.8.0
+	JAVA_HOME=/usr/lib/jvm/jdk_1.8.0_05
 	JAVA_HEADER=-I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/linux"
 	CSDP_HOME=/home/harper/Libraries/Csdp-6.1.1
 	CSDP_HEADER=-I"$(CSDP_HOME)/include"

@@ -11,7 +11,9 @@ public class BlockMatrixTest {
 		double[] block1 = new double[] { 1, 3, 1 };
 		double[] block2 = new double[] { 2, 5, 3 };
 
-		BlockMatrix bm = new BlockMatrix(block1, block2);
+		BlockMatrix bm = new BlockMatrix(new MatrixBlock(
+				MatrixBlock.TYPE_MATRIX, 2, block1), new MatrixBlock(
+				MatrixBlock.TYPE_MATRIX, 2, block2));
 		assertEquals(1d, bm.get(0, 0, 0), 0.001);
 		assertEquals(3d, bm.get(0, 0, 1), 0.001);
 		assertEquals(3d, bm.get(0, 1, 0), 0.001);
@@ -24,7 +26,9 @@ public class BlockMatrixTest {
 
 	@Test
 	public void testSet() {
-		BlockMatrix bm = new BlockMatrix(new double[3], new double[3]);
+		BlockMatrix bm = new BlockMatrix(new MatrixBlock(
+				MatrixBlock.TYPE_MATRIX, 2), new MatrixBlock(
+				MatrixBlock.TYPE_MATRIX, 2));
 		bm.set(0, 0, 0, 1d);
 		bm.set(0, 0, 1, 2d);
 		bm.set(0, 1, 0, 3d);
@@ -34,17 +38,12 @@ public class BlockMatrixTest {
 		bm.set(1, 1, 0, 7d);
 		bm.set(1, 1, 1, 8d);
 
-		assertEquals(1d, bm.getDatas()[0][0], 0.001);
-		assertEquals(3d, bm.getDatas()[0][1], 0.001);
-		assertEquals(4d, bm.getDatas()[0][2], 0.001);
-		assertEquals(5d, bm.getDatas()[1][0], 0.001);
-		assertEquals(7d, bm.getDatas()[1][1], 0.001);
-		assertEquals(8d, bm.getDatas()[1][2], 0.001);
-	}
-
-	@Test
-	public void testCreate() {
-		assertEquals(15, BlockMatrix.create(5).length);
+		assertEquals(1d, bm.getBlocks()[0].data[0], 0.001);
+		assertEquals(3d, bm.getBlocks()[0].data[1], 0.001);
+		assertEquals(4d, bm.getBlocks()[0].data[2], 0.001);
+		assertEquals(5d, bm.getBlocks()[1].data[0], 0.001);
+		assertEquals(7d, bm.getBlocks()[1].data[1], 0.001);
+		assertEquals(8d, bm.getBlocks()[1].data[2], 0.001);
 	}
 
 }

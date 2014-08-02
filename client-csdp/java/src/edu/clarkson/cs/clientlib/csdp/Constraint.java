@@ -1,13 +1,14 @@
 package edu.clarkson.cs.clientlib.csdp;
 
+
 public class Constraint {
 
-	public BlockMatrix a;
+	public SparseMatrix a;
 
-	public Double b;
+	public double b;
 
 	public Constraint() {
 		super();
-		a = new BlockMatrix();
+		a = new SparseMatrix();
 	}
 }

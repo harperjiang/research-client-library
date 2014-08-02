@@ -4,7 +4,7 @@ public class CSDP {
 
 	private double objectiveValue;
 
-	private double[] varValues;
+	private BlockMatrix var;
 
 	private boolean writeSolution;
 
@@ -16,11 +16,7 @@ public class CSDP {
 	 * Maximize: tr(CX) Constraints: A_i X = a_i X >= 0 (X is positive
 	 * semi-definite)
 	 */
-	public void solve(BlockMatrix c, Constraint[] constraints) {
-		
-	}
-	
-	private native void solve(int size, double[][] c, double[][][] constraints, double[] val);
+	public native void solve(BlockMatrix c, Constraint[] constraints);
 
 	public double getObjectiveValue() {
 		return objectiveValue;
@@ -30,12 +26,8 @@ public class CSDP {
 		this.objectiveValue = objectiveValue;
 	}
 
-	public double[] getVarValues() {
-		return varValues;
-	}
-
-	public void setVarValues(double[] varValues) {
-		this.varValues = varValues;
+	public BlockMatrix getVar() {
+		return var;
 	}
 
 	public boolean isWriteSolution() {

@@ -34,16 +34,19 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.macosx.base.998791597" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.macosx.base">
 								<option id="gnu.cpp.compiler.option.include.paths.586714138" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include"/>
-									<listOptionValue builtIn="false" value="/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers"/>
-									<listOptionValue builtIn="false" value="/Users/harper/Documents/Libraries/Csdp-6.1.1/include"/>
+									<listOptionValue builtIn="false" value="/usr/include/c++/4.8.2"/>
+									<listOptionValue builtIn="false" value="/usr/lib/jvm/jdk1.8.0_05/include"/>
+									<listOptionValue builtIn="false" value="/usr/lib/jvm/jdk1.8.0_05/include/linux"/>
+									<listOptionValue builtIn="false" value="/home/harper/Libraries/Csdp-6.1.1/include"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1354178681" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.macosx.base.1928240639" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.macosx.base">
 								<option id="gnu.c.compiler.option.include.paths.989290400" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include"/>
-									<listOptionValue builtIn="false" value="/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers"/>
-									<listOptionValue builtIn="false" value="/Users/harper/Documents/Libraries/Csdp-6.1.1/include"/>
+									<listOptionValue builtIn="false" value="/usr/lib/jvm/jdk1.8.0_05/include"/>
+									<listOptionValue builtIn="false" value="/usr/lib/jvm/jdk1.8.0_05/include/linux"/>
+									<listOptionValue builtIn="false" value="/home/harper/Libraries/Csdp-6.1.1/include"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.202127002" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -55,12 +58,15 @@
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-		<project id="client-csdp.null.1141910565" name="client-csdp"/>
+		<project id="client-csdp.null.1351977591" name="client-csdp"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.macosx.base.1261499406;cdt.managedbuild.toolchain.gnu.macosx.base.1261499406.1159017580;cdt.managedbuild.tool.gnu.cpp.compiler.macosx.base.998791597;cdt.managedbuild.tool.gnu.cpp.compiler.input.1354178681">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="0.669078367">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.macosx.base.1261499406;cdt.managedbuild.toolchain.gnu.macosx.base.1261499406.1159017580;cdt.managedbuild.tool.gnu.c.compiler.macosx.base.1928240639;cdt.managedbuild.tool.gnu.c.compiler.input.202127002">
