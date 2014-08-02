@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     edu_clarkson_cs_clientlib_csdp_CSDP
  * Method:    solve
- * Signature: (Ledu/clarkson/cs/clientlib/csdp/BlockMatrix;[Ledu/clarkson/cs/clientlib/csdp/Constraint;)V
+ * Signature: (I[[D[[[D[D)V
  */
 JNIEXPORT void JNICALL Java_edu_clarkson_cs_clientlib_csdp_CSDP_solve
-  (JNIEnv *, jobject, jobject, jobjectArray);
+  (JNIEnv *, jobject, jint, jobjectArray, jobjectArray, jdoubleArray);
 
 #ifdef __cplusplus
 }

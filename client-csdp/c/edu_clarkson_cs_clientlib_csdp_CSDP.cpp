@@ -1,13 +1,51 @@
 #include "edu_clarkson_cs_clientlib_csdp_CSDP.h"
 #include "declarations.h"
 
-void extract_param_matrix(JNIEnv * env, jobject c, struct blockmatrix* C,
-		int* matrix_size) {
+#include <stdlib.h>
 
+int from_array_size(int size) {
+	return 0;
 }
 
-void extract_constraints(JNIEnv * env, jobjectArray cons, double* b,
-		struct constraintmatrix * constraints, int* cons_size) {
+int myijtok(int size, int i, int j) {
+	return 0;
+}
+
+void extract_param_matrix(JNIEnv * env, jobjectArray blockMatrix,
+		struct blockmatrix* C) {
+	C->nblocks = env->GetArrayLength(blockMatrix);
+	C->blocks = (struct blockrec*) malloc(
+			(C->nblocks + 1) * sizeof(struct blockrec));
+	if (C->blocks == NULL) {
+		// TODO Throw an error
+	}
+
+	for (int i = 0; i < C->nblocks; i++) {
+		struct blockrec * block = C->blocks + i + 1;
+		jdoubleArray data = (jdoubleArray) env->GetObjectArrayElement(
+				blockMatrix, i);
+		block->blockcategory = MATRIX;
+		int block_array_size = env->GetArrayLength(data);
+		int block_size = from_array_size(block_array_size);
+		block->blocksize = block_size;
+		block->data.mat = (double*) malloc(
+				block_size * block_size * sizeof(double));
+		if (block->data.mat == NULL) {
+			// TODO Throw an error
+		}
+
+		jdouble* values = env->GetDoubleArrayElements(data, 0);
+		for (int i = 0; i < block_size; i++) {
+			for (int j = 0; j < block_size; j++) {
+				int index = myijtok(block_size, i, j);
+				block->data.mat(ijtok(i, j, block_size)) = values[index];
+			}
+		}
+	}
+}
+
+void extract_constraints(JNIEnv * env, jobjectArray cons, jdoubleArray consval,
+		double* b, struct constraintmatrix * constraints, int* cons_size) {
 
 }
 
@@ -27,7 +65,8 @@ void setup_error(JNIEnv*env, int ret) {
  * Signature: (Ledu/clarkson/cs/clientlib/csdp/BlockMatrix;[Ledu/clarkson/cs/clientlib/csdp/Constraint;)V
  */
 JNIEXPORT void JNICALL Java_edu_clarkson_cs_clientlib_csdp_CSDP_solve(
-		JNIEnv * env, jobject self, jobject c, jobjectArray cons) {
+		JNIEnv * env, jobject self, jint size, jobjectArray c,
+		jobjectArray cons, jdoubleArray consval) {
 	/*
 	 * The problem and solution data.
 	 */
@@ -35,11 +74,11 @@ JNIEXPORT void JNICALL Java_edu_clarkson_cs_clientlib_csdp_CSDP_solve(
 	double *b;
 	struct constraintmatrix *constraints;
 
-	int matrix_size;
+	int matrix_size = size;
 	int cons_size;
 
-	extract_param_matrix(env, c, &C, &matrix_size);
-	extract_constraints(env, cons, b, constraints, &cons_size);
+	extract_param_matrix(env, c, &C);
+	extract_constraints(env, cons, consval, b, constraints, &cons_size);
 
 	/*
 	 * Storage for the initial and final solutions.

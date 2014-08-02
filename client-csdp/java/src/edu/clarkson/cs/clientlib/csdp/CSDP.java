@@ -14,9 +14,13 @@ public class CSDP {
 	 * Solve SDP in the following format
 	 * 
 	 * Maximize: tr(CX) Constraints: A_i X = a_i X >= 0 (X is positive
-	 * semidefinite)
+	 * semi-definite)
 	 */
-	public native void solve(BlockMatrix c, Constraint[] constraints);
+	public void solve(BlockMatrix c, Constraint[] constraints) {
+		
+	}
+	
+	private native void solve(int size, double[][] c, double[][][] constraints, double[] val);
 
 	public double getObjectiveValue() {
 		return objectiveValue;
