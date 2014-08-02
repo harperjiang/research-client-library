@@ -1,6 +1,5 @@
 all:
 	cd c; make all
-	mv c/src/*.so build/
 clean:
 	cd c; make clean
 genheader:
