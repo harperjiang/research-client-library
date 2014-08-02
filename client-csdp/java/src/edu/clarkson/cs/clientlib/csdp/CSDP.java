@@ -22,10 +22,6 @@ public class CSDP {
 		return objectiveValue;
 	}
 
-	public void setObjectiveValue(double objectiveValue) {
-		this.objectiveValue = objectiveValue;
-	}
-
 	public BlockMatrix getVar() {
 		return var;
 	}

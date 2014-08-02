@@ -31,7 +31,7 @@ public class MatrixBlock {
 		}
 	}
 
-	protected int ijtok(int i, int j, int size) {
+	protected static int ijtok(int i, int j, int size) {
 		int base = (2 * size - i + 1) * i / 2;
 		return base + j - i;
 	}

@@ -1,16 +1,26 @@
+#include <stdlib.h>
+#include <string.h>
+
+#ifndef NOSHORTS
+#define NOSHORTS
+#endif
+
 #include "edu_clarkson_cs_clientlib_csdp_CSDP.h"
 #include "error_handle.h"
 #include "declarations.h"
 
-#include <stdlib.h>
-#include <string.h>
-
 int myijtok(int i, int j, int size) {
-	return 0;
+	int reali = i, realj = j;
+	if (reali > realj) {
+		reali = j;
+		realj = i;
+	}
+	int base = (size - reali + size + 1) * reali / 2;
+	return base + j - i;
 }
 
 int triangle_matrix_size(int dim) {
-	return 0;
+	return dim * (dim + 1) / 2;
 }
 
 jclass CLS_CSDP;
@@ -20,6 +30,9 @@ jclass CLS_CONS;
 jclass CLS_SM;
 jclass CLS_SB;
 jclass CLS_SE;
+
+jclass CLS_OOM;
+jclass CLS_CSDPE;
 
 jfieldID FID_CSDP_OBJVAL;
 jfieldID FID_CSDP_VAR;
@@ -39,6 +52,8 @@ jfieldID FID_SE_I;
 jfieldID FID_SE_J;
 jfieldID FID_SE_VALUE;
 
+jmethodID MID_CSDPE_CON;
+
 void extract_field_ids(JNIEnv * env) {
 //	jfieldID GetFieldID(JNIEnv *env, jclass clazz, const char *name, const char *sig);
 	CLS_CSDP = env->FindClass("edu/clarkson/cs/clientlib/csdp/CSDP");
@@ -48,6 +63,9 @@ void extract_field_ids(JNIEnv * env) {
 	CLS_SM = env->FindClass("edu/clarkson/cs/clientlib/csdp/SparseMatrix");
 	CLS_SB = env->FindClass("edu/clarkson/cs/clientlib/csdp/SparseBlock");
 	CLS_SE = env->FindClass("edu/clarkson/cs/clientlib/csdp/SparseElement");
+
+	CLS_OOM = env->FindClass("java/lang/OutOfMemoryException");
+	CLS_CSDPE = env->FindClass("edu/clarkson/cs/clientlib/csdp/CSDPException");
 
 	FID_CSDP_OBJVAL = env->GetFieldID(CLS_CSDP, "objectiveValue", "D");
 	FID_CSDP_VAR = env->GetFieldID(CLS_CSDP, "var",
@@ -78,18 +96,20 @@ void extract_field_ids(JNIEnv * env) {
 	FID_SE_J = env->GetFieldID(CLS_SE, "j", "I");
 	FID_SE_VALUE = env->GetFieldID(CLS_SE, "value", "D");
 
+	MID_CSDPE_CON = env->GetMethodID(CLS_CSDPE, "<init>", "(I)V");
 }
 
 void extract_param_matrix(JNIEnv * env, jobject blockMatrix,
 		struct blockmatrix* C, int *matrix_size) {
 	*matrix_size = env->GetIntField(blockMatrix, FID_BM_SIZE);
-	jobjectArray mtxblocks = env->GetObjectField(blockMatrix, FID_BM_BLOCKS);
+	jobjectArray mtxblocks = (jobjectArray) env->GetObjectField(blockMatrix,
+			FID_BM_BLOCKS);
 
 	C->nblocks = env->GetArrayLength(mtxblocks);
 	C->blocks = (struct blockrec*) malloc(
 			(C->nblocks + 1) * sizeof(struct blockrec));
 	if (C->blocks == NULL) {
-		throw_memory_error(env);
+		throw_memory_error(env, "Failed to allocate C Matrix");
 	}
 
 	for (int i = 0; i < C->nblocks; i++) {
@@ -98,8 +118,12 @@ void extract_param_matrix(JNIEnv * env, jobject blockMatrix,
 		jobject mtb = env->GetObjectArrayElement(mtxblocks, i);
 		jint mtb_type = env->GetIntField(mtb, FID_MB_TYPE);
 		jint mtb_size = env->GetIntField(mtb, FID_MB_SIZE);
-		jdouble* mtb_data = env->GetDoubleArrayElements(
-				(jdoubleArray) env->GetObjectField(mtb, FID_MB_DATA), 0);
+		jdouble* mtb_data = NULL;
+
+		// EMPTY block will have an empty data array
+		if (mtb_type == 0 || mtb_type == 1)
+			mtb_data = env->GetDoubleArrayElements(
+					(jdoubleArray) env->GetObjectField(mtb, FID_MB_DATA), 0);
 
 		block->blocksize = mtb_size;
 		if (mtb_type == 0) {
@@ -107,22 +131,23 @@ void extract_param_matrix(JNIEnv * env, jobject blockMatrix,
 			block->data.mat = (double*) malloc(
 					mtb_size * mtb_size * sizeof(double));
 			if (block->data.mat == NULL) {
-				throw_memory_error(env);
+				throw_memory_error(env, "Failed to allocate C Matrix Block");
 			}
 			for (int i = 0; i < mtb_size; i++) {
 				for (int j = 0; j < mtb_size; j++) {
-					int index = myijtok(mtb_size, i, j);
-					block->data.mat(ijtok(i, j, mtb_size)) = mtb_data[index];
+					block->data.mat[ijtok(i, j, mtb_size)] = mtb_data[myijtok(i,
+							j, mtb_size)];
 				}
 			}
-		} else if (mtb_type == 1) {
+		} else if (mtb_type == 1 || mtb_type == 2) {
 			block->blockcategory = DIAG;
 			block->data.vec = (double*) malloc((mtb_size + 1) * sizeof(double));
 			if (block->data.vec == NULL) {
-				throw_memory_error(env);
+				throw_memory_error(env,
+						"Failed to allocate C Matrix Block Data");
 			}
 			for (int i = 0; i < mtb_size; i++) {
-				block->data.vec[i + 1] = mtb_data[i];
+				block->data.vec[i + 1] = (mtb_type == 1 ? mtb_data[i] : 0);
 			}
 		}
 
@@ -137,7 +162,7 @@ void extract_constraints(JNIEnv * env, jobjectArray cons, double* b,
 	constraints = (struct constraintmatrix*) malloc(
 			(*cons_size + 1) * sizeof(struct constraintmatrix));
 	if (NULL == b || NULL == constraints) {
-		throw_memory_error(env);
+		throw_memory_error(env, "Failed to allocate constraints space");
 	}
 	for (int con_idx = 0; con_idx < *cons_size; con_idx++) {
 		jobject con = env->GetObjectArrayElement(cons, con_idx);
@@ -159,14 +184,15 @@ void extract_constraints(JNIEnv * env, jobjectArray cons, double* b,
 
 			jint block_size = env->GetIntField(block, FID_SB_SIZE);
 			jint block_index = env->GetIntField(block, FID_SB_INDEX);
-			jobjectArray block_entries = env->GetObjectField(block,
-					FID_SB_ELEMS);
+			jobjectArray block_entries = (jobjectArray) env->GetObjectField(
+					block, FID_SB_ELEMS);
 			jint entry_size = env->GetArrayLength(block_entries);
 
 			struct sparseblock* blockptr = (struct sparseblock*) malloc(
 					sizeof(struct sparseblock));
 			if (NULL == blockptr) {
-				throw_memory_error(env);
+				throw_memory_error(env,
+						"Failed to allocate constraint matrix block");
 			}
 			blockptr->blocknum = block_index;
 			blockptr->blocksize = block_size;
@@ -180,7 +206,8 @@ void extract_constraints(JNIEnv * env, jobjectArray cons, double* b,
 			blockptr->jindices = (int*) malloc((entry_size + 1) * sizeof(int));
 			if (blockptr->entries == NULL || blockptr->iindices == NULL
 					|| blockptr->jindices == NULL) {
-				throw_memory_error(env);
+				throw_memory_error(env,
+						"Failed to allocate constraint matrix block data");
 			}
 			blockptr->numentries = entry_size;
 			for (int entry_idx = 0; entry_idx < entry_size; entry_idx++) {
@@ -190,8 +217,9 @@ void extract_constraints(JNIEnv * env, jobjectArray cons, double* b,
 				jint ej = env->GetIntField(entry, FID_SE_J);
 				jdouble evalue = env->GetIntField(entry, FID_SE_VALUE);
 				blockptr->entries[entry_idx + 1] = evalue;
-				blockptr->iindices[entry_idx + 1] = ei;
-				blockptr->jindices[entry_idx + 1] = ej;
+				// We start from 0, the library start from 1
+				blockptr->iindices[entry_idx + 1] = ei + 1;
+				blockptr->jindices[entry_idx + 1] = ej + 1;
 			}
 
 			// Maintain linked list
@@ -242,7 +270,7 @@ void setup_ret_value(JNIEnv* env, jobject self, int size, struct blockmatrix* X,
 			env->SetObjectField(jblock, FID_MB_DATA, dataArray);
 			jdouble* datas = env->GetDoubleArrayElements(dataArray, 0);
 
-			memcpy(datas,cblock->data.vec+1,cblock->blocksize);
+			memcpy(datas, cblock->data.vec + 1, cblock->blocksize);
 		}
 
 		env->SetObjectArrayElement(blockArray, blk_idx, jblock);
@@ -260,7 +288,7 @@ void setup_ret_value(JNIEnv* env, jobject self, int size, struct blockmatrix* X,
  */
 JNIEXPORT void JNICALL Java_edu_clarkson_cs_clientlib_csdp_CSDP_solve(
 		JNIEnv * env, jobject self, jobject c, jobjectArray cons) {
-// preparation, extract all field ID
+	// preparation, extract all field ID
 	extract_field_ids(env);
 	/*
 	 * The problem and solution data.

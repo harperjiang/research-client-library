@@ -9,12 +9,13 @@ public class CSDPException extends RuntimeException {
 
 	private int errorcode;
 
-	public int getErrorcode() {
-		return errorcode;
+	public CSDPException(int errorcode) {
+		super();
+		this.errorcode = errorcode;
 	}
 
-	public void setErrorcode(int errorcode) {
-		this.errorcode = errorcode;
+	public int getErrorcode() {
+		return errorcode;
 	}
 
 	// . Success. The problem is primal infeasible.

@@ -45,4 +45,9 @@ public class MatrixBlockTest {
 	public void testCreate() {
 		assertEquals(15, MatrixBlock.createMatrix(5).length);
 	}
+
+	@Test
+	public void testIjtok() {
+		assertEquals(11, MatrixBlock.ijtok(1, 2, 10));
+	}
 }

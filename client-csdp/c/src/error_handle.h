@@ -9,7 +9,7 @@
 #define ERROR_HANDLE_H_
 #include<jni.h>
 
-void throw_memory_error(JNIEnv* env);
+void throw_memory_error(JNIEnv* env, const char* msg);
 void throw_csdp_error(JNIEnv * env, int ret);
 
 #endif /* ERROR_HANDLE_H_ */
