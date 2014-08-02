@@ -10,12 +10,15 @@ public class BlockMatrix {
 
 	private double[][] datas;
 
-	private int[] size;
+	private int[] sizes;
+
+	private int size;
 
 	public BlockMatrix(double[]... datas) {
-		size = new int[datas.length];
+		sizes = new int[datas.length];
 		for (int i = 0; i < datas.length; i++) {
 			validate(i, datas[i].length);
+			this.size += sizes[i];
 		}
 		this.datas = datas;
 	}
@@ -32,7 +35,7 @@ public class BlockMatrix {
 			realj = i;
 		}
 
-		return datas[blockIndex][ijtok(reali, realj, size[blockIndex])];
+		return datas[blockIndex][ijtok(reali, realj, sizes[blockIndex])];
 	}
 
 	public void set(int blockIndex, int i, int j, double value) {
@@ -42,7 +45,7 @@ public class BlockMatrix {
 			reali = j;
 			realj = i;
 		}
-		datas[blockIndex][ijtok(reali, realj, size[blockIndex])] = value;
+		datas[blockIndex][ijtok(reali, realj, sizes[blockIndex])] = value;
 	}
 
 	protected int ijtok(int i, int j, int size) {
@@ -55,8 +58,12 @@ public class BlockMatrix {
 		if (!(((int) val) == val))
 			throw new IllegalArgumentException("Incorrect size:" + size);
 		else {
-			this.size[index] = ((int) val - 1) / 2;
+			this.sizes[index] = ((int) val - 1) / 2;
 		}
+	}
+
+	public int getSize() {
+		return size;
 	}
 
 	public static double[] create(int t) {
