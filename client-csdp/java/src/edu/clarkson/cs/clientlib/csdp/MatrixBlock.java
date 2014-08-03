@@ -23,6 +23,7 @@ public class MatrixBlock {
 	public MatrixBlock(int type, int size) {
 		super();
 		this.size = size;
+		this.type = type;
 		if (type == TYPE_DIAG) {
 			data = new double[size];
 		}

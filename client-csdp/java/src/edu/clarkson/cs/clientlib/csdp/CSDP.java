@@ -1,5 +1,8 @@
 package edu.clarkson.cs.clientlib.csdp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CSDP {
 
 	private double objectiveValue;
@@ -10,13 +13,37 @@ public class CSDP {
 
 	private String solutionFile;
 
+	private BlockMatrix c;
+
+	private List<Constraint> cons;
+
+	public CSDP() {
+		super();
+		cons = new ArrayList<Constraint>();
+	}
+
+	public void addConstraint(Constraint con) {
+		this.cons.add(con);
+	}
+
+	public void solve() {
+		checkParameters();
+		Constraint[] consarray = new Constraint[cons.size()];
+		cons.toArray(consarray);
+		solve(this.c, consarray);
+	}
+
+	protected void checkParameters() {
+
+	}
+
 	/**
 	 * Solve SDP in the following format
 	 * 
 	 * Maximize: tr(CX) Constraints: A_i X = a_i X >= 0 (X is positive
 	 * semi-definite)
 	 */
-	public native void solve(BlockMatrix c, Constraint[] constraints);
+	protected native void solve(BlockMatrix c, Constraint[] constraints);
 
 	public double getObjectiveValue() {
 		return objectiveValue;

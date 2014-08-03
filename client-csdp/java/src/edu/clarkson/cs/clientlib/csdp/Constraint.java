@@ -2,9 +2,9 @@ package edu.clarkson.cs.clientlib.csdp;
 
 public class Constraint {
 
-	public SparseMatrix a;
+	SparseMatrix a;
 
-	public double b;
+	double b;
 
 	public Constraint() {
 		super();

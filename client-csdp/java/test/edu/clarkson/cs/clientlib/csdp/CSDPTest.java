@@ -2,11 +2,15 @@ package edu.clarkson.cs.clientlib.csdp;
 
 public class CSDPTest {
 
+	public static void main(String[] args) {
+		test();
+	}
+	
 	public static void test() {
 		System.out.println("Entering Java Test");
 		System.out.println(System.getProperty("java.library.path"));
 		try {
-			System.loadLibrary("csdp");
+			System.loadLibrary("jcsdp");
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
@@ -50,10 +54,13 @@ public class CSDPTest {
 				1, 2, 2 }, new double[] { 3, 0, 1, 4, 0, 5 });
 
 		sm2.blocks[1] = new SparseBlock(3, 2);
+		sm2.blocks[1]
+				.fill(new int[] { 1 }, new int[] { 1 }, new double[] { 1 });
 
 		cons[1] = new Constraint(sm2, 2);
 
 		csdp.solve(c, cons);
 
+		System.out.println(csdp.getObjectiveValue());
 	}
 }

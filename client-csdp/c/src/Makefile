@@ -5,8 +5,7 @@ ifeq ($(OS),Darwin)
 	CSDP_HOME=/Users/harper/Documents/Libraries/Csdp-6.1.1
 	CSDP_HEADER=-I"$(CSDP_HOME)/include"
 	GCC=g++
-	TARGET_DIR=../../build
-	OUTPUT=$(TARGET_DIR)/libcsdp.dylib
+	OUTPUT=libjcsdp.so
 	LIBFLAG=-dynamiclib -undefined suppress -flat_namespace -L"$(CSDP_HOME)/lib" -lsdp
 	CFLAG=-fPIC -c $(JAVA_HEADER) $(CSDP_HEADER) 
 else
@@ -15,9 +14,9 @@ else
 	CSDP_HOME=/home/harper/Libraries/Csdp-6.1.1
 	CSDP_HEADER=-I"$(CSDP_HOME)/include"
 	GCC=g++
-	TARGET_DIR=../../build
-	OUTPUT=$(TARGET_DIR)/libcsdp.so
-	LIBFLAG=-shared -L"$(CSDP_HOME)/lib" -Wl,-whole-archive -lsdp -Wl,-no-whole-archive
+	OUTPUT=libjcsdp.so
+#	LIBFLAG=-shared -L"$(CSDP_HOME)/lib" -lsdp
+	LIBFLAG=-shared -L"$(CSDP_HOME)/lib" -Wl,-Bstatic -lsdp -Wl,-Bdynamic -llapack -lblas -lgfortran -lm
 	CFLAG=-fPIC -c -g -O0 $(JAVA_HEADER) $(CSDP_HEADER) 
 endif
 
