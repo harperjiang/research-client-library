@@ -43,8 +43,10 @@ jclass CLS_SE;
 jclass CLS_OOM;
 jclass CLS_CSDPE;
 
-jfieldID FID_CSDP_OBJVAL;
-jfieldID FID_CSDP_VAR;
+jfieldID FID_CSDP_PRIMAL;
+jfieldID FID_CSDP_DUAL;
+jfieldID FID_CSDP_X;
+jfieldID FID_CSDP_Y;
 jfieldID FID_BM_BLOCKS;
 jfieldID FID_BM_SIZE;
 jfieldID FID_MB_TYPE;
@@ -76,9 +78,11 @@ void extract_field_ids(JNIEnv * env) {
 	CLS_OOM = env->FindClass("java/lang/OutOfMemoryError");
 	CLS_CSDPE = env->FindClass("edu/clarkson/cs/clientlib/csdp/CSDPException");
 
-	FID_CSDP_OBJVAL = env->GetFieldID(CLS_CSDP, "objectiveValue", "D");
-	FID_CSDP_VAR = env->GetFieldID(CLS_CSDP, "var",
+	FID_CSDP_PRIMAL = env->GetFieldID(CLS_CSDP, "primalObjective", "D");
+	FID_CSDP_DUAL = env->GetFieldID(CLS_CSDP, "dualObjective", "D");
+	FID_CSDP_X = env->GetFieldID(CLS_CSDP, "x",
 			"Ledu/clarkson/cs/clientlib/csdp/BlockMatrix;");
+	FID_CSDP_Y = env->GetFieldID(CLS_CSDP, "y", "[D");
 
 	FID_BM_BLOCKS = env->GetFieldID(CLS_BM, "blocks",
 			"[Ledu/clarkson/cs/clientlib/csdp/MatrixBlock;");
@@ -255,13 +259,21 @@ void extract_constraints(JNIEnv * env, jobjectArray cons, double** b,
 	}
 }
 
-void setup_ret_value(JNIEnv* env, jobject self, int size, struct blockmatrix* X,
-		double pobj, double dobj) {
-	env->SetDoubleField(self, FID_CSDP_OBJVAL, (pobj + dobj) / 2);
+void setup_ret_value(JNIEnv* env, jobject self, int size, int cons_size,
+		struct blockmatrix* X, double* y, double pobj, double dobj) {
+	env->SetDoubleField(self, FID_CSDP_PRIMAL, pobj);
+	env->SetDoubleField(self, FID_CSDP_DUAL, dobj);
+
+	// Allocate double array
+	jdoubleArray yarray = env->NewDoubleArray(cons_size);
+	jdouble* yarraydata = env->GetDoubleArrayElements(yarray, 0);
+	memcpy(yarraydata, y + 1, cons_size * sizeof(double));
+	env->ReleaseDoubleArrayElements(yarray, yarraydata, 0);
+	env->SetObjectField(self, FID_CSDP_Y, yarray);
 
 	// Allocate Matrix Blocks
 	jobject varmtx = env->AllocObject(CLS_BM);
-	env->SetObjectField(self, FID_CSDP_VAR, varmtx);
+	env->SetObjectField(self, FID_CSDP_X, varmtx);
 
 	// Matrix Size
 	env->SetIntField(varmtx, FID_BM_SIZE, size);
@@ -299,8 +311,8 @@ void setup_ret_value(JNIEnv* env, jobject self, int size, struct blockmatrix* X,
 
 			memcpy(datas, cblock->data.vec + 1, cblock->blocksize);
 		}
-		if(datas != NULL) {
-			env->ReleaseDoubleArrayElements(dataArray,datas, 0);
+		if (datas != NULL) {
+			env->ReleaseDoubleArrayElements(dataArray, datas, 0);
 		}
 		env->SetObjectArrayElement(blockArray, blk_idx, jblock);
 	}
@@ -348,7 +360,7 @@ JNIEXPORT void JNICALL Java_edu_clarkson_cs_clientlib_csdp_CSDP_solve(
 			&pobj, &dobj);
 
 	if (ret == 0) {
-		setup_ret_value(env, self, matrix_size, &X, pobj, dobj);
+		setup_ret_value(env, self, matrix_size, cons_size, &X, y, pobj, dobj);
 	}
 	free_prob(matrix_size, cons_size, C, b, constraints, X, y, Z);
 	if (ret != 0) {

@@ -61,6 +61,6 @@ public class CSDPTest {
 
 		csdp.solve(c, cons);
 
-		System.out.println(csdp.getObjectiveValue());
+		System.out.println(csdp.getPrimalObjective());
 	}
 }

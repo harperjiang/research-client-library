@@ -5,17 +5,35 @@ import java.util.List;
 
 public class CSDP {
 
-	private double objectiveValue;
+	/**
+	 * Solve SDP in the following format using CSDP Library
+	 * 
+	 * Maximize: tr(CX) Constraints: A_i X = a_i X >= 0 (X is positive
+	 * semi-definite)
+	 */
+	protected native void solve(BlockMatrix c, Constraint[] constraints);
 
-	private BlockMatrix var;
+	/*
+	 * These are the results returned from CSDP
+	 */
+	private double primalObjective;
 
-	private boolean writeSolution;
+	private double dualObjective;
 
-	private String solutionFile;
+	private BlockMatrix x;
 
+	private double[] y;
+
+	/*
+	 * These are the inputs for SDP
+	 */
 	private BlockMatrix c;
 
 	private List<Constraint> cons;
+
+	/*
+	 * These are parameters controlling additional behavior of the library
+	 */
 
 	public CSDP() {
 		super();
@@ -37,36 +55,16 @@ public class CSDP {
 
 	}
 
-	/**
-	 * Solve SDP in the following format
-	 * 
-	 * Maximize: tr(CX) Constraints: A_i X = a_i X >= 0 (X is positive
-	 * semi-definite)
-	 */
-	protected native void solve(BlockMatrix c, Constraint[] constraints);
-
-	public double getObjectiveValue() {
-		return objectiveValue;
+	public double getPrimalObjective() {
+		return primalObjective;
 	}
 
-	public BlockMatrix getVar() {
-		return var;
+	public double getDualObjective() {
+		return dualObjective;
 	}
 
-	public boolean isWriteSolution() {
-		return writeSolution;
-	}
-
-	public void setWriteSolution(boolean writeSolution) {
-		this.writeSolution = writeSolution;
-	}
-
-	public String getSolutionFile() {
-		return solutionFile;
-	}
-
-	public void setSolutionFile(String solutionFile) {
-		this.solutionFile = solutionFile;
+	public BlockMatrix getX() {
+		return x;
 	}
 
 }
