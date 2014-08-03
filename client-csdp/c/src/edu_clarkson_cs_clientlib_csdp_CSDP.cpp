@@ -65,18 +65,25 @@ jfieldID FID_SE_VALUE;
 
 jmethodID MID_CSDPE_CON;
 
-void extract_field_ids(JNIEnv * env) {
-//	jfieldID GetFieldID(JNIEnv *env, jclass clazz, const char *name, const char *sig);
-	CLS_CSDP = env->FindClass("edu/clarkson/cs/clientlib/csdp/CSDP");
-	CLS_BM = env->FindClass("edu/clarkson/cs/clientlib/csdp/BlockMatrix");
-	CLS_MB = env->FindClass("edu/clarkson/cs/clientlib/csdp/MatrixBlock");
-	CLS_CONS = env->FindClass("edu/clarkson/cs/clientlib/csdp/Constraint");
-	CLS_SM = env->FindClass("edu/clarkson/cs/clientlib/csdp/SparseMatrix");
-	CLS_SB = env->FindClass("edu/clarkson/cs/clientlib/csdp/SparseBlock");
-	CLS_SE = env->FindClass("edu/clarkson/cs/clientlib/csdp/SparseElement");
+jclass load_class(JNIEnv* env, const char* name) {
+	jclass local_ref = env->FindClass(name);
+	if (env->ExceptionCheck()) {
+		env->Throw(env->ExceptionOccurred());
+	}
+	jclass global_ref = (jclass) env->NewGlobalRef(local_ref);
+	return global_ref;
+}
 
-	CLS_OOM = env->FindClass("java/lang/OutOfMemoryError");
-	CLS_CSDPE = env->FindClass("edu/clarkson/cs/clientlib/csdp/CSDPException");
+void extract_field_ids(JNIEnv * env) {
+	CLS_CSDP = load_class(env, "edu/clarkson/cs/clientlib/csdp/CSDP");
+	CLS_BM = load_class(env, "edu/clarkson/cs/clientlib/csdp/BlockMatrix");
+	CLS_MB = load_class(env, "edu/clarkson/cs/clientlib/csdp/MatrixBlock");
+	CLS_CONS = load_class(env, "edu/clarkson/cs/clientlib/csdp/Constraint");
+	CLS_SM = load_class(env, "edu/clarkson/cs/clientlib/csdp/SparseMatrix");
+	CLS_SB = load_class(env, "edu/clarkson/cs/clientlib/csdp/SparseBlock");
+	CLS_SE = load_class(env, "edu/clarkson/cs/clientlib/csdp/SparseElement");
+	CLS_OOM = load_class(env, "java/lang/OutOfMemoryError");
+	CLS_CSDPE = load_class(env, "edu/clarkson/cs/clientlib/csdp/CSDPException");
 
 	FID_CSDP_PRIMAL = env->GetFieldID(CLS_CSDP, "primalObjective", "D");
 	FID_CSDP_DUAL = env->GetFieldID(CLS_CSDP, "dualObjective", "D");
@@ -114,7 +121,18 @@ void extract_field_ids(JNIEnv * env) {
 	if (env->ExceptionCheck()) {
 		env->Throw(env->ExceptionOccurred());
 	}
+}
 
+void release_class_ids(JNIEnv * env) {
+	env->DeleteGlobalRef(CLS_CSDP);
+	env->DeleteGlobalRef(CLS_BM);
+	env->DeleteGlobalRef(CLS_MB);
+	env->DeleteGlobalRef(CLS_CONS);
+	env->DeleteGlobalRef(CLS_SM);
+	env->DeleteGlobalRef(CLS_SB);
+	env->DeleteGlobalRef(CLS_SE);
+	env->DeleteGlobalRef(CLS_OOM);
+	env->DeleteGlobalRef(CLS_CSDPE);
 }
 
 void extract_param_matrix(JNIEnv * env, jobject blockMatrix,
@@ -324,9 +342,14 @@ void setup_ret_value(JNIEnv* env, jobject self, int size, int cons_size,
 		}
 		if (datas != NULL) {
 			env->ReleaseDoubleArrayElements(dataArray, datas, 0);
+			env->DeleteLocalRef(dataArray);
 		}
 		env->SetObjectArrayElement(blockArray, blk_idx, jblock);
+
+		env->DeleteLocalRef(jblock);
 	}
+	env->DeleteLocalRef(blockArray);
+	env->DeleteLocalRef(yarray);
 }
 
 /*
@@ -373,7 +396,11 @@ JNIEXPORT void JNICALL Java_edu_clarkson_cs_clientlib_csdp_CSDP_solve(
 	if (ret == 0) {
 		setup_ret_value(env, self, matrix_size, cons_size, &X, y, pobj, dobj);
 	}
+
+	// Release resources
+	release_class_ids(env);
 	free_prob(matrix_size, cons_size, C, b, constraints, X, y, Z);
+
 	if (ret != 0) {
 		throw_csdp_error(env, ret);
 	}
