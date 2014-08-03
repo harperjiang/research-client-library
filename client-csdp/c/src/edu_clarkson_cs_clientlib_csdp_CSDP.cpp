@@ -112,9 +112,9 @@ void extract_field_ids(JNIEnv * env) {
 	MID_CSDPE_CON = env->GetMethodID(CLS_CSDPE, "<init>", "(I)V");
 
 	if (env->ExceptionCheck()) {
-		env->ExceptionDescribe();
 		env->Throw(env->ExceptionOccurred());
 	}
+
 }
 
 void extract_param_matrix(JNIEnv * env, jobject blockMatrix,
@@ -171,8 +171,11 @@ void extract_param_matrix(JNIEnv * env, jobject blockMatrix,
 		}
 		if (mtb_data != NULL) {
 			env->ReleaseDoubleArrayElements(mtb_data_array, mtb_data, 0);
+			env->DeleteLocalRef(mtb_data_array);
 		}
+		env->DeleteLocalRef(mtb);
 	}
+	env->DeleteLocalRef(mtxblocks);
 }
 
 void extract_constraints(JNIEnv * env, jobjectArray cons, double** b,
@@ -247,6 +250,8 @@ void extract_constraints(JNIEnv * env, jobjectArray cons, double** b,
 				// We start from 0, the library start from 1
 				blockptr->iindices[entry_idx + 1] = ei + 1;
 				blockptr->jindices[entry_idx + 1] = ej + 1;
+
+				env->DeleteLocalRef(entry);
 			}
 
 			// Maintain linked list
@@ -255,7 +260,13 @@ void extract_constraints(JNIEnv * env, jobjectArray cons, double** b,
 			} else {
 				cmtx->blocks->next = blockptr;
 			}
+
+			env->DeleteLocalRef(block_entries);
+			env->DeleteLocalRef(block);
 		}
+		env->DeleteLocalRef(jblocks);
+		env->DeleteLocalRef(jcmtx);
+		env->DeleteLocalRef(con);
 	}
 }
 
