@@ -17,7 +17,7 @@ else
 	OUTPUT=libjcsdp.so
 #	LIBFLAG=-shared -L"$(CSDP_HOME)/lib" -lsdp
 	LIBFLAG=-shared -L"$(CSDP_HOME)/lib" -Wl,-Bstatic -lsdp -Wl,-Bdynamic -llapack -lblas -lgfortran -lm
-	CFLAG=-fPIC -c -O3 $(JAVA_HEADER) $(CSDP_HEADER) 
+	CFLAG=-fPIC -c -O0 -g $(JAVA_HEADER) $(CSDP_HEADER) 
 endif
 
 

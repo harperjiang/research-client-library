@@ -393,16 +393,17 @@ JNIEXPORT void JNICALL Java_edu_clarkson_cs_clientlib_csdp_CSDP_solve(
 	ret = easy_sdp(matrix_size, cons_size, C, b, constraints, 0.0, &X, &y, &Z,
 			&pobj, &dobj);
 
-	if (ret == 0) {
+	if (ret == 0 || ret == 1 || ret == 2) {
 		setup_ret_value(env, self, matrix_size, cons_size, &X, y, pobj, dobj);
+	}
+
+	if (ret != 0) {
+		throw_csdp_error(env, ret);
 	}
 
 	// Release resources
 	release_class_ids(env);
 	free_prob(matrix_size, cons_size, C, b, constraints, X, y, Z);
 
-	if (ret != 0) {
-		throw_csdp_error(env, ret);
-	}
 }
 

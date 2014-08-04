@@ -3,7 +3,7 @@ package edu.clarkson.cs.clientlib.csdp;
 public class CSDPTest {
 
 	public static void main(String[] args) {
-		test();
+		test2();
 	}
 
 	public static void test2() {
@@ -71,9 +71,9 @@ public class CSDPTest {
 				MatrixBlock.TYPE_DIAG, 2), new MatrixBlock(
 				MatrixBlock.TYPE_DIAG, 2), new MatrixBlock(
 				MatrixBlock.TYPE_DIAG, 2));
-		param.getBlocks()[1].fill(new double[] { -1, 1 });
-		param.getBlocks()[2].fill(new double[] { -1, 1 });
-		param.getBlocks()[3].fill(new double[] { -1, 1 });
+		param.getBlocks()[1].fill(new double[] { 1, -1 });
+		param.getBlocks()[2].fill(new double[] { 1, -1 });
+		param.getBlocks()[3].fill(new double[] { 1, -1 });
 
 		csdp.setC(param);
 
@@ -111,7 +111,7 @@ public class CSDPTest {
 						-6, 1 });
 
 		SparseBlock sb34 = new SparseBlock(4, 2);
-		sb23.fill(new int[] { 0, 1 }, new int[] { 0, 1 },
+		sb34.fill(new int[] { 0, 1 }, new int[] { 0, 1 },
 				new double[] { -1, 1 });
 
 		SparseMatrix sm3 = new SparseMatrix(9, sb31, sb34);

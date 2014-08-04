@@ -1,5 +1,6 @@
 package edu.clarkson.cs.clientlib.csdp;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 
 public class MatrixBlock implements Target {
@@ -92,4 +93,16 @@ public class MatrixBlock implements Target {
 		return new double[t * (t + 1) / 2];
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				sb.append(MessageFormat.format("{0,number,#.00000}", get(i, j)))
+						.append("\t");
+			}
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
 }

@@ -1,5 +1,7 @@
 package edu.clarkson.cs.clientlib.csdp;
 
+import java.text.MessageFormat;
+
 /**
  * This class represents a diagonalized block matrix
  * 
@@ -41,5 +43,19 @@ public class BlockMatrix implements Target {
 				block.show(visitor);
 		}
 		visitor.visit(this);
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(MessageFormat.format("{0} blocks, size {1}\n", blocks.length,
+				size));
+		for (int i = 0; i < blocks.length; i++) {
+			MatrixBlock mb = blocks[i];
+			sb.append(MessageFormat.format("Block {0} with size {1}\n", i + 1,
+					mb.getSize()));
+			sb.append(mb.toString());
+		}
+		return sb.toString();
 	}
 }
