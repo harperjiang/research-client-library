@@ -38,12 +38,12 @@ public class BlockMatrixTest {
 		bm.set(1, 1, 0, 7d);
 		bm.set(1, 1, 1, 8d);
 
-		assertEquals(1d, bm.getBlocks()[0].data[0], 0.001);
-		assertEquals(3d, bm.getBlocks()[0].data[1], 0.001);
-		assertEquals(4d, bm.getBlocks()[0].data[2], 0.001);
-		assertEquals(5d, bm.getBlocks()[1].data[0], 0.001);
-		assertEquals(7d, bm.getBlocks()[1].data[1], 0.001);
-		assertEquals(8d, bm.getBlocks()[1].data[2], 0.001);
+		assertEquals(1d, bm.getBlocks()[0].getData()[0], 0.001);
+		assertEquals(3d, bm.getBlocks()[0].getData()[1], 0.001);
+		assertEquals(4d, bm.getBlocks()[0].getData()[2], 0.001);
+		assertEquals(5d, bm.getBlocks()[1].getData()[0], 0.001);
+		assertEquals(7d, bm.getBlocks()[1].getData()[1], 0.001);
+		assertEquals(8d, bm.getBlocks()[1].getData()[2], 0.001);
 	}
 
 }

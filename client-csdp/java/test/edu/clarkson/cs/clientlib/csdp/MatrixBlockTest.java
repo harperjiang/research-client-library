@@ -33,12 +33,12 @@ public class MatrixBlockTest {
 		mb.set(2, 0, 7);
 		mb.set(2, 1, 8);
 		mb.set(2, 2, 9);
-		assertEquals(1, mb.data[0], 0.001);
-		assertEquals(4, mb.data[1], 0.001);
-		assertEquals(7, mb.data[2], 0.001);
-		assertEquals(5, mb.data[3], 0.001);
-		assertEquals(8, mb.data[4], 0.001);
-		assertEquals(9, mb.data[5], 0.001);
+		assertEquals(1, mb.getData()[0], 0.001);
+		assertEquals(4, mb.getData()[1], 0.001);
+		assertEquals(7, mb.getData()[2], 0.001);
+		assertEquals(5, mb.getData()[3], 0.001);
+		assertEquals(8, mb.getData()[4], 0.001);
+		assertEquals(9, mb.getData()[5], 0.001);
 	}
 
 	@Test

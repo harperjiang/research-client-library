@@ -1,6 +1,8 @@
 package edu.clarkson.cs.clientlib.csdp;
 
-public class MatrixBlock {
+import java.util.Arrays;
+
+public class MatrixBlock implements Target {
 
 	public static final int TYPE_MATRIX = 0;
 
@@ -8,11 +10,11 @@ public class MatrixBlock {
 
 	public static final int TYPE_EMPTY = 2;
 
-	public int type;
+	private int type;
 
-	public double[] data;
+	private double[] data;
 
-	public int size;
+	private int size;
 
 	public MatrixBlock(int type, int size, double[] data) {
 		this.type = type;
@@ -30,6 +32,8 @@ public class MatrixBlock {
 		if (type == TYPE_MATRIX) {
 			data = createMatrix(size);
 		}
+		if (data != null)
+			Arrays.fill(data, 0);
 	}
 
 	protected static int ijtok(int i, int j, int size) {
@@ -64,6 +68,24 @@ public class MatrixBlock {
 			}
 			data[ijtok(reali, realj, size)] = value;
 		}
+	}
+
+	public void fill(double[] data) {
+		if (data.length != this.data.length)
+			throw new IllegalArgumentException("Incorrect data size");
+		System.arraycopy(data, 0, this.data, 0, data.length);
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public double[] getData() {
+		return data;
+	}
+
+	public void show(Visitor visitor) {
+		visitor.visit(this);
 	}
 
 	public static double[] createMatrix(int t) {

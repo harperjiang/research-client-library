@@ -1,7 +1,10 @@
 package edu.clarkson.cs.clientlib.csdp;
 
-public class SparseBlock {
+public class SparseBlock implements Target {
 
+	/**
+	 * This index starts from 1 instead of 0
+	 */
 	int index;
 
 	int size;
@@ -21,4 +24,22 @@ public class SparseBlock {
 			elements[indx] = new SparseElement(i[indx], j[indx], value[indx]);
 		}
 	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public SparseElement[] getElements() {
+		return elements;
+	}
+
+	@Override
+	public void show(Visitor visitor) {
+		visitor.visit(this);
+	}
+
 }

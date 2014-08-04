@@ -5,16 +5,13 @@ public class CSDPTest {
 	public static void main(String[] args) {
 		test();
 	}
-	
-	public static void test() {
-		System.out.println("Entering Java Test");
-		System.out.println(System.getProperty("java.library.path"));
+
+	public static void test2() {
 		try {
 			System.loadLibrary("jcsdp");
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
-		System.out.println("Loaded CSDP Library");
 
 		CSDP csdp = new CSDP();
 
@@ -62,5 +59,65 @@ public class CSDPTest {
 		csdp.solve(c, cons);
 
 		System.out.println(csdp.getPrimalObjective());
+	}
+
+	public static void test() {
+		System.loadLibrary("jcsdp");
+
+		CSDP csdp = new CSDP();
+
+		BlockMatrix param = new BlockMatrix(new MatrixBlock(
+				MatrixBlock.TYPE_EMPTY, 3), new MatrixBlock(
+				MatrixBlock.TYPE_DIAG, 2), new MatrixBlock(
+				MatrixBlock.TYPE_DIAG, 2), new MatrixBlock(
+				MatrixBlock.TYPE_DIAG, 2));
+		param.getBlocks()[1].fill(new double[] { -1, 1 });
+		param.getBlocks()[2].fill(new double[] { -1, 1 });
+		param.getBlocks()[3].fill(new double[] { -1, 1 });
+
+		csdp.setC(param);
+
+		// Constraint 1
+		SparseBlock sb11 = new SparseBlock(1, 3);
+		sb11.fill(new int[] { 0, 0, 0, 1, 1, 2 },
+				new int[] { 0, 1, 2, 1, 2, 2 }, new double[] { 4, 4, -2, 4, -2,
+						1 });
+
+		SparseBlock sb12 = new SparseBlock(2, 2);
+		sb12.fill(new int[] { 0, 1 }, new int[] { 0, 1 },
+				new double[] { -1, 1 });
+
+		SparseMatrix sm1 = new SparseMatrix(9, sb11, sb12);
+
+		Constraint c1 = new Constraint(sm1, 8);
+		csdp.addConstraint(c1);
+		// Constraint 2
+		SparseBlock sb21 = new SparseBlock(1, 3);
+		sb21.fill(new int[] { 0, 0, 0, 1, 1, 2 },
+				new int[] { 0, 1, 2, 1, 2, 2 }, new double[] { 36, 12, -6, 4,
+						-2, 1 });
+
+		SparseBlock sb23 = new SparseBlock(3, 2);
+		sb23.fill(new int[] { 0, 1 }, new int[] { 0, 1 },
+				new double[] { -1, 1 });
+
+		SparseMatrix sm2 = new SparseMatrix(9, sb21, sb23);
+		Constraint c2 = new Constraint(sm2, 8);
+		csdp.addConstraint(c2);
+		// Constraint 3
+		SparseBlock sb31 = new SparseBlock(1, 3);
+		sb31.fill(new int[] { 0, 0, 0, 1, 1, 2 },
+				new int[] { 0, 1, 2, 1, 2, 2 }, new double[] { 64, 48, -8, 36,
+						-6, 1 });
+
+		SparseBlock sb34 = new SparseBlock(4, 2);
+		sb23.fill(new int[] { 0, 1 }, new int[] { 0, 1 },
+				new double[] { -1, 1 });
+
+		SparseMatrix sm3 = new SparseMatrix(9, sb31, sb34);
+		Constraint c3 = new Constraint(sm3, 20);
+		csdp.addConstraint(c3);
+
+		csdp.solve();
 	}
 }

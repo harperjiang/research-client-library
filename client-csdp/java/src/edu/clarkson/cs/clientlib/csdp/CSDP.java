@@ -3,7 +3,7 @@ package edu.clarkson.cs.clientlib.csdp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CSDP {
+public class CSDP implements Target {
 
 	/**
 	 * Solve SDP in the following format using CSDP Library
@@ -40,8 +40,20 @@ public class CSDP {
 		cons = new ArrayList<Constraint>();
 	}
 
+	public BlockMatrix getC() {
+		return c;
+	}
+
+	public void setC(BlockMatrix c) {
+		this.c = c;
+	}
+
 	public void addConstraint(Constraint con) {
 		this.cons.add(con);
+	}
+
+	public List<Constraint> getCons() {
+		return cons;
 	}
 
 	public void solve() {
@@ -49,10 +61,6 @@ public class CSDP {
 		Constraint[] consarray = new Constraint[cons.size()];
 		cons.toArray(consarray);
 		solve(this.c, consarray);
-	}
-
-	protected void checkParameters() {
-
 	}
 
 	public double getPrimalObjective() {
@@ -65,6 +73,22 @@ public class CSDP {
 
 	public BlockMatrix getX() {
 		return x;
+	}
+
+	protected void checkParameters() {
+		ConsistencyChecker cc = new ConsistencyChecker();
+		this.show(cc);
+	}
+
+	@Override
+	public void show(Visitor visitor) {
+		if (c != null)
+			c.show(visitor);
+		for (Constraint con : cons) {
+			if (con != null)
+				con.show(visitor);
+		}
+		visitor.visit(this);
 	}
 
 }

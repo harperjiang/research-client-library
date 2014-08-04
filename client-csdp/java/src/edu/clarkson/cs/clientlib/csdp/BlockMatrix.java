@@ -6,7 +6,7 @@ package edu.clarkson.cs.clientlib.csdp;
  * @author harper
  * 
  */
-public class BlockMatrix {
+public class BlockMatrix implements Target {
 
 	private MatrixBlock[] blocks;
 
@@ -15,7 +15,7 @@ public class BlockMatrix {
 	public BlockMatrix(MatrixBlock... blocks) {
 		this.blocks = blocks;
 		for (MatrixBlock block : blocks) {
-			this.size += block.size;
+			this.size += block.getSize();
 		}
 	}
 
@@ -35,4 +35,11 @@ public class BlockMatrix {
 		return size;
 	}
 
+	public void show(Visitor visitor) {
+		for (MatrixBlock block : blocks) {
+			if (block != null)
+				block.show(visitor);
+		}
+		visitor.visit(this);
+	}
 }
