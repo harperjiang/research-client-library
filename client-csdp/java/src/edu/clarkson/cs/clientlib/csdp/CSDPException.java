@@ -10,7 +10,7 @@ public class CSDPException extends RuntimeException {
 	private int errorcode;
 
 	public CSDPException(int errorcode) {
-		super();
+		super(String.valueOf(errorcode));
 		this.errorcode = errorcode;
 	}
 
