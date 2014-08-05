@@ -35,6 +35,10 @@ public class CSDP implements Target {
 	 * These are parameters controlling additional behavior of the library
 	 */
 
+	private boolean writeProblem;
+
+	private String problemFile;
+
 	public CSDP() {
 		super();
 		cons = new ArrayList<Constraint>();
@@ -89,6 +93,22 @@ public class CSDP implements Target {
 				con.show(visitor);
 		}
 		visitor.visit(this);
+	}
+
+	public boolean isWriteProblem() {
+		return writeProblem;
+	}
+
+	public void setWriteProblem(boolean writeProblem) {
+		this.writeProblem = writeProblem;
+	}
+
+	public String getProblemFile() {
+		return problemFile;
+	}
+
+	public void setProblemFile(String problemFile) {
+		this.problemFile = problemFile;
 	}
 
 }

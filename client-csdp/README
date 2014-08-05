@@ -6,7 +6,6 @@ Known Problems:
 Aug 05,2014
 =============
 
-CSDP's support to Block Matrix seems to be incomplete.
-Splitting matrices into blocks may cause the library to give wrong answer to problems or even no answer.
-
-Although we provide support to the block matrix structure, we suggest users combining their matrices into a single big matrix.
+CSDP's support to diag Matrix seems to be incomplete.
+Using non-empty diag blocks may cause the library to give wrong answer to problems or even no answer.
+Although we still provide support to diag matrix structure, we suggest users using them with caution.

@@ -1,6 +1,8 @@
 package edu.clarkson.cs.clientlib.csdp;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents a diagonalized block matrix
@@ -14,11 +16,15 @@ public class BlockMatrix implements Target {
 
 	private int size = 0;
 
-	public BlockMatrix(MatrixBlock... blocks) {
-		this.blocks = blocks;
-		for (MatrixBlock block : blocks) {
+	public BlockMatrix(MatrixBlock... insert) {
+		List<MatrixBlock> valid = new ArrayList<MatrixBlock>();
+		for (MatrixBlock block : insert) {
 			this.size += block.getSize();
+			if (block.getSize() != 0)
+				valid.add(block);
 		}
+		this.blocks = new MatrixBlock[valid.size()];
+		valid.toArray(this.blocks);
 	}
 
 	public MatrixBlock[] getBlocks() {

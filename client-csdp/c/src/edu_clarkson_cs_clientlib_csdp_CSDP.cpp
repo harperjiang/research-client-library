@@ -47,6 +47,8 @@ jfieldID FID_CSDP_PRIMAL;
 jfieldID FID_CSDP_DUAL;
 jfieldID FID_CSDP_X;
 jfieldID FID_CSDP_Y;
+jfieldID FID_CSDP_WRITE;
+jfieldID FID_CSDP_FILENAME;
 jfieldID FID_BM_BLOCKS;
 jfieldID FID_BM_SIZE;
 jfieldID FID_MB_TYPE;
@@ -93,6 +95,10 @@ void extract_field_ids(JNIEnv * env) {
 	FID_CSDP_X = env->GetFieldID(CLS_CSDP, "x",
 			"Ledu/clarkson/cs/clientlib/csdp/BlockMatrix;");
 	FID_CSDP_Y = env->GetFieldID(CLS_CSDP, "y", "[D");
+
+	FID_CSDP_WRITE = env->GetFieldID(CLS_CSDP, "writeProblem", "Z");
+	FID_CSDP_FILENAME = env->GetFieldID(CLS_CSDP, "problemFile",
+			"Ljava/lang/String;");
 
 	FID_BM_BLOCKS = env->GetFieldID(CLS_BM, "blocks",
 			"[Ledu/clarkson/cs/clientlib/csdp/MatrixBlock;");
@@ -390,7 +396,15 @@ JNIEXPORT void JNICALL Java_edu_clarkson_cs_clientlib_csdp_CSDP_solve(
 	double *y;
 	double pobj, dobj;
 
-	write_prob("problem", matrix_size, cons_size, C, b, constraints);
+	jboolean write_problem = env->GetBooleanField(self, FID_CSDP_WRITE);
+	if (write_problem) {
+		jstring problem_file = (jstring)env->GetObjectField(self, FID_CSDP_FILENAME);
+		const char* name = env->GetStringUTFChars(problem_file, 0);
+		write_prob((char*)name, matrix_size, cons_size, C, b, constraints);
+		env->ReleaseStringUTFChars(problem_file,name);
+		env->DeleteLocalRef(problem_file);
+	}
+
 	/*
 	 * A return code for the call to easy_sdp().
 	 */
@@ -403,11 +417,11 @@ JNIEXPORT void JNICALL Java_edu_clarkson_cs_clientlib_csdp_CSDP_solve(
 
 	setup_ret_value(env, self, matrix_size, cons_size, &X, y, pobj, dobj);
 
-//	if (ret != 0) {
-//		throw_csdp_error(env, ret);
-//	}
+	if (ret != 0) {
+		throw_csdp_error(env, ret);
+	}
 
-// Release resources
+	// Release resources
 	release_class_ids(env);
 	free_prob(matrix_size, cons_size, C, b, constraints, X, y, Z);
 
