@@ -65,6 +65,9 @@ jfieldID FID_SE_VALUE;
 
 jmethodID MID_CSDPE_CON;
 
+JNIEnv* globalEnv;
+jobject globalSelf;
+
 jclass load_class(JNIEnv* env, const char* name) {
 	jclass local_ref = env->FindClass(name);
 	if (env->ExceptionCheck()) {
@@ -361,7 +364,11 @@ void setup_ret_value(JNIEnv* env, jobject self, int size, int cons_size,
  */
 JNIEXPORT void JNICALL Java_edu_clarkson_cs_clientlib_csdp_CSDP_solve(
 		JNIEnv * env, jobject self, jobject c, jobjectArray cons) {
+
+	globalEnv = env;
+	globalSelf = self;
 	// preparation, extract all field ID
+
 	extract_field_ids(env);
 	/*
 	 * The problem and solution data.
@@ -383,6 +390,7 @@ JNIEXPORT void JNICALL Java_edu_clarkson_cs_clientlib_csdp_CSDP_solve(
 	double *y;
 	double pobj, dobj;
 
+	write_prob("problem", matrix_size, cons_size, C, b, constraints);
 	/*
 	 * A return code for the call to easy_sdp().
 	 */
@@ -393,17 +401,31 @@ JNIEXPORT void JNICALL Java_edu_clarkson_cs_clientlib_csdp_CSDP_solve(
 	ret = easy_sdp(matrix_size, cons_size, C, b, constraints, 0.0, &X, &y, &Z,
 			&pobj, &dobj);
 
-	if (ret == 0 || ret == 1 || ret == 2) {
-		setup_ret_value(env, self, matrix_size, cons_size, &X, y, pobj, dobj);
-	}
+	setup_ret_value(env, self, matrix_size, cons_size, &X, y, pobj, dobj);
 
-	if (ret != 0) {
-		throw_csdp_error(env, ret);
-	}
+//	if (ret != 0) {
+//		throw_csdp_error(env, ret);
+//	}
 
-	// Release resources
+// Release resources
 	release_class_ids(env);
 	free_prob(matrix_size, cons_size, C, b, constraints, X, y, Z);
 
 }
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+int user_exit(int n, int k, struct blockmatrix C, double *a, double dobj,
+		double pobj, double constant_offset,
+		struct constraintmatrix *constraints, struct blockmatrix X, double *y,
+		struct blockmatrix Z, struct paramstruc params) {
+//	setup_ret_value(globalEnv, globalSelf, n, k, &X, y, pobj, dobj);
+	return 0;
+}
+
+#ifdef __cplusplus
+}
+#endif
 
