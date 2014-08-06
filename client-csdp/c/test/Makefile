@@ -1,13 +1,16 @@
 OS := $(shell uname)
 
 ifeq ($(OS),Darwin)
-	JAVA_HEADER=-I"/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers"
+	JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_11.jdk/Contents/Home
+	JAVA_HEADER=-I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/darwin"
 	CSDP_HOME=/Users/harper/Documents/Libraries/Csdp-6.1.1
 	CSDP_HEADER=-I"$(CSDP_HOME)/include"
 	GCC=g++
 	OUTPUT=libcsdp.dylib
 	LIBFLAG=-dynamiclib -undefined suppress -flat_namespace -L"$(CSDP_HOME)/lib" -lsdp
+	LIBPATH=-L"$(JAVA_HOME)/jre/lib/server/"
 	CFLAG=-fPIC -c $(JAVA_HEADER) 
+	LIBFLAG=-lsdp -llapack -lblas -lgfortran -lm
 else
 	JAVA_HOME=/usr/lib/jvm/jdk1.8.0_05
 	JAVA_HEADER=-I"$(JAVA_HOME)/include" -I"$(JAVA_HOME)/include/linux"
@@ -16,7 +19,8 @@ else
 	GCC=g++
 	LIBPATH=-L"$(JAVA_HOME)/jre/lib/amd64/server/" 
 	OUTPUT=tester
-	CFLAG=-fPIC -c -g -O0 $(JAVA_HEADER)
+	CFLAG=-fPIC -c -g -O0 -ansi -Wall -DNOSHORTS $(JAVA_HEADER)
+	LIBFLAG=-Wl,-Bstatic -lsdp -Wl,-Bdynamic -llapack -lblas -lgfortran -lm
 endif
 
 
@@ -30,11 +34,12 @@ tester.o : tester.cpp
 	$(GCC) $(CFLAG) -o $@ tester.cpp
 
 example : example.o
-	gcc -o example example.o -L$(CSDP_HOME)/lib -Wl,-Bstatic -lsdp -Wl,-Bdynamic -llapack -lblas -lgfortran -lm
+	gcc -o example example.o -L$(CSDP_HOME)/lib $(LIBFLAG)
 example.o : example.c
-	gcc -c example.c -o $@ -O0 -g -ansi -Wall -DNOSHORTS $(CSDP_HEADER)  
+	gcc -c example.c -o $@ $(CFLAG) $(CSDP_HEADER)  
 
 
 clean:
 	rm -rf *.o
 	rm -rf tester
+	rm -rf example
