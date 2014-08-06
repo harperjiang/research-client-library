@@ -13,7 +13,7 @@ import edu.clarkson.cs.clientlib.ipinfo.model.IPInfo;
 import edu.clarkson.cs.clientlib.lang.BeanContext;
 import edu.clarkson.cs.clientlib.lang.ContextSet;
 
-public class DefaultContextSet implements ContextSet {
+public class IPInfoContextSet implements ContextSet {
 
 	@Override
 	public void apply() {
@@ -40,12 +40,12 @@ public class DefaultContextSet implements ContextSet {
 
 		BeanContext.get().put("ipInfoDao", ipInfoDao);
 
-		IPInfoAccess ipInfoService = new IPInfoAccess();
-		ipInfoService.setEnv(env);
-		ipInfoService.setIpInfoDao(ipInfoDao);
-		ipInfoService.afterPropertySet();
+		IPInfoAccess ipinfoAccess = new IPInfoAccess();
+		ipinfoAccess.setEnv(env);
+		ipinfoAccess.setIpInfoDao(ipInfoDao);
+		ipinfoAccess.afterPropertySet();
 
-		BeanContext.get().put("ipInfoService", ipInfoService);
+		BeanContext.get().put("ipinfoAccess", ipinfoAccess);
 	}
 
 }
