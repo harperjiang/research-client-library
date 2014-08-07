@@ -31,6 +31,11 @@ public class ConsistencyChecker implements Visitor {
 				throw new IllegalArgumentException(MessageFormat.format(
 						"Empty SparseBlock:{0}:{1}", conCounter, sb.getIndex()));
 			// Check SparseBlock size
+			if (bm.getBlocks().length <= sb.index - 1) {
+				throw new IllegalArgumentException(MessageFormat.format(
+						"Block index exceed header block count:{0}:{1}",
+						conCounter, sb.getIndex()));
+			}
 			if (bm.getBlocks()[sb.index - 1].getSize() != sb.getSize()) {
 				throw new IllegalArgumentException(MessageFormat.format(
 						"Inconsistant BlockSize:{0}:{1}", conCounter,
