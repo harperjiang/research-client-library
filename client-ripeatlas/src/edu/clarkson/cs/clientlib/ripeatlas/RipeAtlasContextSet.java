@@ -21,7 +21,7 @@ import edu.clarkson.cs.clientlib.ripeatlas.model.ProbeSpec;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteOutput;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteTarget;
 
-public class DefaultContextSet implements ContextSet {
+public class RipeAtlasContextSet implements ContextSet {
 
 	@Override
 	public void apply() {
@@ -61,11 +61,11 @@ public class DefaultContextSet implements ContextSet {
 		// Beans
 		MeasurementAccess ms = new MeasurementAccess();
 		ms.setEnv(env);
-		BeanContext.get().put("measurementService", ms);
+		BeanContext.get().put("measurementAccess", ms);
 		
 		ProbeAccess ps = new ProbeAccess();
 		ps.setEnv(env);
-		BeanContext.get().put("probeService", ps);
+		BeanContext.get().put("probeAccess", ps);
 		
 	}
 
