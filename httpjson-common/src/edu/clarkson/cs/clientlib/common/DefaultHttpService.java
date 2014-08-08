@@ -5,7 +5,7 @@ import edu.clarkson.cs.clientlib.common.http.Response;
 
 public class DefaultHttpService {
 
-	protected <T extends Response<?>> T execute(Request<T> request) {
+	public <T extends Response<?>> T execute(Request<T> request) {
 		while (true) {
 			try {
 				T response = request.execute();

@@ -3,14 +3,18 @@ package edu.clarkson.cs.clientlib.common.json;
 import java.beans.PropertyDescriptor;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -24,7 +28,7 @@ public class BeanDeserializer<T> implements JsonDeserializer<T> {
 	public BeanDeserializer() {
 		super();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public T deserialize(JsonElement json, Type typeOfT,
 			JsonDeserializationContext context) throws JsonParseException {
@@ -50,32 +54,52 @@ public class BeanDeserializer<T> implements JsonDeserializer<T> {
 						attrName = translate(desc.getName());
 					}
 					JsonElement value = object.get(attrName);
-					if (value != null && !value.isJsonNull()
-							&& !value.isJsonObject()) {
-						if (desc.getPropertyType() == Integer.class
-								|| desc.getPropertyType() == Integer.TYPE) {
-							desc.getWriteMethod().invoke(instance,
-									value.getAsInt());
-						} else if (desc.getPropertyType() == String.class) {
-							desc.getWriteMethod().invoke(instance,
-									value.getAsString());
-						} else if (desc.getPropertyType() == Date.class) {
-							desc.getWriteMethod().invoke(instance,
-									new Date(value.getAsLong() * 1000));
-						} else if (desc.getPropertyType() == Double.class
-								|| desc.getPropertyType() == Double.TYPE) {
-							desc.getWriteMethod().invoke(instance,
-									value.getAsDouble());
-						} else if (desc.getPropertyType() == Boolean.class
-								|| desc.getPropertyType() == Boolean.TYPE) {
-							desc.getWriteMethod().invoke(instance,
-									value.getAsBoolean());
-						} else if (desc.getPropertyType() == BigDecimal.class) {
-							desc.getWriteMethod().invoke(instance,
-									value.getAsBigDecimal());
+					if (value != null && !value.isJsonNull()) {
+						if (value.isJsonArray()
+								&& desc.getPropertyType() == List.class) {
+							// Get list object type and extract data from it
+							@SuppressWarnings("rawtypes")
+							ArrayList rawList = new ArrayList();
+							Class<?> contentClass = (Class<?>) ((ParameterizedType) typeClass
+									.getDeclaredField(desc.getName())
+									.getGenericType()).getActualTypeArguments()[0];
+							JsonArray jsonArray = (JsonArray) value;
+							for (int jaidx = 0; jaidx < jsonArray.size(); jaidx++) {
+								rawList.add(context.deserialize(
+										jsonArray.get(jaidx), contentClass));
+							}
+
+							desc.getWriteMethod().invoke(instance, rawList);
+						} else if (value.isJsonObject()) {
+							Object objvalue = context.deserialize(value,
+									desc.getPropertyType());
+							desc.getWriteMethod().invoke(instance, objvalue);
 						} else {
-							throw new RuntimeException("Unsupported type:"
-									+ desc.getPropertyType().toString());
+							if (desc.getPropertyType() == Integer.class
+									|| desc.getPropertyType() == Integer.TYPE) {
+								desc.getWriteMethod().invoke(instance,
+										value.getAsInt());
+							} else if (desc.getPropertyType() == String.class) {
+								desc.getWriteMethod().invoke(instance,
+										value.getAsString());
+							} else if (desc.getPropertyType() == Date.class) {
+								desc.getWriteMethod().invoke(instance,
+										new Date(value.getAsLong() * 1000));
+							} else if (desc.getPropertyType() == Double.class
+									|| desc.getPropertyType() == Double.TYPE) {
+								desc.getWriteMethod().invoke(instance,
+										value.getAsDouble());
+							} else if (desc.getPropertyType() == Boolean.class
+									|| desc.getPropertyType() == Boolean.TYPE) {
+								desc.getWriteMethod().invoke(instance,
+										value.getAsBoolean());
+							} else if (desc.getPropertyType() == BigDecimal.class) {
+								desc.getWriteMethod().invoke(instance,
+										value.getAsBigDecimal());
+							} else {
+								throw new RuntimeException("Unsupported type:"
+										+ desc.getPropertyType().toString());
+							}
 						}
 					}
 				}

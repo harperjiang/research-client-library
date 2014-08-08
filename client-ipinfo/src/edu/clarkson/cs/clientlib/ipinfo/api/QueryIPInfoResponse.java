@@ -47,7 +47,6 @@ public class QueryIPInfoResponse extends Response<IPInfo> {
 		logger.warn("Error code:" + error.getCode());
 		logger.warn("Error message:" + error.getMessage());
 		return error;
-
 	}
 
 }
