@@ -1,5 +1,7 @@
 package edu.clarkson.cs.clientlib.gsearch.api;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.MessageFormat;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,9 +21,14 @@ public class GSearchRequest extends Request<GSearchResponse> {
 	@Override
 	protected HttpUriRequest buildRequest() {
 		Validate.isTrue(!StringUtils.isEmpty(getQueryString()));
-		String url = MessageFormat.format(this.getUrl(), getQueryString());
-		HttpGet get = new HttpGet(url);
-		return get;
+		try {
+			String converted = URLEncoder.encode(getQueryString(), "utf8");
+			String url = MessageFormat.format(this.getUrl(), converted);
+			HttpGet get = new HttpGet(url);
+			return get;
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private String queryString;

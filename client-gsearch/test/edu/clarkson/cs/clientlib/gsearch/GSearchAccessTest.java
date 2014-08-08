@@ -31,6 +31,7 @@ public class GSearchAccessTest {
 		SearchResponse resp = access.search("good").execute().getResult();
 		assertNotNull(resp);
 		assertTrue(resp.getResults().size() > 1);
+		assertEquals("www.good.is",resp.getResults().get(0).getVisibleUrl());
 	}
 
 }

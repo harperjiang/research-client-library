@@ -2,13 +2,13 @@ package edu.clarkson.cs.clientlib.gsearch.model;
 
 public class SearchCursor {
 
-	private int resultCount;
+	private String resultCount;
 
-	public int getResultCount() {
+	public String getResultCount() {
 		return resultCount;
 	}
 
-	public void setResultCount(int resultCount) {
+	public void setResultCount(String resultCount) {
 		this.resultCount = resultCount;
 	}
 
