@@ -1,0 +1,92 @@
+https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q={QUERY_STRING}
+
+
+{
+   "responseData":{
+      "results":[
+         {
+            "GsearchResultClass":"GwebSearch",
+            "unescapedUrl":"http://www.atsu.edu/",
+            "url":"http://www.atsu.edu/",
+            "visibleUrl":"www.atsu.edu",
+            "cacheUrl":"http://www.google.com/search?q\u003dcache:1gIutCMfvO4J:www.atsu.edu",
+            "title":"\u003cb\u003eATSU\u003c/b\u003e: Osteopathic Medical School | Top \u003cb\u003eHealth Sciences University\u003c/b\u003e",
+            "titleNoFormatting":"ATSU: Osteopathic Medical School | Top Health Sciences University",
+            "content":"Discover \u003cb\u003eA.T. Still University\u003c/b\u003e - First in Whole Person Healthcare. Top medical and \n\u003cb\u003ehealth sciences\u003c/b\u003e University - Founding school for Osteopathic health education."
+         },
+         {
+            "GsearchResultClass":"GwebSearch",
+            "unescapedUrl":"http://www.atsu.edu/contact/",
+            "url":"http://www.atsu.edu/contact/",
+            "visibleUrl":"www.atsu.edu",
+            "cacheUrl":"http://www.google.com/search?q\u003dcache:b7Ac2L7e73AJ:www.atsu.edu",
+            "title":"Contact \u003cb\u003eA.T. Still University\u003c/b\u003e - ATSU",
+            "titleNoFormatting":"Contact A.T. Still University - ATSU",
+            "content":"Programs of Study First Impressions \nMagazine Request Information Contact \na ..."
+         },
+         {
+            "GsearchResultClass":"GwebSearch",
+            "unescapedUrl":"http://www.atsu.edu/about/our_university.htm",
+            "url":"http://www.atsu.edu/about/our_university.htm",
+            "visibleUrl":"www.atsu.edu",
+            "cacheUrl":"http://www.google.com/search?q\u003dcache:nQptPXW4oV4J:www.atsu.edu",
+            "title":"\u003cb\u003eA.T. Still University\u003c/b\u003e - About Our University - ATSU",
+            "titleNoFormatting":"A.T. Still University - About Our University - ATSU",
+            "content":"Home of the world\u0026#39;s first osteopathic \nmedical school, established in 1892, \nA.T. ..."
+         },
+         {
+            "GsearchResultClass":"GwebSearch",
+            "unescapedUrl":"http://en.wikipedia.org/wiki/A.T._Still_University",
+            "url":"http://en.wikipedia.org/wiki/A.T._Still_University",
+            "visibleUrl":"en.wikipedia.org",
+            "cacheUrl":"http://www.google.com/search?q\u003dcache:OV63mPEyhxwJ:en.wikipedia.org",
+            "title":"\u003cb\u003eA.T. Still University\u003c/b\u003e - Wikipedia, the free encyclopedia",
+            "titleNoFormatting":"A.T. Still University - Wikipedia, the free encyclopedia",
+            "content":"These regions include \u003cb\u003eArizona\u003c/b\u003e, Illinois, Michigan, \u003cb\u003eMissouri\u003c/b\u003e, New ... The College \nof Graduate \u003cb\u003eHealth Studies\u003c/b\u003e - \u003cb\u003eATSU\u003c/b\u003e-CGHS was ..."
+         }
+      ],
+      "cursor":{
+         "resultCount":"682,000",
+         "pages":[
+            {
+               "start":"0",
+               "label":1
+            },
+            {
+               "start":"4",
+               "label":2
+            },
+            {
+               "start":"8",
+               "label":3
+            },
+            {
+               "start":"12",
+               "label":4
+            },
+            {
+               "start":"16",
+               "label":5
+            },
+            {
+               "start":"20",
+               "label":6
+            },
+            {
+               "start":"24",
+               "label":7
+            },
+            {
+               "start":"28",
+               "label":8
+            }
+         ],
+         "estimatedResultCount":"682000",
+         "currentPageIndex":0,
+         "moreResultsUrl":"http://www.google.com/search?oe\u003dutf8\u0026ie\u003dutf8\u0026source\u003duds\u0026start\u003d0\u0026hl\u003den\u0026q\u003dA.T.+Still+University+of+Health+Sciences+(AZ+/+MO)",
+         "searchResultTime":"0.35"
+      }
+   },
+   "responseDetails":null,
+   "responseStatus":200
+}
