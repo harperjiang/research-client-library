@@ -1,5 +1,7 @@
 package edu.clarkson.cs.clientlib.gsearch;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.HttpClients;
 
 import com.google.gson.GsonBuilder;
@@ -18,7 +20,12 @@ public class GSearchContextSet implements ContextSet {
 	public void apply() {
 		Environment env = new Environment();
 		// Create HTTP Client
-		env.setHttpClient(HttpClients.createDefault());
+		RequestConfig config = RequestConfig.custom()
+				.setSocketTimeout(30 * 1000).setConnectTimeout(30 * 1000)
+				.build();
+		HttpClient client = HttpClients.custom()
+				.setDefaultRequestConfig(config).build();
+		env.setHttpClient(client);
 
 		// Create JSON Parser
 		GsonBuilder builder = new GsonBuilder();
