@@ -3,6 +3,7 @@ package edu.clarkson.cs.clientlib.ripeatlas.model;
 import java.util.Date;
 
 import edu.clarkson.cs.clientlib.common.json.JsonAttribute;
+import edu.clarkson.cs.clientlib.common.json.JsonIgnore;
 
 public class Measurement {
 	
@@ -22,6 +23,7 @@ public class Measurement {
 
 	private int af;
 
+	@JsonIgnore
 	private String type;
 
 	private Date creationTime;
@@ -46,6 +48,7 @@ public class Measurement {
 
 	private String dstName;
 
+	@JsonIgnore
 	private int status;
 
 	private Probe[] probeSources;

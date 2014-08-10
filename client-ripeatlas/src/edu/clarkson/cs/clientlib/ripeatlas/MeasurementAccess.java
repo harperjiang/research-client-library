@@ -24,7 +24,7 @@ public class MeasurementAccess {
 		return req;
 	}
 
-	public MeasurementResultRequest result(String id) {
+	public MeasurementResultRequest result(int id) {
 		MeasurementResultRequest mrr = new MeasurementResultRequest();
 		mrr.setMeasurementId(id);
 

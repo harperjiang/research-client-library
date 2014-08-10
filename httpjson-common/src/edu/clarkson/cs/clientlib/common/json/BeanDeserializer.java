@@ -42,11 +42,16 @@ public class BeanDeserializer<T> implements JsonDeserializer<T> {
 			for (PropertyDescriptor desc : descs) {
 				if (desc.getReadMethod() != null
 						&& desc.getWriteMethod() != null) {
+
+					Field field = ReflectUtils.find(typeClass, desc.getName());
+					// Ignore attributes with JsonIgnore
+					if (isJsonIgnore(field))
+						continue;
+
 					List<String> names = new ArrayList<String>();
 					names.add(desc.getName());
 
-					JsonAttribute anno = getJsonAnnotation(ReflectUtils.find(
-							typeClass, desc.getName()));
+					JsonAttribute anno = getJsonAttribute(field);
 					if (null != anno) {
 						names.add(anno.value());
 					} else {
@@ -131,12 +136,21 @@ public class BeanDeserializer<T> implements JsonDeserializer<T> {
 		return result;
 	}
 
-	protected JsonAttribute getJsonAnnotation(Field field) {
+	protected JsonAttribute getJsonAttribute(Field field) {
 		for (Annotation anno : field.getDeclaredAnnotations()) {
 			if (anno.annotationType() == JsonAttribute.class) {
 				return (JsonAttribute) anno;
 			}
 		}
 		return null;
+	}
+
+	protected boolean isJsonIgnore(Field field) {
+		for (Annotation anno : field.getDeclaredAnnotations()) {
+			if (anno.annotationType() == JsonIgnore.class) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

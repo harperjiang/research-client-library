@@ -50,7 +50,7 @@ public class MeasurementAccessTest {
 
 	@Test
 	public void testResult() throws Exception {
-		List<MeasurementResult> results = service.result("1033381").execute()
+		List<MeasurementResult> results = service.result(1033381).execute()
 				.getResult();
 		assertEquals(6, results.size());
 		MeasurementResult result = results.get(5);

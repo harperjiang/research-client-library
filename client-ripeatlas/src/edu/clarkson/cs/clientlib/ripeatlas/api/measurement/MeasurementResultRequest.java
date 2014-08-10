@@ -18,21 +18,21 @@ public class MeasurementResultRequest extends
 
 	@Override
 	protected HttpUriRequest buildRequest() {
-		String url = MessageFormat.format(getUrl(), getMeasurementId(),
-				Configuration.KEY_GET_M);
+		String url = MessageFormat.format(getUrl(),
+				String.valueOf(getMeasurementId()), Configuration.KEY_GET_M);
 		if (logger.isDebugEnabled()) {
 			logger.debug("Get Measurement Result: " + url);
 		}
 		return new HttpGet(url);
 	}
 
-	private String measurementId;
+	private int measurementId;
 
-	public String getMeasurementId() {
+	public int getMeasurementId() {
 		return measurementId;
 	}
 
-	public void setMeasurementId(String measurementId) {
+	public void setMeasurementId(int measurementId) {
 		this.measurementId = measurementId;
 	}
 }
