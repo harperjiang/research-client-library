@@ -9,10 +9,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.clarkson.cs.clientlib.lang.BeanContext;
-import edu.clarkson.cs.clientlib.ripeatlas.MeasurementAccess;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Measurement;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementCreate;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementResult;
+import edu.clarkson.cs.clientlib.ripeatlas.model.PingOutput;
 import edu.clarkson.cs.clientlib.ripeatlas.model.ProbeSpec;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteOutput;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteOutput.TracerouteData;
@@ -49,7 +49,7 @@ public class MeasurementAccessTest {
 	}
 
 	@Test
-	public void testResult() throws Exception {
+	public void testResultTraceroute() throws Exception {
 		List<MeasurementResult> results = service.result(1033381).execute()
 				.getResult();
 		assertEquals(6, results.size());
@@ -67,6 +67,25 @@ public class MeasurementAccessTest {
 		assertEquals("79.808999999999997", data.getRoundTripTime().toString());
 		assertEquals(60, data.getSize());
 		assertEquals(55, data.getTimeToLive());
+	}
+
+	@Test
+	public void testResultPing() throws Exception {
+		List<MeasurementResult> results = service.result(1719128).execute()
+				.getResult();
+		assertEquals(5, results.size());
+
+		MeasurementResult result = results.get(4);
+
+		assertEquals(3, result.getOutputs().size());
+
+		assertEquals(PingOutput.class,
+				result.getOutputs().get(result.getOutputs().size() - 1)
+						.getClass());
+		PingOutput output = (PingOutput) result.getOutputs().get(
+				result.getOutputs().size() - 1);
+		assertEquals("44.066", output.getRtt().toString());
+
 	}
 
 	@Test

@@ -16,6 +16,7 @@ import edu.clarkson.cs.clientlib.ripeatlas.json.TracerouteDeserializer;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Measurement;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementCreate;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementResult;
+import edu.clarkson.cs.clientlib.ripeatlas.model.PingOutput;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Probe;
 import edu.clarkson.cs.clientlib.ripeatlas.model.ProbeSpec;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteOutput;
@@ -37,6 +38,8 @@ public class RipeAtlasContextSet implements ContextSet {
 				new MeasurementResultDeserializer());
 		builder.registerTypeAdapter(TracerouteOutput.class,
 				new TracerouteDeserializer());
+		builder.registerTypeAdapter(PingOutput.class,
+				new BeanDeserializer<PingOutput>());
 		builder.registerTypeAdapter(Measurement.class,
 				new MeasurementDeserializer());
 		builder.registerTypeAdapter(Probe.class, new BeanDeserializer<Probe>());
@@ -56,17 +59,16 @@ public class RipeAtlasContextSet implements ContextSet {
 		psbs.setGson(gson);
 
 		env.setReader(new JsonParser());
-		
-		
+
 		// Beans
 		MeasurementAccess ms = new MeasurementAccess();
 		ms.setEnv(env);
 		BeanContext.get().put("measurementAccess", ms);
-		
+
 		ProbeAccess ps = new ProbeAccess();
 		ps.setEnv(env);
 		BeanContext.get().put("probeAccess", ps);
-		
+
 	}
 
 }

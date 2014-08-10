@@ -12,6 +12,7 @@ import com.google.gson.JsonParseException;
 import edu.clarkson.cs.clientlib.common.json.DeserializerUtils;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementResult;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Output;
+import edu.clarkson.cs.clientlib.ripeatlas.model.PingOutput;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteOutput;
 
 public class MeasurementResultDeserializer implements
@@ -27,7 +28,8 @@ public class MeasurementResultDeserializer implements
 		mresult.setDstAddr(DeserializerUtils.getString("dst_addr", jsonObject));
 		// mresult.setDstAddr(jsonObject.get("dst_addr").getAsString());
 		mresult.setDstName(jsonObject.get("dst_name").getAsString());
-		mresult.setEndTime(new Date(jsonObject.get("endtime").getAsLong()));
+		if (jsonObject.get("endtime") != null)
+			mresult.setEndTime(new Date(jsonObject.get("endtime").getAsLong()));
 		mresult.setFrom(jsonObject.get("from").getAsString());
 		mresult.setFw(jsonObject.get("fw").getAsInt());
 		mresult.setMeasurementId(jsonObject.get("msm_id").getAsInt());
@@ -49,6 +51,10 @@ public class MeasurementResultDeserializer implements
 				mresult.getOutputs().add(
 						(Output) context.deserialize(elem,
 								TracerouteOutput.class));
+				break;
+			case ping:
+				mresult.getOutputs().add(
+						(Output) context.deserialize(elem, PingOutput.class));
 				break;
 			default:
 				break;
