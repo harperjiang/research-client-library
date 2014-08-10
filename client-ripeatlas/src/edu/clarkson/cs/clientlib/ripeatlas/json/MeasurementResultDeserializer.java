@@ -28,8 +28,7 @@ public class MeasurementResultDeserializer implements
 		mresult.setDstAddr(DeserializerUtils.getString("dst_addr", jsonObject));
 		// mresult.setDstAddr(jsonObject.get("dst_addr").getAsString());
 		mresult.setDstName(jsonObject.get("dst_name").getAsString());
-		if (jsonObject.get("endtime") != null)
-			mresult.setEndTime(new Date(jsonObject.get("endtime").getAsLong()));
+
 		mresult.setFrom(jsonObject.get("from").getAsString());
 		mresult.setFw(jsonObject.get("fw").getAsInt());
 		mresult.setMeasurementId(jsonObject.get("msm_id").getAsInt());
@@ -43,6 +42,18 @@ public class MeasurementResultDeserializer implements
 		mresult.setType(type);
 
 		MeasurementType mt = MeasurementType.valueOf(type);
+		// Type specified value
+		switch (mt) {
+		case traceroute:
+			mresult.setEndTime(new Date(jsonObject.get("endtime").getAsLong()));
+			break;
+		case ping:
+			mresult.setAvg(jsonObject.get("avg").getAsBigDecimal());
+			break;
+		default:
+			break;
+		}
+
 		JsonElement result = jsonObject.get("result");
 
 		for (JsonElement elem : result.getAsJsonArray()) {

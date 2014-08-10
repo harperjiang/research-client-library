@@ -1,5 +1,6 @@
 package edu.clarkson.cs.clientlib.ripeatlas.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,9 @@ public class MeasurementResult {
 	private int af;
 
 	private int fw;
+
+	// For Ping measurement only
+	private BigDecimal avg;
 
 	private List<Output> outputs;
 
@@ -135,6 +139,14 @@ public class MeasurementResult {
 
 	public void setFrom(String from) {
 		this.from = from;
+	}
+
+	public BigDecimal getAvg() {
+		return avg;
+	}
+
+	public void setAvg(BigDecimal avg) {
+		this.avg = avg;
 	}
 
 }
