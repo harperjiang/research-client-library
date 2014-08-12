@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 
 import org.eclipse.persistence.queries.ScrollableCursor;
 
-public class JpaDao<T> {
+public class JpaDao<T> implements Dao<T> {
 
 	private EntityManager entityManager;
 
@@ -20,14 +20,15 @@ public class JpaDao<T> {
 		this.entityManager = entityManager;
 	}
 
-	public ScrollableCursor all() {
+	public Cursor<T> all() {
 		Class<T> param = getParamClass();
-		return (ScrollableCursor) getEntityManager()
+		ScrollableCursor sc = (ScrollableCursor) getEntityManager()
 				.createQuery(
 						MessageFormat.format("select i from {0} i",
 								param.getSimpleName()))
 				.setHint("eclipselink.cursor.scrollable", true)
 				.getSingleResult();
+		return new DefaultCursor<T>(sc);
 	}
 
 	public List<T> allatonce() {
@@ -41,5 +42,43 @@ public class JpaDao<T> {
 	protected Class<T> getParamClass() {
 		return (Class<T>) (((ParameterizedType) getClass()
 				.getGenericSuperclass()).getActualTypeArguments()[0]);
+	}
+
+	public static final class DefaultCursor<T> implements Cursor<T> {
+
+		static final int BUFFER_SIZE = 1000;
+
+		private ScrollableCursor sc;
+
+		private List<T> buffer = null;
+
+		private int bufferPointer;
+
+		private int remain;
+
+		private DefaultCursor(ScrollableCursor sc) {
+			this.sc = sc;
+			this.remain = sc.size();
+		}
+
+		@Override
+		public boolean hasNext() {
+			return remain > 0;
+		}
+
+		@Override
+		@SuppressWarnings("unchecked")
+		public T next() {
+			if (remain <= 0) {
+				throw new IllegalStateException("No more element");
+			}
+			if (buffer == null || bufferPointer == buffer.size()) {
+				buffer = (List<T>) sc.next(Math.min(BUFFER_SIZE, remain));
+				bufferPointer = 0;
+			}
+			T object = buffer.get((bufferPointer++));
+			remain--;
+			return object;
+		}
 	}
 }

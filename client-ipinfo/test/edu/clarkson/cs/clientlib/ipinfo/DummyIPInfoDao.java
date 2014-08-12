@@ -1,6 +1,6 @@
 package edu.clarkson.cs.clientlib.ipinfo;
 
-import org.eclipse.persistence.queries.ScrollableCursor;
+import java.util.List;
 
 import edu.clarkson.cs.clientlib.ipinfo.dao.IPInfoDao;
 import edu.clarkson.cs.clientlib.ipinfo.model.IPInfo;
@@ -18,12 +18,13 @@ public class DummyIPInfoDao implements IPInfoDao {
 	}
 
 	@Override
-	public ScrollableCursor all() {
-		return new ScrollableCursor() {
-			public int size() {
-				return 0;
-			}
-		};
+	public Cursor<IPInfo> all() {
+		return null;
+	}
+
+	@Override
+	public List<IPInfo> allatonce() {
+		return null;
 	}
 
 }

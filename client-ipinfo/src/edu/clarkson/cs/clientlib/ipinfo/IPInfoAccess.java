@@ -3,7 +3,6 @@ package edu.clarkson.cs.clientlib.ipinfo;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import org.eclipse.persistence.queries.ScrollableCursor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +13,7 @@ import edu.clarkson.cs.clientlib.ipinfo.api.QueryIPInfoRequest;
 import edu.clarkson.cs.clientlib.ipinfo.dao.IPInfoDao;
 import edu.clarkson.cs.clientlib.ipinfo.model.IPInfo;
 import edu.clarkson.cs.clientlib.ipinfo.util.CapChecker;
+import edu.clarkson.cs.persistence.Dao.Cursor;
 
 public class IPInfoAccess {
 
@@ -36,18 +36,11 @@ public class IPInfoAccess {
 		filter = BloomFilter.create(
 				Funnels.stringFunnel(Charset.forName("utf8")), 100000, 0.001);
 		// Fill in bloom filter
-		ScrollableCursor cursor = ipInfoDao.all();
+		Cursor<IPInfo> cursor = ipInfoDao.all();
 
-		int size = cursor.size();
-		int count = 0;
-		while (count < size) {
-			int page = Math.min(1000, size - count);
-			List<Object> infos = cursor.next(page);
-			for (Object i : infos) {
-				IPInfo info = (IPInfo) i;
-				filter.put(info.getIp());
-			}
-			count += page;
+		while (cursor.hasNext()) {
+			IPInfo info = cursor.next();
+			filter.put(info.getIp());
 		}
 
 		capChecker = new CapChecker();
