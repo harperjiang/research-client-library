@@ -1,4 +1,4 @@
-package edu.clarkson.cs.clientlib.ripeatlas;
+package edu.clarkson.cs.clientlib.ripeatlas.api;
 
 import static org.junit.Assert.assertEquals;
 
@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.clarkson.cs.clientlib.lang.BeanContext;
+import edu.clarkson.cs.clientlib.ripeatlas.TestContextSet;
+import edu.clarkson.cs.clientlib.ripeatlas.api.ProbeAccess;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Probe;
 
 public class ProbeAccessTest {
@@ -30,7 +32,7 @@ public class ProbeAccessTest {
 		assertEquals(92, probe.getAsnV4());
 		assertEquals(0, probe.getAsnV6());
 		assertEquals("US", probe.getCountryCode());
-		assertEquals(12698, probe.getId());
+		assertEquals(12698, probe.getId().intValue());
 		assertEquals("44.6615", probe.getLatitude().toString());
 		assertEquals("-74.9985", probe.getLongitude().toString());
 		assertEquals("128.153.0.0/16", probe.getPrefixV4());

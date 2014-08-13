@@ -2,47 +2,74 @@ package edu.clarkson.cs.clientlib.ripeatlas.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import edu.clarkson.cs.clientlib.common.json.JsonAttribute;
+import edu.clarkson.cs.persistence.EntityObject;
 
-public class Probe {
+@Entity
+@Table(name = "probe")
+public class Probe implements EntityObject {
 
+	@Id
+	@Column(name = "id")
 	private int id;
 
+	@Column(name = "address_v4")
 	private String addressV4;
 
+	@Column(name = "address_v6")
 	private String addressV6;
 
+	@Column(name = "asn_v4")
 	private int asnV4;
 
+	@Column(name = "asn_v6")
 	private int asnV6;
 
+	@Column(name = "country_code")
 	private String countryCode;
 
+	@Column(name = "is_anchor")
 	@JsonAttribute("is_anchor")
 	private boolean anchor;
 
+	@Column(name = "is_public")
 	@JsonAttribute("is_public")
 	private boolean publicc;
 
+	@Column(name = "resource_uri")
 	private String resourceUri;
 
+	@Column(name = "prefix_v4")
 	private String prefixV4;
 
+	@Column(name = "prefix_v6")
 	private String prefixV6;
 
+	@Column(name = "status")
 	private int status;
 
+	@Column(name = "status_since")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date statusSince;
 
+	@Column(name = "latitude")
 	private Double latitude;
 
+	@Column(name = "longitude")
 	private Double longitude;
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

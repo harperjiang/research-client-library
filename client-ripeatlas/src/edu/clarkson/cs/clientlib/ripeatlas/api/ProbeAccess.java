@@ -1,5 +1,6 @@
-package edu.clarkson.cs.clientlib.ripeatlas;
+package edu.clarkson.cs.clientlib.ripeatlas.api;
 
+import edu.clarkson.cs.clientlib.ripeatlas.RipeAtlasEnvironment;
 import edu.clarkson.cs.clientlib.ripeatlas.api.probe.ProbeGetRequest;
 import edu.clarkson.cs.clientlib.ripeatlas.api.probe.ProbeListRequest;
 

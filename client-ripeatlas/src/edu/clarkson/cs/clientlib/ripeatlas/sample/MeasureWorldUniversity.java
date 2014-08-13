@@ -8,7 +8,7 @@ import java.text.MessageFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.clarkson.cs.clientlib.ripeatlas.MeasurementAccess;
+import edu.clarkson.cs.clientlib.ripeatlas.api.MeasurementAccess;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementCreate;
 import edu.clarkson.cs.clientlib.ripeatlas.model.ProbeSpec;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteTarget;

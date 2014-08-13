@@ -34,7 +34,7 @@ public abstract class Request<T extends Response<?>> {
 		return url;
 	}
 
-	public T execute() throws ClientProtocolException, IOException {
+	public T execute() throws IOException {
 		HttpUriRequest request = buildRequest();
 		try {
 			HttpResponse response = getHttpClient().execute(request);

@@ -1,5 +1,8 @@
 package edu.clarkson.cs.clientlib.ripeatlas;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+
 import org.apache.http.impl.client.HttpClients;
 
 import com.google.gson.Gson;
@@ -10,6 +13,9 @@ import edu.clarkson.cs.clientlib.common.json.BeanDeserializer;
 import edu.clarkson.cs.clientlib.common.json.BeanSerializer;
 import edu.clarkson.cs.clientlib.lang.BeanContext;
 import edu.clarkson.cs.clientlib.lang.ContextSet;
+import edu.clarkson.cs.clientlib.ripeatlas.api.MeasurementAccess;
+import edu.clarkson.cs.clientlib.ripeatlas.api.ProbeAccess;
+import edu.clarkson.cs.clientlib.ripeatlas.dao.JpaProbeDao;
 import edu.clarkson.cs.clientlib.ripeatlas.json.MeasurementDeserializer;
 import edu.clarkson.cs.clientlib.ripeatlas.json.MeasurementResultDeserializer;
 import edu.clarkson.cs.clientlib.ripeatlas.json.TracerouteDeserializer;
@@ -21,6 +27,7 @@ import edu.clarkson.cs.clientlib.ripeatlas.model.Probe;
 import edu.clarkson.cs.clientlib.ripeatlas.model.ProbeSpec;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteOutput;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteTarget;
+import edu.clarkson.cs.persistence.dv.JpaDataVersionDao;
 
 public class RipeAtlasContextSet implements ContextSet {
 
@@ -60,6 +67,8 @@ public class RipeAtlasContextSet implements ContextSet {
 
 		env.setReader(new JsonParser());
 
+		BeanContext.get().put("environment", env);
+
 		// Beans
 		MeasurementAccess ms = new MeasurementAccess();
 		ms.setEnv(env);
@@ -68,6 +77,24 @@ public class RipeAtlasContextSet implements ContextSet {
 		ProbeAccess ps = new ProbeAccess();
 		ps.setEnv(env);
 		BeanContext.get().put("probeAccess", ps);
+
+		EntityManager em = Persistence.createEntityManagerFactory("ripeatlas")
+				.createEntityManager();
+		env.setEm(em);
+
+		JpaProbeDao probeDao = new JpaProbeDao();
+		probeDao.setEntityManager(em);
+		BeanContext.get().put("probeDao", probeDao);
+		
+		JpaDataVersionDao dvDao = new JpaDataVersionDao();
+		dvDao.setEntityManager(em);
+		BeanContext.get().put("dataVersionDao", dvDao);
+
+		ProbeService probeService = new ProbeService();
+		probeService.setProbeAccess(ps);
+		probeService.setProbeDao(probeDao);
+		probeService.setDvDao(dvDao);
+		BeanContext.get().put("probeService", probeService);
 
 	}
 

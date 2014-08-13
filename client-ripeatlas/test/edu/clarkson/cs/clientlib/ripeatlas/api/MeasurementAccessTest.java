@@ -1,4 +1,4 @@
-package edu.clarkson.cs.clientlib.ripeatlas;
+package edu.clarkson.cs.clientlib.ripeatlas.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.clarkson.cs.clientlib.lang.BeanContext;
+import edu.clarkson.cs.clientlib.ripeatlas.TestContextSet;
+import edu.clarkson.cs.clientlib.ripeatlas.api.MeasurementAccess;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Measurement;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementCreate;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementResult;

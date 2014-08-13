@@ -1,5 +1,6 @@
-package edu.clarkson.cs.clientlib.ripeatlas;
+package edu.clarkson.cs.clientlib.ripeatlas.api;
 
+import edu.clarkson.cs.clientlib.ripeatlas.RipeAtlasEnvironment;
 import edu.clarkson.cs.clientlib.ripeatlas.api.measurement.MeasurementCreateRequest;
 import edu.clarkson.cs.clientlib.ripeatlas.api.measurement.MeasurementGetRequest;
 import edu.clarkson.cs.clientlib.ripeatlas.api.measurement.MeasurementResultRequest;

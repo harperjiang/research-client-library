@@ -1,5 +1,7 @@
 package edu.clarkson.cs.clientlib.ripeatlas;
 
+import javax.persistence.EntityManager;
+
 import org.apache.http.client.HttpClient;
 
 import com.google.gson.Gson;
@@ -16,6 +18,8 @@ public class RipeAtlasEnvironment {
 	private Gson gson;
 
 	private JsonParser reader;
+
+	private EntityManager em;
 
 	public HttpClient getHttpClient() {
 		return httpClient;
@@ -39,6 +43,14 @@ public class RipeAtlasEnvironment {
 
 	public void setReader(JsonParser reader) {
 		this.reader = reader;
+	}
+
+	public EntityManager getEm() {
+		return em;
+	}
+
+	public void setEm(EntityManager em) {
+		this.em = em;
 	}
 
 }
