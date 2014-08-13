@@ -1,6 +1,6 @@
 package edu.clarkson.cs.clientlib.ripeatlas;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -35,7 +35,7 @@ public class ProbeServiceTest {
 	@Test
 	public void testFindProbeString() {
 		List<Probe> probes = probeService.findProbe("US");
-		assertEquals(609, probes.size());
+		assertTrue(600 < probes.size());
 	}
 
 	@Test

@@ -39,6 +39,10 @@ public class ProbeAccessTest {
 		assertEquals(null, probe.getPrefixV6());
 		assertEquals(null, probe.getResourceUri());
 		assertEquals(1, probe.getStatus());
+
+		probe = service.get(6066).execute().getResult();
+		assertEquals(32.8005d, probe.getLatitude().doubleValue(), 0.001);
+		assertEquals(-96.8194d, probe.getLongitude().doubleValue(), 0.001);
 	}
 
 	@Test
