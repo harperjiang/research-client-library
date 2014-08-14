@@ -31,8 +31,12 @@ public class MeasurementResult {
 
 	private int fw;
 
-	// For Ping measurement only
+	// Following fields are for Ping measurement only
 	private BigDecimal avg;
+
+	private BigDecimal max;
+
+	private BigDecimal min;
 
 	private List<Output> outputs;
 
@@ -147,6 +151,22 @@ public class MeasurementResult {
 
 	public void setAvg(BigDecimal avg) {
 		this.avg = avg;
+	}
+
+	public BigDecimal getMax() {
+		return max;
+	}
+
+	public void setMax(BigDecimal max) {
+		this.max = max;
+	}
+
+	public BigDecimal getMin() {
+		return min;
+	}
+
+	public void setMin(BigDecimal min) {
+		this.min = min;
 	}
 
 }

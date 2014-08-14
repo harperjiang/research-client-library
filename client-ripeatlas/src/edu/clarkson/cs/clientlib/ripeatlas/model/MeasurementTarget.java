@@ -10,6 +10,7 @@ public class MeasurementTarget {
 
 	private String type;
 
+	@JsonAttribute("resolve_on_probe")
 	private boolean resolveOnProbe;
 
 	@JsonAttribute("is_oneoff")

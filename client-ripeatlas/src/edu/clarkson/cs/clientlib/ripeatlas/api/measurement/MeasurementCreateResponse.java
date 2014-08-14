@@ -9,7 +9,7 @@ import edu.clarkson.cs.clientlib.ripeatlas.json.RipeAtlasResponse;
 
 public class MeasurementCreateResponse extends RipeAtlasResponse<Integer[]> {
 
-	protected MeasurementCreateResponse() throws IOException {
+	public MeasurementCreateResponse() throws IOException {
 		super();
 	}
 

@@ -18,11 +18,13 @@ import edu.clarkson.cs.clientlib.ripeatlas.api.ProbeAccess;
 import edu.clarkson.cs.clientlib.ripeatlas.dao.JpaProbeDao;
 import edu.clarkson.cs.clientlib.ripeatlas.json.MeasurementDeserializer;
 import edu.clarkson.cs.clientlib.ripeatlas.json.MeasurementResultDeserializer;
+import edu.clarkson.cs.clientlib.ripeatlas.json.PingDeserializer;
 import edu.clarkson.cs.clientlib.ripeatlas.json.TracerouteDeserializer;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Measurement;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementCreate;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementResult;
 import edu.clarkson.cs.clientlib.ripeatlas.model.PingOutput;
+import edu.clarkson.cs.clientlib.ripeatlas.model.PingTarget;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Probe;
 import edu.clarkson.cs.clientlib.ripeatlas.model.ProbeSpec;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteOutput;
@@ -45,8 +47,7 @@ public class RipeAtlasContextSet implements ContextSet {
 				new MeasurementResultDeserializer());
 		builder.registerTypeAdapter(TracerouteOutput.class,
 				new TracerouteDeserializer());
-		builder.registerTypeAdapter(PingOutput.class,
-				new BeanDeserializer<PingOutput>());
+		builder.registerTypeAdapter(PingOutput.class, new PingDeserializer());
 		builder.registerTypeAdapter(Measurement.class,
 				new MeasurementDeserializer());
 		builder.registerTypeAdapter(Probe.class, new BeanDeserializer<Probe>());
@@ -55,6 +56,8 @@ public class RipeAtlasContextSet implements ContextSet {
 		builder.registerTypeAdapter(MeasurementCreate.class, mcbs);
 		BeanSerializer<TracerouteTarget> ttbs = new BeanSerializer<TracerouteTarget>();
 		builder.registerTypeAdapter(TracerouteTarget.class, ttbs);
+		BeanSerializer<PingTarget> ptbs = new BeanSerializer<PingTarget>();
+		builder.registerTypeAdapter(PingTarget.class, ptbs);
 		BeanSerializer<ProbeSpec> psbs = new BeanSerializer<ProbeSpec>();
 		builder.registerTypeAdapter(ProbeSpec.class, psbs);
 
@@ -85,7 +88,7 @@ public class RipeAtlasContextSet implements ContextSet {
 		JpaProbeDao probeDao = new JpaProbeDao();
 		probeDao.setEntityManager(em);
 		BeanContext.get().put("probeDao", probeDao);
-		
+
 		JpaDataVersionDao dvDao = new JpaDataVersionDao();
 		dvDao.setEntityManager(em);
 		BeanContext.get().put("dataVersionDao", dvDao);

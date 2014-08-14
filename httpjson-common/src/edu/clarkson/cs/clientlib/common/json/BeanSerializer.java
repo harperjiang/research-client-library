@@ -56,18 +56,21 @@ public class BeanSerializer<T> implements JsonSerializer<T> {
 							object.add(attrName, gson.toJsonTree(value));
 						} else if (value instanceof Integer
 								|| desc.getPropertyType() == Integer.TYPE) {
-							object.add(attrName, gson.toJsonTree(value));
+							object.add(attrName, new JsonPrimitive((int) value));
 						} else if (value instanceof String) {
-							object.add(attrName, gson.toJsonTree(value));
+							object.add(attrName, new JsonPrimitive(
+									(String) value));
 						} else if (value instanceof Date) {
 							long val = ((Date) value).getTime() / 1000;
 							object.add(attrName, new JsonPrimitive(val));
 						} else if (value instanceof Double
 								|| desc.getPropertyType() == Double.TYPE) {
-							object.add(attrName, gson.toJsonTree(value));
+							object.add(attrName, new JsonPrimitive(
+									(double) value));
 						} else if (value instanceof Boolean
 								|| desc.getPropertyType() == Boolean.TYPE) {
-							object.add(attrName, gson.toJsonTree(value));
+							object.add(attrName, new JsonPrimitive(
+									(boolean) value));
 						} else {
 							throw new RuntimeException("Unsupported type:"
 									+ desc.getName() + ":"

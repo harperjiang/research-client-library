@@ -9,7 +9,7 @@ public class PingTarget extends MeasurementTarget {
 
 	private String target;
 
-	private int interval;
+	private int interval = 60;
 
 	private int packets = 3;
 
