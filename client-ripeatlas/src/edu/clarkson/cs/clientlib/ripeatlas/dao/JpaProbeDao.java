@@ -32,4 +32,12 @@ public class JpaProbeDao extends JpaEntityDao<Probe> implements ProbeDao {
 				.setParameter("longmax", longmax).getResultList();
 	}
 
+	@Override
+	public List<Probe> findByIp(String ipv4) {
+		return getEntityManager()
+				.createQuery("select p from Probe p where p.addressV4 = :ip",
+						Probe.class).setParameter("ip", ipv4).getResultList();
+
+	}
+
 }

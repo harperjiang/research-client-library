@@ -2,6 +2,7 @@ package edu.clarkson.cs.persistence;
 
 import java.lang.reflect.ParameterizedType;
 import java.text.MessageFormat;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -44,7 +45,8 @@ public class JpaDao<T> implements Dao<T> {
 				.getGenericSuperclass()).getActualTypeArguments()[0]);
 	}
 
-	public static final class DefaultCursor<T> implements Cursor<T> {
+	public static final class DefaultCursor<T> implements Cursor<T>,
+			Iterator<T> {
 
 		static final int BUFFER_SIZE = 1000;
 
@@ -79,6 +81,16 @@ public class JpaDao<T> implements Dao<T> {
 			T object = buffer.get((bufferPointer++));
 			remain--;
 			return object;
+		}
+
+		@Override
+		public Iterator<T> iterator() {
+			return this;
+		}
+
+		@Override
+		public void remove() {
+			throw new UnsupportedOperationException("Not supported");
 		}
 	}
 }

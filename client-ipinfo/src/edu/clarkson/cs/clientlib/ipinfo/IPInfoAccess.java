@@ -1,7 +1,6 @@
 package edu.clarkson.cs.clientlib.ipinfo;
 
 import java.nio.charset.Charset;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +12,6 @@ import edu.clarkson.cs.clientlib.ipinfo.api.QueryIPInfoRequest;
 import edu.clarkson.cs.clientlib.ipinfo.dao.IPInfoDao;
 import edu.clarkson.cs.clientlib.ipinfo.model.IPInfo;
 import edu.clarkson.cs.clientlib.ipinfo.util.CapChecker;
-import edu.clarkson.cs.persistence.Dao.Cursor;
 
 public class IPInfoAccess {
 
@@ -36,10 +34,7 @@ public class IPInfoAccess {
 		filter = BloomFilter.create(
 				Funnels.stringFunnel(Charset.forName("utf8")), 100000, 0.001);
 		// Fill in bloom filter
-		Cursor<IPInfo> cursor = ipInfoDao.all();
-
-		while (cursor.hasNext()) {
-			IPInfo info = cursor.next();
+		for (IPInfo info : ipInfoDao.all()) {
 			filter.put(info.getIp());
 		}
 

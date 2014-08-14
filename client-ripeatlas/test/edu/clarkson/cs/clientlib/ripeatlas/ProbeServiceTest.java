@@ -34,15 +34,15 @@ public class ProbeServiceTest {
 
 	@Test
 	public void testFindProbeString() {
-		List<Probe> probes = probeService.findProbe("US");
+		List<Probe> probes = probeService.findByCountry("US");
 		assertTrue(600 < probes.size());
 	}
 
 	@Test
 	public void testFindProbeIntIntIntInt() {
-		List<Probe> probes = probeService.findProbe(
-				new BigDecimal("41.437368"), new BigDecimal("42.147924"),
-				new BigDecimal("-88.193144"), new BigDecimal("-87.179655"));
+		List<Probe> probes = probeService.findByRange(new BigDecimal(
+				"41.437368"), new BigDecimal("42.147924"), new BigDecimal(
+				"-88.193144"), new BigDecimal("-87.179655"));
 		assertEquals(14, probes.size());
 	}
 

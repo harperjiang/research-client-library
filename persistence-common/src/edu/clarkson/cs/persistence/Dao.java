@@ -8,9 +8,7 @@ public interface Dao<T> {
 
 	public List<T> allatonce();
 	
-	public static interface Cursor<T> {
+	public static interface Cursor<T> extends Iterable<T> {
 		
-		public boolean hasNext();
-		public T next();
 	}
 }

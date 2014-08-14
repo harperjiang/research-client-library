@@ -13,4 +13,6 @@ public interface ProbeDao extends EntityDao<Probe> {
 	List<Probe> findInRange(BigDecimal latmin, BigDecimal latmax,
 			BigDecimal longmin, BigDecimal longmax);
 
+	List<Probe> findByIp(String ipv4);
+
 }

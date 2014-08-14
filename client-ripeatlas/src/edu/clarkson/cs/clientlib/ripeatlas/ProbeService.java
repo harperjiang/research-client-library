@@ -37,15 +37,20 @@ public class ProbeService {
 		return getProbeDao().find(id);
 	}
 
-	public List<Probe> findProbe(String country) {
+	public List<Probe> findByCountry(String country) {
 		checkData();
 		return getProbeDao().findInCountry(country);
 	}
 
-	public List<Probe> findProbe(BigDecimal latmin, BigDecimal latmax,
+	public List<Probe> findByRange(BigDecimal latmin, BigDecimal latmax,
 			BigDecimal longmin, BigDecimal longmax) {
 		checkData();
 		return getProbeDao().findInRange(latmin, latmax, longmin, longmax);
+	}
+	
+	public List<Probe> findByIp(String ipv4) {
+		checkData();
+		return getProbeDao().findByIp(ipv4);
 	}
 
 	protected void reload() {
