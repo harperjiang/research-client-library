@@ -1,7 +1,5 @@
 package edu.clarkson.cs.clientlib.ripeatlas.json;
 
-import edu.clarkson.cs.clientlib.ripeatlas.model.Probe;
-
 import java.lang.reflect.Type;
 import java.util.Date;
 
@@ -10,6 +8,8 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+
+import edu.clarkson.cs.clientlib.ripeatlas.model.Probe;
 
 public class ProbeDeserializer implements JsonDeserializer<Probe> {
 
@@ -29,6 +29,7 @@ public class ProbeDeserializer implements JsonDeserializer<Probe> {
 		result.setAsnV4(obj.get("asn_v4").getAsInt());
 		result.setAsnV6(obj.get("asn_v6").getAsInt());
 		result.setCountryCode(obj.get("country_code").getAsString());
+		result.setResourceUri(obj.get("resource_uri").getAsString());
 		result.setId(obj.get("id").getAsInt());
 		result.setLatitude(obj.get("latitude").getAsDouble());
 		result.setLongitude(obj.get("longitude").getAsDouble());

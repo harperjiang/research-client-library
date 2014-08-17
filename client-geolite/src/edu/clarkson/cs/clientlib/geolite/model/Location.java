@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import edu.clarkson.cs.persistence.EntityObject;
 
 @Entity
-@Table(name = "geolite_location")
+@Table(name = "location")
 public class Location implements EntityObject {
 
 	@Id

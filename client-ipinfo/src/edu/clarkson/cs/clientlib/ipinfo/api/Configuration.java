@@ -4,5 +4,5 @@ public class Configuration {
 
 	public static String URL = "http://api.ipaddresslabs.com/iplocation/v1.7/locateip";
 
-	public static String KEY = "SAK6943HZP457BV7783Z";
+	public static String KEY = "SAKG49P2E8579ZW8JT6Z";
 }

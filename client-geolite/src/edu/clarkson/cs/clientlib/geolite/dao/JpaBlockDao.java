@@ -12,7 +12,7 @@ public class JpaBlockDao extends JpaEntityDao<Block> implements BlockDao {
 		try {
 			return getEntityManager()
 					.createQuery(
-							"select b from Block b where b.from_ip <= :ip and b.to_ip >= :ip",
+							"select b from Block b where b.fromIp <= :ip and b.toIp >= :ip",
 							Block.class).setParameter("ip", ip)
 					.getSingleResult();
 		} catch (NoResultException e) {

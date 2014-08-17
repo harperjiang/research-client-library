@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import edu.clarkson.cs.persistence.EntityObject;
 
 @Entity
-@Table(name = "geolite_block")
+@Table(name = "block")
 public class Block implements EntityObject {
 
 	@Id
@@ -21,10 +21,10 @@ public class Block implements EntityObject {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "from_ip")
+	@Column(name = "ip_from")
 	private Long fromIp;
 
-	@Column(name = "to_ip")
+	@Column(name = "ip_to")
 	private Long toIp;
 
 	@OneToOne(fetch = FetchType.LAZY)
