@@ -56,7 +56,8 @@ public class BeanSerializer<T> implements JsonSerializer<T> {
 							object.add(attrName, gson.toJsonTree(value));
 						} else if (value instanceof Integer
 								|| desc.getPropertyType() == Integer.TYPE) {
-							object.add(attrName, new JsonPrimitive((int) value));
+							object.add(attrName, new JsonPrimitive(
+									(Integer) value));
 						} else if (value instanceof String) {
 							object.add(attrName, new JsonPrimitive(
 									(String) value));
@@ -66,11 +67,11 @@ public class BeanSerializer<T> implements JsonSerializer<T> {
 						} else if (value instanceof Double
 								|| desc.getPropertyType() == Double.TYPE) {
 							object.add(attrName, new JsonPrimitive(
-									(double) value));
+									(Double) value));
 						} else if (value instanceof Boolean
 								|| desc.getPropertyType() == Boolean.TYPE) {
 							object.add(attrName, new JsonPrimitive(
-									(boolean) value));
+									(Boolean) value));
 						} else {
 							throw new RuntimeException("Unsupported type:"
 									+ desc.getName() + ":"
