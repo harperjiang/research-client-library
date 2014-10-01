@@ -19,6 +19,15 @@ class Node {
   var ips: List[String] = List();
   var links: List[Link] = List();
 
+  def this(nid: Int) = {
+    this();
+    id = nid;
+  }
+
+  def this(sid: String) = {
+    this(Integer.parseInt(sid.substring(1)));
+  }
+
   def setIps(newips: java.util.List[String]): Unit = {
     ips = newips.toList
   }

@@ -25,6 +25,6 @@ non terminal List<String>  ipList;
 start with node;
 
 /* The grammar */
-node 			::= NODE ID COLON ipList:il {: RESULT = new Node(); RESULT.setIps(il); :}; 
+node 			::= NODE ID:id COLON ipList:il {: RESULT = new Node(id); RESULT.RESULT.setIps(il); :}; 
 ipList			::= IP:il1 {: RESULT = new ArrayList(); RESULT.add(il1); :}
 				|   ipList:il IP:il1 {: RESULT = il; RESULT.add(il1); :};
