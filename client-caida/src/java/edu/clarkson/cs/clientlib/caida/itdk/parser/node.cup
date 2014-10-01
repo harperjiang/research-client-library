@@ -12,19 +12,36 @@ scan with {: return getScanner().next_token(); :};
 
 /* Terminals (tokens returned by the scanner). */
 terminal            COLON;
-terminal 			NODE;
-terminal String     IP,ID;
+terminal 			NODE,LINK;
+terminal String     IP,NID,LID;
 
 /* Non terminals */
+non terminal Object        record;
+non terminal Link		   link;
 non terminal Node		   node;
 non terminal List<String>  ipList;
-
+non terminal List<NodeRef> nodeRefList;
+non terminal NodeRef	   nodeRef;
 /* Precedences */
 
 
-start with node;
+start with record;
 
 /* The grammar */
-node 			::= NODE ID:id COLON ipList:il {: RESULT = new Node(id); RESULT.setIps(il); :}; 
+record			::= node:n {: RESULT = n; :}
+				|	link:l {: RESULT = l; :};
+				
+node 			::= NODE NID:id COLON ipList:il {: RESULT = new Node(id); RESULT.setIps(il); :};
+
+link			::= LINK LID:id COLON nodeRefList:nrl {: RESULT = new Link(id); RESULT.setNodes(nrl); :}; 
+
 ipList			::= IP:il1 {: RESULT = new ArrayList(); RESULT.add(il1); :}
 				|   ipList:il IP:il1 {: RESULT = il; RESULT.add(il1); :};
+				
+nodeRefList		::= nodeRef:nr {: RESULT = new ArrayList<NodeRef>(); RESULT.add(nr); :}
+				|	nodeRefList:nrl nodeRef:nr {: RESULT = nrl; nrl.add(nr); :};
+				
+nodeRef			::= NID:id COLON IP:ip {: RESULT = new NodeRef(id,ip); :}
+				|	NID:id	{: RESULT = new NodeRef(id); :};				
+				
+				

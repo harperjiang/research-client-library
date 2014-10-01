@@ -27,14 +27,17 @@ import java_cup.runtime.*;
   }
 %}
 
-ID = [a-zA-Z][0-9]+
+NID = N[0-9]+
+LID = L[0-9]+
 IP = [0-9]{1,3}"."[0-9]{1,3}"."[0-9]{1,3}"."[0-9]{1,3}
 SPACE = [ \t]+
 %%
 /* rules */
 "node"		{ return symbol(Syms.NODE); }
+"link"		{ return symbol(Syms.LINK); }
 ":"			{ return symbol(Syms.COLON); }
-{ID}		{ return symbol(Syms.ID, yytext()); }
+{NID}		{ return symbol(Syms.NID, yytext()); }
+{LID}		{ return symbol(Syms.LID, yytext()); }
 {IP}		{ return symbol(Syms.IP, yytext()); }
 {SPACE}		{  }
 .			{ throw new IllegalArgumentException("Unrecognized:" + yytext()); }
