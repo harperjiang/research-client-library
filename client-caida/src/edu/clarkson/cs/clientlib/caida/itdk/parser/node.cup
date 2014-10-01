@@ -1,0 +1,30 @@
+package edu.clarkson.cs.clientlib.caida.itdk.parser;
+
+import java_cup.runtime.*;
+import java.util.List;
+import java.util.ArrayList;
+
+import edu.clarkson.cs.clientlib.caida.itdk.model.*;
+
+/* Preliminaries to set up and use the scanner.  */
+init with {:               :};
+scan with {: return getScanner().next_token(); :};
+
+/* Terminals (tokens returned by the scanner). */
+terminal            COLON;
+terminal 			NODE;
+terminal String     IP,ID;
+
+/* Non terminals */
+non terminal Node		   node;
+non terminal List<String>  ipList;
+
+/* Precedences */
+
+
+start with node;
+
+/* The grammar */
+node 			::= NODE ID COLON ipList:il {: RESULT = new Node(); RESULT.setIps(il); :}; 
+ipList			::= IP:il1 {: RESULT = new ArrayList(); RESULT.add(il1); :}
+				|   ipList:il IP:il1 {: RESULT = il; RESULT.add(il1); :};

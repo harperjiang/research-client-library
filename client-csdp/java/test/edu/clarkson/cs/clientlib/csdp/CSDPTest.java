@@ -7,11 +7,7 @@ public class CSDPTest {
 	}
 
 	public static void test2() {
-		try {
-			System.loadLibrary("jcsdp");
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
+		
 
 		CSDP csdp = new CSDP();
 
@@ -62,7 +58,6 @@ public class CSDPTest {
 	}
 
 	public static void test() {
-		System.loadLibrary("jcsdp");
 
 		CSDP csdp = new CSDP();
 

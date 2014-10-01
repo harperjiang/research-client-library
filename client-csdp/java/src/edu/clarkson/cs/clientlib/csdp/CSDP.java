@@ -4,6 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CSDP implements Target {
+	
+	static {
+		try {
+			System.loadLibrary("jcsdp");
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+	}
 
 	/**
 	 * Solve SDP in the following format using CSDP Library
