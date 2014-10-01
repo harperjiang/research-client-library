@@ -21,5 +21,8 @@ object LoadNode extends App {
     var node = parser.parseNode(line);
     if (null != node)
       nodeList += node;
+    if (nodeList.size % 100000 == 0)
+      println(nodeList.size)
   }
+
 }
