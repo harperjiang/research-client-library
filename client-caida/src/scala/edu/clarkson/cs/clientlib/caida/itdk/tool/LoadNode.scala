@@ -1,10 +1,8 @@
 package edu.clarkson.cs.clientlib.caida.itdk.tool
 
+import scala.collection.mutable.ListBuffer
 import scala.io.Source
 import edu.clarkson.cs.clientlib.caida.itdk.model.Node
-import scala.collection.mutable.ListBuffer
-import scala.util.matching.Regex
-import edu.clarkson.cs.clientlib.caida.itdk.parser.NodeParser
 import edu.clarkson.cs.clientlib.caida.itdk.parser.Parser
 
 object LoadNode extends App {
@@ -18,7 +16,7 @@ object LoadNode extends App {
   for (
     line <- Source.fromFile(nodeFileName).getLines.map { l => l.trim } if line.startsWith("node") if !line.startsWith("#")
   ) {
-    var node = parser.parseNode(line);
+    var node: Node = parser.parse(line);
     if (null != node)
       nodeList += node;
     if (nodeList.size % 100000 == 0)

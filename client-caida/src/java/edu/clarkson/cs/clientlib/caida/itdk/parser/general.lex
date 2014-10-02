@@ -5,7 +5,7 @@ import java_cup.runtime.*;
 
 %%
 
-%class NodeLexer
+%class Lexer
 %unicode
 %line
 %column
@@ -35,6 +35,7 @@ SPACE = [ \t]+
 /* rules */
 "node"		{ return symbol(Syms.NODE); }
 "link"		{ return symbol(Syms.LINK); }
+"nodelink"  { return symbol(Syms.NODELINK); }
 ":"			{ return symbol(Syms.COLON); }
 {NID}		{ return symbol(Syms.NID, yytext()); }
 {LID}		{ return symbol(Syms.LID, yytext()); }
