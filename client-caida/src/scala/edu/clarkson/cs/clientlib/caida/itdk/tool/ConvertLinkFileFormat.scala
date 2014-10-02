@@ -8,10 +8,10 @@ import scala.collection.JavaConversions._
 import edu.clarkson.cs.clientlib.caida.itdk.model.Link
 import edu.clarkson.cs.clientlib.caida.itdk.model.NodeLink
 import edu.clarkson.cs.clientlib.caida.itdk.parser.Parser
-import edu.clarkson.cs.clientlib.lang.sort.HeapSorter
 import java.util.Comparator
 import java.text.MessageFormat
 import scala.collection.mutable.ListBuffer
+import edu.clarkson.cs.clientlib.lang.HeapSorter
 
 /**
  * Link data is originally in the format of

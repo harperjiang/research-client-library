@@ -1,8 +1,6 @@
-package edu.clarkson.cs.clientlib.caida.itdk.tool
+package edu.clarkson.cs.clientlib.lang
 
-import scala.collection.mutable.ListBuffer
 import scala.collection.JavaConversions._
-import edu.clarkson.cs.clientlib.caida.itdk.model.NodeLink
 import scala.collection.mutable.ArrayBuffer
 
 class HeapSorter {

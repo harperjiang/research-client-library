@@ -8,6 +8,7 @@ import scala.io.Source
 import java.util.Comparator
 import scala.collection.JavaConversions._
 import edu.clarkson.cs.clientlib.caida.itdk.parser.Parser
+import edu.clarkson.cs.clientlib.lang.HeapSorter
 
 object PerformanceEval extends App {
   
