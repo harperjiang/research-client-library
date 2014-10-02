@@ -11,6 +11,7 @@ import edu.clarkson.cs.clientlib.caida.itdk.parser.Parser
 import edu.clarkson.cs.clientlib.lang.sort.HeapSorter
 import java.util.Comparator
 import java.text.MessageFormat
+import scala.collection.mutable.ListBuffer
 
 /**
  * Link data is originally in the format of
@@ -24,7 +25,7 @@ object ConvertLinkFileFormat extends App {
   val linkFileName = "/home/harper/caida_data/topo-data.caida.org/ITDK/ITDK-2014-04/kapar-midar-iff.links";
   val parser = new Parser();
   val destFileName = new File(linkFileName).getParent() + File.separator + "linknodes";
-  
+  /*
   val printer = new PrintWriter(destFileName);
   for (line <- Source.fromFile(linkFileName).getLines map (l => l.trim()) if !line.startsWith("#")) {
     var link: Link = parser.parse(line);
@@ -42,7 +43,7 @@ object ConvertLinkFileFormat extends App {
   }
 
   printer close
-
+*/
   mergeSort(destFileName)((a:String, b:String) => {
     var nl1: NodeLink = parser.parse(a)
     var nl2: NodeLink = parser.parse(b)
@@ -133,10 +134,8 @@ object ConvertLinkFileFormat extends App {
     var fileList = Source.fromFile(fileName).getLines
     var dataList: List[NodeLink] = fileList.map[NodeLink](x => parser parse[NodeLink] x) toList;
     
-    var sortedList: java.util.List[NodeLink] = new HeapSorter(false).sort(dataList, new Comparator[NodeLink] {
-      def compare(a: NodeLink, b: NodeLink): Int = {
-        a.node compare b.node
-      }
+    var sortedList: java.util.List[NodeLink] = new HeapSorter().sort(dataList, 
+        (a: NodeLink, b: NodeLink)=> {a.node compare b.node
     });
     var pw = new PrintWriter(output);
     sortedList foreach (x => 
@@ -147,4 +146,23 @@ object ConvertLinkFileFormat extends App {
 
     pw close
   }
+  
+  def heapSortJava(fileName: File, output: File): Unit = {
+    var fileList = Source.fromFile(fileName).getLines
+    var dataList: List[NodeLink] = fileList.map[NodeLink](x => parser parse[NodeLink] x) toList;
+    
+    var sortedList: java.util.List[NodeLink] = new edu.clarkson.cs.clientlib.lang.sort.HeapSorter(false).sort(dataList, 
+        new Comparator[NodeLink] {
+    	def compare(a: NodeLink, b: NodeLink)= {a.node compare b.node}
+    });
+    var pw = new PrintWriter(output);
+    sortedList foreach (x => 
+      if(x.nodeRef.ip.isEmpty) 
+        pw println("nodelink N%d:L%d".format(x.node,x.link))
+      else 
+        pw println("nodelink N%d:%s:L%d".format(x.node,x.nodeRef.ip.get,x.link)));
+
+    pw close
+  }
+
 }
