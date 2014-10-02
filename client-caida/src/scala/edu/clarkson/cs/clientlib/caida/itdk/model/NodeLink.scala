@@ -7,4 +7,7 @@ class NodeLink(nr: NodeRef, l: Int) {
   def this(nr: NodeRef, l: String) = {
     this(nr, Integer.parseInt(l.substring(1)))
   }
+
+  def node = nodeRef.node
+
 }
