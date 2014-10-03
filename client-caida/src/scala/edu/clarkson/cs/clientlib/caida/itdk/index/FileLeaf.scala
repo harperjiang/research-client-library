@@ -24,7 +24,7 @@ class FileLeaf(fn: String, r: (Int, Int)) extends IndexNode(1) {
   def this(name: String, folder: String, n: IndexNode) = {
     this(name, (n.min, n.max));
     var oop = new ObjectOutputStream(new FileOutputStream("%s%s%s".format(folder, File.separator, name)));
-    oop writeObject node
+    oop writeObject n
     oop.close
     this.node = new SoftReference[IndexNode](n);
   }
