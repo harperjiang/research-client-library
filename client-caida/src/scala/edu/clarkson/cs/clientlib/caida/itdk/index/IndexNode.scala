@@ -16,6 +16,10 @@ class IndexNode(degree: Int) extends Serializable {
   def min: Int = values(0)
   def max: Int = values.last
 
+  def find(target: Int): Long = {
+    throw new RuntimeException("Not implemented");
+  }
+
   def buildon(input: Buffer[IndexNode]): Unit = {
     nodes ++= input;
     for (n <- nodes) values += n.min

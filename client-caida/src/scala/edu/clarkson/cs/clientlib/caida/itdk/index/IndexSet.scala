@@ -25,7 +25,7 @@ class IndexSet private () {
   private var degree = 100;
   private var fileLevel = 4;
 
-  private var root: IndexNode = null;
+  private var root = None:Option[IndexNode];
   private var leafCounter = 0;
 
   def this(fld: String) = {
@@ -33,7 +33,7 @@ class IndexSet private () {
     folder = fld;
     var fd = new File(folder);
     if (!fd.exists()) fd.mkdir();
-    if (!fd.isDirectory()) throw new IllegalArgumentException();
+    if (!fd.isDirectory()) throw new IllegalArgumentException("Destination is not a directory");
   }
 
   def this(fld: String, dge: Int) = {
@@ -41,10 +41,16 @@ class IndexSet private () {
     degree = dge;
   }
 
-  def load(input: String) = {
+  def find(target: Int): Long = {
+	 var rootNode = root.getOrElse(load)
+	 rootNode find target;
+  }
+
+  private def load:IndexNode = {
     var ois = new ObjectInputStream(new FileInputStream(filename(rootFile)));
-    root = ois.readObject.asInstanceOf[IndexNode]
+    var loaded = ois.readObject.asInstanceOf[IndexNode]
     ois.close
+    loaded
   }
 
   def build(input: String) = {
@@ -75,15 +81,18 @@ class IndexSet private () {
 
     // Final cleanup and write root
     var curlevel = level;
-    var oop = new ObjectOutputStream(new FileOutputStream(filename(rootFile)));
-    merge(0, (size, lvl) => size >= 1 && lvl <= curlevel)
+   merge(0, (size, lvl) => size >= 1 && lvl <= curlevel)
     curlevel = level
     if (buffer(curlevel).size > 1) {
       merge(curlevel, (size, lvl) => lvl == curlevel);
     }
-    root = buffer(level)(0);
-    oop writeObject root
+   
+    var oop = new ObjectOutputStream(new FileOutputStream(filename(rootFile)));
+    var rootNode = buffer(level)(0);
+    oop writeObject rootNode
     oop.close
+    
+    root = Some(rootNode)
   }
 
   private def merge(i: Int, workon: (Int, Int) => Boolean): Unit = {
