@@ -20,4 +20,10 @@ class IndexNode(degree: Int) extends Serializable {
     nodes ++= input;
     for (n <- nodes) values += n.min
   }
+
+  def depth: Int = {
+    if (nodes.isEmpty)
+      return 1;
+    return nodes(0).depth + 1
+  }
 }

@@ -13,7 +13,7 @@ class FileLeaf(fn: String, r: (Int, Int)) extends IndexNode(1) {
 
   var file: String = fn;
   var range = r;
-  var node: SoftReference[IndexNode] = null;
+  @transient var node: SoftReference[IndexNode] = null;
 
   nodes = null;
   values = null;
@@ -27,6 +27,10 @@ class FileLeaf(fn: String, r: (Int, Int)) extends IndexNode(1) {
     oop writeObject n
     oop.close
     this.node = new SoftReference[IndexNode](n);
+  }
+
+  override def depth: Int = {
+    return 1;
   }
 
   protected def fetch(folder: String): Unit = {

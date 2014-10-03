@@ -112,8 +112,8 @@ class IndexSet private () {
       var currentLeaf = leafCounter;
       leafCounter += 1;
       new FileLeaf("%s_%d".format(leafFile, currentLeaf), folder, node)
-    }
-    node
+    } else
+      node
   }
 
   protected def filename(fn: String): String = "%s%s%s".format(folder, File.separator, fn);

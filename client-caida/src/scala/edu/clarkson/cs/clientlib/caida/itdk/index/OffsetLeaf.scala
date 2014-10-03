@@ -13,6 +13,8 @@ class OffsetLeaf(degree: Int) extends IndexNode(degree) {
     this.offsets += rec._2;
   }
 
+  override def depth = 1
+
   def size: Int = {
     this.values size
   }
