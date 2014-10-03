@@ -22,10 +22,10 @@ class IndexSet private () {
   private val leafFile = "leaf";
   private val buffer = new ArrayBuffer[Buffer[IndexNode]](refLevel);
 
-  private var degree = 100;
-  private var fileLevel = 4;
+  var degree = 100;
+  var fileLevel = 4;
 
-  private var root = None:Option[IndexNode];
+  private var root = None: Option[IndexNode];
   private var leafCounter = 0;
 
   def this(fld: String) = {
@@ -42,14 +42,16 @@ class IndexSet private () {
   }
 
   def find(target: Int): Long = {
-	 var rootNode = root.getOrElse(load)
-	 rootNode find target;
+    var rootNode = root.getOrElse(load)
+    rootNode find target;
   }
 
-  private def load:IndexNode = {
+  private def load: IndexNode = {
     var ois = new ObjectInputStream(new FileInputStream(filename(rootFile)));
     var loaded = ois.readObject.asInstanceOf[IndexNode]
     ois.close
+    loaded.refresh(this)
+    root = Some(loaded)
     loaded
   }
 
@@ -62,7 +64,7 @@ class IndexSet private () {
 
     var previousNode = -1;
     var oldoffset = cis.getByteCount();
-    var currentLeaf = new OffsetLeaf(degree);
+    var currentLeaf = newOffsetLeaf(degree);
 
     for (line <- Source.fromInputStream(cis).getLines) {
       var nl: NodeLink = parser.parse(line);
@@ -71,33 +73,35 @@ class IndexSet private () {
         if (currentLeaf.size == degree) {
           buffer(0) += currentLeaf;
           merge(0, (size, lvl) => size >= degree)
-          currentLeaf = new OffsetLeaf(degree);
+          currentLeaf = newOffsetLeaf(degree);
         }
         currentLeaf.append((nl.node, oldoffset));
         previousNode = nl.node;
       }
       oldoffset = cis.getByteCount();
     }
+    if (currentLeaf.size != 0)
+      buffer(0) += currentLeaf
 
     // Final cleanup and write root
     var curlevel = level;
-   merge(0, (size, lvl) => size >= 1 && lvl <= curlevel)
+    merge(0, (size, lvl) => size >= 1 && lvl <= curlevel)
     curlevel = level
     if (buffer(curlevel).size > 1) {
       merge(curlevel, (size, lvl) => lvl == curlevel);
     }
-   
+
     var oop = new ObjectOutputStream(new FileOutputStream(filename(rootFile)));
     var rootNode = buffer(level)(0);
     oop writeObject rootNode
     oop.close
-    
+
     root = Some(rootNode)
   }
 
   private def merge(i: Int, workon: (Int, Int) => Boolean): Unit = {
     if (workon(buffer(i).size, i)) {
-      var node = new IndexNode(buffer(i).size);
+      var node = newIndexNode(buffer(i).size);
       node buildon buffer(i)
       buffer(i).clear
       bufferon(i + 1) += wrap(node, i + 1)
@@ -120,10 +124,26 @@ class IndexSet private () {
     if (lvl == fileLevel) {
       var currentLeaf = leafCounter;
       leafCounter += 1;
-      new FileLeaf("%s_%d".format(leafFile, currentLeaf), folder, node)
+      newFileLeaf("%s_%d".format(leafFile, currentLeaf), node)
     } else
       node
   }
 
-  protected def filename(fn: String): String = "%s%s%s".format(folder, File.separator, fn);
+  private def newOffsetLeaf(dge: Int): OffsetLeaf = {
+    var oleaf = new OffsetLeaf(dge);
+    oleaf container = Some(this);
+    oleaf
+  }
+
+  private def newIndexNode(dge: Int): IndexNode = {
+    var inode = new IndexNode(dge);
+    inode container = Some(this);
+    inode
+  }
+
+  private def newFileLeaf(fn: String, n: IndexNode): FileLeaf = {
+    new FileLeaf(fn, n);
+  }
+
+  protected[index] def filename(fn: String): String = "%s%s%s".format(folder, File.separator, fn);
 }

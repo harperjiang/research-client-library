@@ -12,32 +12,46 @@ import java.io.File
 class FileLeaf(fn: String, r: (Int, Int)) extends IndexNode(1) {
 
   var file: String = fn;
-  var range = r;
+  datas = null;
+  vmin = r._1
+  vmax = r._2
   @transient var node: SoftReference[IndexNode] = null;
 
-  nodes = null;
-  values = null;
-
-  override def min = range._1;
-  override def max = range._2;
-
-  def this(name: String, folder: String, n: IndexNode) = {
+  def this(name: String, n: IndexNode) = {
     this(name, (n.min, n.max));
-    var oop = new ObjectOutputStream(new FileOutputStream("%s%s%s".format(folder, File.separator, name)));
+    this.container = n.container;
+    var oop = new ObjectOutputStream(new FileOutputStream(filename(name)));
     oop writeObject n
     oop.close
     this.node = new SoftReference[IndexNode](n);
   }
 
-  override def depth: Int = {
-    return 1;
+  override def find(target: Int): Long = {
+    node.get match {
+      case Some(next) => { next.find(target) }
+      case None => { fetch; refresh(container.get); find(target); }
+    }
   }
 
-  protected def fetch(folder: String): Unit = {
-    var ois = new ObjectInputStream(new FileInputStream("%s%s%s".format(folder, File.separator, file)));
+  override def refresh(ctn: IndexSet): Unit = {
+    container = Some(ctn);
+    node.get match {
+      case Some(next) => { next.parent = Some(this); next.refresh(ctn); }
+      case None => {}
+    }
+  }
+
+  override def depth: Int = 1
+  override def size: Int = 1
+
+  protected def fetch: Unit = {
+    var ois = new ObjectInputStream(new FileInputStream(filename(file)));
     var filenode: IndexNode = ois.readObject().asInstanceOf[IndexNode]
     ois.close
     node = new SoftReference[IndexNode](filenode);
   }
 
+  protected def filename(name: String): String = {
+    container.getOrElse(throw new RuntimeException("No container assigned")).filename(name)
+  }
 }

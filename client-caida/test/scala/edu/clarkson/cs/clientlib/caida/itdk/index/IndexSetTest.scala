@@ -17,7 +17,7 @@ class IndexSetTest {
 
     var head = ois.readObject().asInstanceOf[IndexNode];
     ois.close
-    assertEquals(1161799, head.max)
+    assertEquals(10210764, head.max)
     assertEquals(1, head.min)
 
     assertEquals(2, head.depth)

@@ -1,7 +1,7 @@
 package edu.clarkson.cs.clientlib.caida.itdk.index
 
-import scala.collection.mutable.Buffer
 import scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable.Buffer
 
 /**
  * Each index node has a list of values and a list of nodes.
@@ -10,24 +10,51 @@ import scala.collection.mutable.ArrayBuffer
  */
 class IndexNode(degree: Int) extends Serializable {
 
-  var values: Buffer[Int] = new ArrayBuffer[Int](degree);
-  var nodes: Buffer[IndexNode] = new ArrayBuffer[IndexNode](degree);
+  var datas: Buffer[IndexNode] = new ArrayBuffer[IndexNode](degree);
 
-  def min: Int = values(0)
-  def max: Int = values.last
+  @transient var parent = None: Option[IndexNode];
+  @transient var container = None: Option[IndexSet];
+
+  var vmin = -1;
+  var vmax = -1;
+
+  def min: Int = {
+    if (vmin == -1)
+      vmin = datas(0).min
+    vmin
+  }
+  def max: Int = {
+    if (vmax == -1) {
+      vmax = datas.last.max
+    }
+    vmax
+  }
 
   def find(target: Int): Long = {
-    throw new RuntimeException("Not implemented");
+    for (data <- datas) {
+      if (data.min <= target && data.max >= target)
+        return data find target
+    }
+    return -1;
+  }
+
+  def refresh(ctn: IndexSet): Unit = {
+    container = Some(ctn);
+    for (n <- datas) { n.parent = Some(this); n.refresh(ctn) };
   }
 
   def buildon(input: Buffer[IndexNode]): Unit = {
-    nodes ++= input;
-    for (n <- nodes) values += n.min
+    datas ++= input;
+    datas foreach (x => x.parent = Some(this))
   }
 
   def depth: Int = {
-    if (nodes.isEmpty)
+    if (datas.isEmpty)
       return 1;
-    return nodes(0).depth + 1
+    return datas(0).depth + 1
+  }
+  
+  def size: Int = {
+    this.datas size
   }
 }
