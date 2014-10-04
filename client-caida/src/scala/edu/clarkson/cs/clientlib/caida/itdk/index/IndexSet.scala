@@ -55,7 +55,7 @@ class IndexSet private () {
     loaded
   }
 
-  def build(input: String, parser: String => Int) = {
+  def build(input: String, filter: String => Boolean, parser: String => Int) = {
     // Initialize buffer structure
     buffer += new ArrayBuffer[IndexNode](degree);
 
@@ -65,8 +65,7 @@ class IndexSet private () {
     var oldoffset = cis.getByteCount();
     var currentLeaf = newOffsetLeaf(degree);
 
-    for (line <- Source.fromInputStream(cis).getLines) {
-      var currentRecord = parser(line);
+    for (currentRecord <- Source.fromInputStream(cis).getLines.filter(filter).map(parser)) {
       if (currentRecord != previousRecord) {
         // Check current leaf and append
         if (currentLeaf.size == degree) {

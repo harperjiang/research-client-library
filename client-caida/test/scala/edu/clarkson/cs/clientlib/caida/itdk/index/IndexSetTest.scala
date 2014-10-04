@@ -14,6 +14,7 @@ class IndexSetTest {
     var indexSet = new IndexSet("testdata/index", 10);
     var parser = new Parser();
     indexSet build ("testdata/kapar-midar-iff.linknodes",
+      line => { !line.startsWith("#") },
       input => { var nl = parser.parse(input).asInstanceOf[NodeLink]; nl.node })
 
     var ois = new ObjectInputStream(new FileInputStream("testdata/index/root"));
