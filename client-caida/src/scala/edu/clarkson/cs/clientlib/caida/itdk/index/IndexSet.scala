@@ -55,28 +55,27 @@ class IndexSet private () {
     loaded
   }
 
-  def build(input: String) = {
+  def build(input: String, parser: String => Int) = {
     // Initialize buffer structure
     buffer += new ArrayBuffer[IndexNode](degree);
 
     val cis = new CountingInputStream(new FileInputStream(input));
-    val parser = new Parser();
 
-    var previousNode = -1;
+    var previousRecord = -1;
     var oldoffset = cis.getByteCount();
     var currentLeaf = newOffsetLeaf(degree);
 
     for (line <- Source.fromInputStream(cis).getLines) {
-      var nl: NodeLink = parser.parse(line);
-      if (nl.node != previousNode) {
+      var currentRecord = parser(line);
+      if (currentRecord != previousRecord) {
         // Check current leaf and append
         if (currentLeaf.size == degree) {
           buffer(0) += currentLeaf;
           merge(0, (size, lvl) => size >= degree)
           currentLeaf = newOffsetLeaf(degree);
         }
-        currentLeaf.append((nl.node, oldoffset));
-        previousNode = nl.node;
+        currentLeaf.append((currentRecord, oldoffset));
+        previousRecord = currentRecord;
       }
       oldoffset = cis.getByteCount();
     }

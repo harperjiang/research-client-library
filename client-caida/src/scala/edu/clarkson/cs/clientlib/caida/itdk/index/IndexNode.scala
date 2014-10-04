@@ -31,11 +31,14 @@ class IndexNode(degree: Int) extends Serializable {
   }
 
   def find(target: Int): Long = {
-    for (data <- datas) {
-      if (data.min <= target && data.max >= target)
-        return data find target
-    }
-    return -1;
+    var index = IndexUtils.bsearch[IndexNode](datas, target, (data, target) => {
+      if (data.min > target) -1;
+      if (data.max < target) 1;
+      0;
+    });
+    if (index == -1)
+      return -1;
+    return datas(index).find(target);
   }
 
   def refresh(ctn: IndexSet): Unit = {
@@ -53,7 +56,7 @@ class IndexNode(degree: Int) extends Serializable {
       return 1;
     return datas(0).depth + 1
   }
-  
+
   def size: Int = {
     this.datas size
   }

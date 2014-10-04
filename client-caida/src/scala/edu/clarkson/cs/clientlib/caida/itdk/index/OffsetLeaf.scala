@@ -17,10 +17,7 @@ class OffsetLeaf(degree: Int) extends IndexNode(degree) {
   override def depth = 1
 
   override def find(target: Int): Long = {
-    for (i <- offsets)
-      if (i._1 == target)
-        return i._2;
-    return -1;
+    IndexUtils.bsearch[(Int, Long)](offsets, target, (elem, target) => elem._1 - target);
   }
 
   override def refresh(ctn: IndexSet): Unit = {

@@ -2,16 +2,19 @@ package edu.clarkson.cs.clientlib.caida.itdk.index;
 
 import java.io.FileInputStream
 import java.io.ObjectInputStream
-
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import edu.clarkson.cs.clientlib.caida.itdk.parser.Parser
+import edu.clarkson.cs.clientlib.caida.itdk.model.NodeLink
 
 class IndexSetTest {
 
   @Test
   def testBuild = {
     var indexSet = new IndexSet("testdata/index", 10);
-    indexSet build ("testdata/kapar-midar-iff.linknodes")
+    var parser = new Parser();
+    indexSet build ("testdata/kapar-midar-iff.linknodes",
+      input => { var nl = parser.parse(input).asInstanceOf[NodeLink]; nl.node })
 
     var ois = new ObjectInputStream(new FileInputStream("testdata/index/root"));
 
