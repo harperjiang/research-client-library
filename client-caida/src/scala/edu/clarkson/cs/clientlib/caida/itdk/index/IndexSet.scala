@@ -23,7 +23,7 @@ class IndexSet private () {
   private val buffer = new ArrayBuffer[Buffer[IndexNode]](refLevel);
 
   var degree = 100;
-  var fileLevel = 4;
+  var fileLevel = 3;
 
   private var root = None: Option[IndexNode];
   private var leafCounter = 0;
