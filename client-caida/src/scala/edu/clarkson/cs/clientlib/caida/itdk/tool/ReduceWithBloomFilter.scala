@@ -10,5 +10,6 @@ object ReduceWithBloomFilter extends App {
 
   var bloomFilter =
     BloomFilter.create[Integer](Funnels.integerFunnel(), 54000000, 0.001);
+
   
 }
