@@ -7,7 +7,7 @@ import edu.clarkson.cs.clientlib.caida.itdk.model.NodeLink
 import edu.clarkson.cs.clientlib.caida.itdk.model.Node
 
 object BuildIndex extends App {
-  var degree = 100
+  var degree = 50
   var fileLevel = 3
   if (args.length >= 2) {
     degree = args(0).toInt
