@@ -23,31 +23,37 @@ object OrderByNodeDegree extends App {
       if (line == Task.EOF) {
         return build;
       }
-      var id = Utils.fetchKey(line);
+      var data = extract(line);
+      var id = data._1;
       if (id != lastId) {
         var result: Iterator[String] = null;
         if (lastId != "") {
           result = build;
-          process(line);
+          process(data._2, data._3);
         }
         lastId = id;
         if (null == result)
           return Iterator.empty;
         return result;
       } else {
-        process(line);
+        process(data._2, data._3);
         return Iterator.empty;
       }
     }
 
-    def process(line: String): Unit = {
-      var parts = line.splitAt(line.indexOf(" "));
-      parts._1 match {
+    private def extract(line: String): (String, String, String) = {
+      var split1 = line.splitAt(line.indexOf(" "));
+      var split2 = split1._2.splitAt(split1._2.indexOf(" "));
+      (split1._1, split2._1, split2._2)
+    }
+
+    def process(tp: String, content: String): Unit = {
+      tp match {
         case "degree" => {
-          degreeBuffer += parts._2.toInt;
+          degreeBuffer += content.toInt;
         }
         case "data" => {
-          nodelinkBuffer += parser.parse[NodeLink](parts._2);
+          nodelinkBuffer += parser.parse[NodeLink](content);
         }
       }
     }
