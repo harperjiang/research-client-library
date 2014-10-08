@@ -7,13 +7,13 @@ import scala.io.Source
 
 object Task {
 
+  val EOF = "CAFEBABE";
+  
   def execute(files: List[String], result: String,
     map: (String, String) => (String, String),
-    reduce: Iterator[String] => Iterator[String],
+    reduce: String => Iterator[String],
     sort: (String, String) => Int = (line1, line2) => {
-      var key1 = line1.splitAt(line1.indexOf(" "))._1
-      var key2 = line2.splitAt(line2.indexOf(" "))._1
-      key1 compare key2
+      Utils.fetchKey(line1) compare Utils.fetchKey(line2)
     }) = {
 
     var mapname = "/tmp/%l.map".format(System currentTimeMillis)
@@ -34,8 +34,11 @@ object Task {
 
     // Reduce
     var finalout = new PrintWriter(new FileOutputStream(result));
-    reduce(Source.fromFile(sortname).getLines.map(line => line.splitAt(line.indexOf(" "))._2))
-      .foreach(finalout.println(_));
+    Source.fromFile(sortname).getLines.map(line => line.splitAt(line.indexOf(" "))._2)
+      .map(reduce)
+      .foreach(part => part foreach (finalout.println(_)));
+    // This works as an eof
+    reduce(EOF).foreach(part => part foreach (finalout.println _));
     finalout.close();
   }
 }

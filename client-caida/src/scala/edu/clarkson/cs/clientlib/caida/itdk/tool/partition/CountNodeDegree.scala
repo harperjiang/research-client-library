@@ -28,6 +28,7 @@ object CountNodeDegree extends App {
       counter += 1
     }
   }
+  pw.println("N%d\t%d".format(oldnode,counter))
 
   pw.close
 
