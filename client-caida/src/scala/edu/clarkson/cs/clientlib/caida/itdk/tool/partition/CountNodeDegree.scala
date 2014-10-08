@@ -1,10 +1,11 @@
-package edu.clarkson.cs.clientlib.caida.itdk.tool
+package edu.clarkson.cs.clientlib.caida.itdk.tool.partition
 
 import scala.io.Source
 import java.io.FileOutputStream
 import java.io.PrintWriter
 import edu.clarkson.cs.clientlib.caida.itdk.parser.Parser
 import edu.clarkson.cs.clientlib.caida.itdk.model.NodeLink
+import edu.clarkson.cs.clientlib.caida.itdk.tool.Config
 
 object CountNodeDegree extends App {
 

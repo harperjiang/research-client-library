@@ -28,7 +28,7 @@ object Sorting {
     var count = 0;
     for (i <- 0 to split - 1) {
       smallFiles(i) = new File(fileName + ".p" + i);
-      smallSorted(i) = new File(fileName + ".s0_" + i);
+      smallSorted(i) = new File(fileName + ".ps0_" + i);
       // Fill in the file
       var pw = new PrintWriter(smallFiles(i));
 
@@ -44,13 +44,12 @@ object Sorting {
     }
     for (round <- 0 to level - 1)
       for (fi <- 0 to Math.pow(2, level - round).intValue - 1 by 2)
-        mergeSort(fileName + ".s" + round + "_" + fi,
-          fileName + ".s" + round + "_" + (fi + 1),
-          fileName + ".s" + (round + 1) + "_" + (fi / 2), comparator);
+        mergeSort(fileName + ".ps" + round + "_" + fi,
+          fileName + ".ps" + round + "_" + (fi + 1),
+          fileName + ".ps" + (round + 1) + "_" + (fi / 2), comparator);
     // Rename the merged file
-    "mv %s.s%d_%d %s".format(fileName, level, 0, output) !;
+    "mv %s.ps%d_%d %s".format(fileName, level, 0, output) !;
     // Delete intermediate files
-    "rm %s.s*".format(fileName) !;
     "rm %s.p*".format(fileName) !;
   }
 

@@ -1,10 +1,13 @@
-package edu.clarkson.cs.clientlib.caida.itdk.tool
+package edu.clarkson.cs.clientlib.caida.itdk.tool.partition
 
 import java.io.FileOutputStream
 import java.io.PrintWriter
-import edu.clarkson.cs.clientlib.caida.itdk.parser.Parser
+
 import scala.io.Source
+
 import edu.clarkson.cs.clientlib.caida.itdk.model.Link
+import edu.clarkson.cs.clientlib.caida.itdk.parser.Parser
+import edu.clarkson.cs.clientlib.caida.itdk.tool.Config
 
 object CountLinkDegree extends App {
 

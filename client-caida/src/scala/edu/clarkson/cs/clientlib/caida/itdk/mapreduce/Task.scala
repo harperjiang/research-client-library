@@ -9,7 +9,12 @@ object Task {
 
   def execute(files: List[String], result: String,
     map: (String, String) => (String, String),
-    reduce: String => String) = {
+    reduce: Iterator[String] => Iterator[String],
+    sort: (String, String) => Int = (line1, line2) => {
+      var key1 = line1.splitAt(line1.indexOf(" "))._1
+      var key2 = line2.splitAt(line2.indexOf(" "))._1
+      key1 compare key2
+    }) = {
 
     var mapname = "/tmp/%l.map".format(System currentTimeMillis)
     var sortname = "/tmp/%l.sort".format(System currentTimeMillis)
@@ -25,16 +30,12 @@ object Task {
     output.close
 
     // Sort
-    Sorting.sort(mapname, sortname)((line1, line2) => {
-      var key1 = line1.splitAt(line1.indexOf(" "))._1
-      var key2 = line2.splitAt(line2.indexOf(" "))._1
-      key1 compare key2
-    })
-    
+    Sorting.sort(mapname, sortname)(sort)
+
     // Reduce
     var finalout = new PrintWriter(new FileOutputStream(result));
-    Source.fromFile(sortname).getLines.map(line => line.splitAt(line.indexOf(" "))._2)
-      .map(reduce).foreach(finalout.println(_));
+    reduce(Source.fromFile(sortname).getLines.map(line => line.splitAt(line.indexOf(" "))._2))
+      .foreach(finalout.println(_));
     finalout.close();
   }
 }
