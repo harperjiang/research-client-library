@@ -6,6 +6,7 @@ import edu.clarkson.cs.clientlib.caida.itdk.parser.Parser
 import edu.clarkson.cs.clientlib.caida.itdk.model.NodeLink
 import scala.collection.mutable.ArrayBuffer
 import edu.clarkson.cs.clientlib.caida.itdk.mapreduce.Utils
+import java.io.File
 
 object OrderByNodeDegree extends App {
 
@@ -22,11 +23,16 @@ object OrderByNodeDegree extends App {
       if (line == Task.EOF) {
         return build;
       }
-      var id = Utils.fetchKey(line).substring(1);
+      var id = Utils.fetchKey(line);
       if (id != lastId) {
+        var result: Iterator[String] = null;
+        if (lastId != "") {
+          result = build;
+          process(line);
+        }
         lastId = id;
-        var result = build;
-        process(line);
+        if (null == result)
+          return Iterator.empty;
         return result;
       } else {
         process(line);
@@ -64,7 +70,7 @@ object OrderByNodeDegree extends App {
   Task.execute(List(Config.file("nodelinks.degree"), Config.file("kapar-midar-iff.nodelinks")),
     Config.file("nodelink.sorted"),
     (file, line) => {
-      file match {
+      new File(file).getName() match {
         case "nodelinks.degree" => {
           var parts = line.split("\\s")
           (parts(0).substring(1), "%s %s".format("degree", line))
@@ -76,5 +82,7 @@ object OrderByNodeDegree extends App {
       }
     },
     reduce,
-    (key1, key2) => key1.toInt compare key2.toInt)
+    (line1, line2) => {
+      line1.splitAt(line1.indexOf(" "))._1 compare line2.splitAt(line2.indexOf(" "))._1
+    })
 }

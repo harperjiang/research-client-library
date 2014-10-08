@@ -11,9 +11,9 @@ object CountNodeDegree extends App {
 
   var parser = new Parser();
 
-  var nls = Source.fromFile(Config.dir + "kapar-midar-iff.linknodes").getLines().map(x => parser.parse[NodeLink](x))
+  var nls = Source.fromFile(Config.file("kapar-midar-iff.nodelinks")).getLines().map(x => parser.parse[NodeLink](x))
 
-  var pw = new PrintWriter(new FileOutputStream(Config.dir + "linknodes.degree"))
+  var pw = new PrintWriter(new FileOutputStream(Config.file("nodelinks.degree")))
 
   var oldnode = -1;
   var counter = 0;
@@ -28,7 +28,7 @@ object CountNodeDegree extends App {
       counter += 1
     }
   }
-  pw.println("N%d\t%d".format(oldnode,counter))
+  pw.println("N%d\t%d".format(oldnode, counter))
 
   pw.close
 

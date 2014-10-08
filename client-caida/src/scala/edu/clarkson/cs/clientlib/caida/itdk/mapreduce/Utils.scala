@@ -5,4 +5,8 @@ object Utils {
   def fetchKey(line: String): String = {
 	line.splitAt(line.indexOf(" "))._1
   }
+  
+  def fetchType(line: String): String= {
+    line.splitAt(line.indexOf(str, fromIndex))
+  }
 }
