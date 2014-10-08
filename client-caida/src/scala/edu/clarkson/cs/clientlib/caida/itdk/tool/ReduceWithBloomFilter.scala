@@ -9,7 +9,7 @@ object ReduceWithBloomFilter extends App {
   // We determine this by a bloom filter
 
   var bloomFilter =
-    BloomFilter.create[Integer](Funnels.integerFunnel(), 54000000, 0.001);
+    BloomFilter.create[Integer](Funnels.integerFunnel(), 57000000, 0.001);
 
   
 }
