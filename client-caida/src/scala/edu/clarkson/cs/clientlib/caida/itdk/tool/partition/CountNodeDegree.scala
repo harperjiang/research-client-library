@@ -13,7 +13,7 @@ object CountNodeDegree extends App {
 
   var nls = Source.fromFile(Config.file("kapar-midar-iff.nodelinks")).getLines().map(x => parser.parse[NodeLink](x))
 
-  var pw = new PrintWriter(new FileOutputStream(Config.file("nodelinks.degree")))
+  var pw = new PrintWriter(Config.file("nodelinks.degree"))
 
   var oldnode = -1;
   var counter = 0;

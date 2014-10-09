@@ -75,6 +75,8 @@ object OrderByNodeDegree extends App {
     }
   };
 
+  println(System.currentTimeMillis)
+  
   Task.execute(List(Config.file("nodelinks.degree"), Config.file("kapar-midar-iff.nodelinks")),
     Config.file("nodelink.joined"),
     (file, line) => {
@@ -98,4 +100,5 @@ object OrderByNodeDegree extends App {
     -(line1.split("\\s")(2) compare line2.split("\\s")(2))
   });
 
+  println(System.currentTimeMillis)
 }

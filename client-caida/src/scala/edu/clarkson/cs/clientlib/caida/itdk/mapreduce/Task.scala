@@ -33,11 +33,11 @@ object Task {
     Sorting.sort(mapname, sortname)(sort)
 
     // Reduce
-    var finalout = new PrintWriter(new FileOutputStream(result));
+    var finalout = new PrintWriter(result);
     Source.fromFile(sortname).getLines.map(reduce)
       .foreach(part => part foreach (finalout.println(_)));
     // This works as an eof
-    reduce(EOF).foreach(part => part foreach (finalout.println _));
+    reduce(EOF).foreach(finalout.println _);
     finalout.close();
   }
 }
