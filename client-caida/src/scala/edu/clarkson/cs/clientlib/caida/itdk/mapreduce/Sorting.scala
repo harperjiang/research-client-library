@@ -19,16 +19,16 @@ object Sorting {
     val level = 5
     val split = Math.pow(2, level).toInt;
     val fileLine = Integer.parseInt(line trim) / split;
-    val smallFiles = new Array[File](split);
-    val smallSorted = new Array[File](split);
+    val smallFiles = new Array[String](split);
+    val smallSorted = new Array[String](split);
 
     var lines =
       for (line <- Source.fromFile(f).getLines) yield line;
 
     var count = 0;
     for (i <- 0 to split - 1) {
-      smallFiles(i) = new File(fileName + ".p" + i);
-      smallSorted(i) = new File(fileName + ".ps0_" + i);
+      smallFiles(i) = "%s.p%d".format(fileName, i);
+      smallSorted(i) = "%s.ps0_%d".format(fileName, i);
       // Fill in the file
       var pw = new PrintWriter(smallFiles(i));
 
@@ -44,13 +44,14 @@ object Sorting {
     }
     for (round <- 0 to level - 1)
       for (fi <- 0 to Math.pow(2, level - round).intValue - 1 by 2)
-        mergeSort(fileName + ".ps" + round + "_" + fi,
-          fileName + ".ps" + round + "_" + (fi + 1),
-          fileName + ".ps" + (round + 1) + "_" + (fi / 2), comparator);
+        mergeSort("%s.ps%d_%d".format(fileName, round, fi),
+          "%s.ps%d_%d".format(fileName, round, fi + 1),
+          "%s.ps%d_%d".format(fileName, round + 1, fi / 2), comparator);
     // Rename the merged file
     "mv %s.ps%d_%d %s".format(fileName, level, 0, output) !;
     // Delete intermediate files
-    "rm %s.p*".format(fileName) !;
+    smallFiles foreach ("rm %s".format(_) !)
+    // "rm %s.p*".format(fileName) !;
   }
 
   private def mergeSort(fileA: String, fileB: String, output: String, comparator: (String, String) => Int) {
@@ -88,11 +89,12 @@ object Sorting {
     } else {
       bline foreach (pw println _);
     }
-
+    "rm %s".format(fileA) !;
+    "rm %s".format(fileB) !;
     pw.close
   }
 
-  private def heapSort(fileName: File, output: File, comparator: (String, String) => Int): Unit = {
+  private def heapSort(fileName: String, output: String, comparator: (String, String) => Int): Unit = {
     var dataList = Source.fromFile(fileName).getLines.toList
 
     var sortedList = new HeapSorter().sort(dataList, comparator);

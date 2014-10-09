@@ -7,6 +7,7 @@ import edu.clarkson.cs.clientlib.caida.itdk.model.NodeLink
 import scala.collection.mutable.ArrayBuffer
 import edu.clarkson.cs.clientlib.caida.itdk.mapreduce.Utils
 import java.io.File
+import edu.clarkson.cs.clientlib.caida.itdk.mapreduce.Sorting
 
 object OrderByNodeDegree extends App {
 
@@ -43,14 +44,15 @@ object OrderByNodeDegree extends App {
 
     private def extract(line: String): (String, String, String) = {
       var split1 = line.splitAt(line.indexOf(" "));
-      var split2 = split1._2.splitAt(split1._2.indexOf(" "));
-      (split1._1, split2._1, split2._2)
+      var part2 = split1._2.trim;
+      var split2 = part2.splitAt(part2.indexOf(" "));
+      (split1._1, split2._1, split2._2.trim)
     }
 
     def process(tp: String, content: String): Unit = {
       tp match {
         case "degree" => {
-          degreeBuffer += content.toInt;
+          degreeBuffer += content.split("\\s")(1).toInt
         }
         case "data" => {
           nodelinkBuffer += parser.parse[NodeLink](content);
@@ -74,7 +76,7 @@ object OrderByNodeDegree extends App {
   };
 
   Task.execute(List(Config.file("nodelinks.degree"), Config.file("kapar-midar-iff.nodelinks")),
-    Config.file("nodelink.sorted"),
+    Config.file("nodelink.joined"),
     (file, line) => {
       new File(file).getName() match {
         case "nodelinks.degree" => {
@@ -90,5 +92,10 @@ object OrderByNodeDegree extends App {
     reduce,
     (line1, line2) => {
       line1.splitAt(line1.indexOf(" "))._1 compare line2.splitAt(line2.indexOf(" "))._1
-    })
+    });
+
+  Sorting.sort(Config.file("nodelink.joined"), Config.file("nodelink.sorted"))((line1, line2) => {
+    -(line1.split("\\s")(2) compare line2.split("\\s")(2))
+  });
+
 }
