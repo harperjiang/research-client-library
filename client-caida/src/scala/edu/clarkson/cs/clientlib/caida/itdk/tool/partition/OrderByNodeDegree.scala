@@ -97,7 +97,7 @@ object OrderByNodeDegree extends App {
     });
 
   Sorting.sort(Config.file("nodelink.joined"), Config.file("nodelink.sorted"))((line1, line2) => {
-    -(line1.split("\\s")(2) compare line2.split("\\s")(2))
+    -(line1.split("\\s")(2).toInt compare line2.split("\\s")(2).toInt)
   });
 
   println(System.currentTimeMillis)
