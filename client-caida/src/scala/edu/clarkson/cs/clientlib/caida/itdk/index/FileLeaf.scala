@@ -35,6 +35,9 @@ class FileLeaf(fn: String, r: (Int, Int)) extends IndexNode(1) {
 
   override def refresh(ctn: IndexSet): Unit = {
     container = Some(ctn);
+    if (node == null) {
+      return ;
+    }
     node.get match {
       case Some(next) => { next.parent = Some(this); next.refresh(ctn); }
       case None => {}
@@ -44,11 +47,12 @@ class FileLeaf(fn: String, r: (Int, Int)) extends IndexNode(1) {
   override def depth: Int = 1
   override def size: Int = 1
 
-  protected def fetch: Unit = {
+  protected def fetch = {
     var ois = new ObjectInputStream(new FileInputStream(filename(file)));
     var filenode: IndexNode = ois.readObject().asInstanceOf[IndexNode]
     ois.close
     node = new SoftReference[IndexNode](filenode);
+    node
   }
 
   protected def filename(name: String): String = {

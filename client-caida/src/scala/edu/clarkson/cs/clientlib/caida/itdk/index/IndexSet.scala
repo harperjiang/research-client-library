@@ -41,6 +41,8 @@ class IndexSet private () {
     degree = dge;
   }
 
+  def range = (root.getOrElse(load).min, root.getOrElse(load).max)
+
   def find(target: Int): Long = {
     var rootNode = root.getOrElse(load)
     rootNode find target;
