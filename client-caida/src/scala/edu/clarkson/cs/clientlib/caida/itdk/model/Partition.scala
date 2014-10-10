@@ -10,17 +10,18 @@ class Partition {
   /**
    * Mapping from IP address to node
    */
-  val nodes = scala.collection.mutable.Map[String,Node]();
+  val nodes = scala.collection.mutable.Map[String, Node]();
   /**
-   * Routing table 
+   * Routing table
    */
-  var routing : Routing = new DefaultRouting;
-  
-  
-  
-  
-  
+  var routing: Routing = new DefaultRouting;
+
   def init = {
-    
+    throw new RuntimeException("Not implemented")
   }
+
+  def find(fromIp: String, toIp: String, step: Int) {
+	 
+  }
+
 }

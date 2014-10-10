@@ -9,7 +9,7 @@ import scala.collection.mutable.Buffer
  */
 class Node {
 
-  val defaultIp = "-"
+  val defaultIp = "";
 
   var id = 0;
   var asNum = 0;
@@ -33,4 +33,6 @@ class Node {
     this(Integer.parseInt(sid.substring(1)));
     ips = ipList.toSet
   }
+  
+  
 }

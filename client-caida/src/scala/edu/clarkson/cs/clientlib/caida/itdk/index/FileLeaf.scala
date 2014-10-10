@@ -9,13 +9,14 @@ import java.io.FileOutputStream
 import java.io.ObjectOutputStream
 import java.io.File
 
+@SerialVersionUID(1L)
 class FileLeaf(fn: String, r: (Int, Int)) extends IndexNode(1) {
 
   var file: String = fn;
   datas = null;
   vmin = r._1
   vmax = r._2
-  @transient var node: SoftReference[IndexNode] = null;
+  @transient var node: SoftReference[IndexNode] = new SoftReference(null);
 
   def this(name: String, n: IndexNode) = {
     this(name, (n.min, n.max));

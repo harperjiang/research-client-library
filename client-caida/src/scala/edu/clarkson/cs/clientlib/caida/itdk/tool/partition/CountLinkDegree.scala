@@ -18,7 +18,7 @@ object CountLinkDegree extends App {
   var pw = new PrintWriter(new FileOutputStream(Config.file("links.degree")))
 
   for (nl <- nls) {
-    pw.println("L%d\t%d".format(nl.id, nl.nodes.length))
+    pw.println("L%d\t%d".format(nl.id, nl.nodes.size))
   }
 
   pw.close

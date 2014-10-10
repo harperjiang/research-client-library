@@ -38,8 +38,8 @@ node 			::= NODE NID:id COLON ipList:il {: RESULT = new Node(id, il); :};
 
 link			::= LINK LID:id COLON nodeRefList:nrl {: RESULT = new Link(id, nrl); :}; 
 
-nodelink		::= NODELINK NID:nid COLON LID:lid {: RESULT = new NodeLink(new Tuple2<String,String>(nid, ""), lid); :}
-				|	NODELINK NID:nid COLON IP:ip COLON LID:lid {: RESULT = new NodeLink(new Tuple2<String,String>(nid,ip), lid); :};
+nodelink		::= NODELINK NID:nid COLON LID:lid {: RESULT = new NodeLink(nid, "", lid); :}
+				|	NODELINK NID:nid COLON IP:ip COLON LID:lid {: RESULT = new NodeLink(nid, ip, lid); :};
 
 ipList			::= IP:il1 {: RESULT = new ArrayList<String>(); RESULT.add(il1); :}
 				|   ipList:il IP:il1 {: RESULT = il; RESULT.add(il1); :};

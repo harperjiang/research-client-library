@@ -8,6 +8,7 @@ import scala.collection.mutable.Buffer
  *
  * If a value is between v_i(inclusive) and v_{i+1}(exclusive), then its node can be found in node_i
  */
+@SerialVersionUID(1L)
 class IndexNode(degree: Int) extends Serializable {
 
   var datas: Buffer[IndexNode] = new ArrayBuffer[IndexNode](degree);

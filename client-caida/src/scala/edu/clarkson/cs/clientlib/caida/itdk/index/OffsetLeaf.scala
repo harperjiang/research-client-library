@@ -3,6 +3,7 @@ package edu.clarkson.cs.clientlib.caida.itdk.index
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.mutable.Buffer
 
+@SerialVersionUID(1L)
 class OffsetLeaf(degree: Int) extends IndexNode(degree) {
 
   datas = null;
