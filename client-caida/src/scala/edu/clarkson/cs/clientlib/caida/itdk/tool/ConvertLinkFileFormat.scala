@@ -53,7 +53,7 @@ object ConvertLinkFileFormat extends App {
     if(nl2 == null) {
       println(b)
     }
-    nl1.nodeRef.node compare nl2.nodeRef.node
+    nl1.node compare nl2.node
   })
 
   def mergeSort(fileName: String)(comparator: (String, String) => Int): Unit = {
@@ -139,10 +139,10 @@ object ConvertLinkFileFormat extends App {
     });
     var pw = new PrintWriter(output);
     sortedList foreach (x => 
-      if(x.nodeRef.ip.isEmpty) 
+      if(x.ip.isEmpty) 
         pw println("nodelink N%d:L%d".format(x.node,x.link))
       else 
-        pw println("nodelink N%d:%s:L%d".format(x.node,x.nodeRef.ip.get,x.link)));
+        pw println("nodelink N%d:%s:L%d".format(x.node,x.ip,x.link)));
 
     pw close
   }
@@ -157,10 +157,10 @@ object ConvertLinkFileFormat extends App {
     });
     var pw = new PrintWriter(output);
     sortedList foreach (x => 
-      if(x.nodeRef.ip.isEmpty) 
+      if(x.ip.isEmpty) 
         pw println("nodelink N%d:L%d".format(x.node,x.link))
       else 
-        pw println("nodelink N%d:%s:L%d".format(x.node,x.nodeRef.ip.get,x.link)));
+        pw println("nodelink N%d:%s:L%d".format(x.node,x.ip,x.link)));
 
     pw close
   }

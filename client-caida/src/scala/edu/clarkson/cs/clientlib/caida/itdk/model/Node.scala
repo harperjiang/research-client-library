@@ -1,13 +1,16 @@
 package edu.clarkson.cs.clientlib.caida.itdk.model
 
-import java.util.ArrayList
 import scala.collection.JavaConversions._
-import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
+import scala.math.BigDecimal.int2bigDecimal
+import scala.collection.mutable.Buffer
 /**
  * A node represents a router
  */
 class Node {
+
+  val defaultIp = "-"
+
   var id = 0;
   var asNum = 0;
   var asMethod = 0;
@@ -17,19 +20,17 @@ class Node {
   var city = "";
   var latitude: BigDecimal = 0;
   var longitude: BigDecimal = 0;
-  var ips = scala.collection.mutable.Set[String]();
-  var links: Seq[(Link,String)] = new ArrayBuffer[(Link,String)]();
+
+  var ips = Set[String]();
+  val links = scala.collection.mutable.Map[String, List[String]]();
 
   def this(nid: Int) = {
     this();
     id = nid;
   }
 
-  def this(sid: String) = {
+  def this(sid: String, ipList: java.util.List[String]) = {
     this(Integer.parseInt(sid.substring(1)));
-  }
-
-  def setIps(newips: java.util.List[String]): Unit = {
-    ips.addAll(newips)
+    ips = ipList.toSet
   }
 }

@@ -30,10 +30,10 @@ object PerformanceEval extends App {
     });
     var pw = new PrintWriter(output);
     sortedList foreach (x => 
-      if(x.nodeRef.ip.isEmpty) 
+      if(x.ip.isEmpty) 
         pw println("nodelink N%d:L%d".format(x.node,x.link))
       else 
-        pw println("nodelink N%d:%s:L%d".format(x.node,x.nodeRef.ip.get,x.link)));
+        pw println("nodelink N%d:%s:L%d".format(x.node,x.ip,x.link)));
 
     pw close
   }
@@ -48,10 +48,10 @@ object PerformanceEval extends App {
     });
     var pw = new PrintWriter(output);
     sortedList foreach (x => 
-      if(x.nodeRef.ip.isEmpty) 
+      if(x.ip.isEmpty) 
         pw println("nodelink N%d:L%d".format(x.node,x.link))
       else 
-        pw println("nodelink N%d:%s:L%d".format(x.node,x.nodeRef.ip.get,x.link)));
+        pw println("nodelink N%d:%s:L%d".format(x.node,x.ip,x.link)));
 
     pw close
   }
