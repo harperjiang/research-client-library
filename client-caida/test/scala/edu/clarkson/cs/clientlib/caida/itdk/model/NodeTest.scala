@@ -5,6 +5,6 @@ import org.scalatest.FunSuite
 class NodeTest extends FunSuite {
   test("Test Assign Node Values") {
     var node = new Node();
-    node.ips = List("123");
+    node.ips = scala.collection.mutable.Set[String]("123");
   }
 }

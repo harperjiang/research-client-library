@@ -3,6 +3,7 @@ package edu.clarkson.cs.clientlib.caida.itdk.model
 import java.util.ArrayList
 import scala.collection.JavaConversions._
 import scala.collection.JavaConverters._
+import scala.collection.mutable.ArrayBuffer
 /**
  * A node represents a router
  */
@@ -16,8 +17,8 @@ class Node {
   var city = "";
   var latitude: BigDecimal = 0;
   var longitude: BigDecimal = 0;
-  var ips: List[String] = List();
-  var links: List[Link] = List();
+  var ips = scala.collection.mutable.Set[String]();
+  var links: Seq[(Link,String)] = new ArrayBuffer[(Link,String)]();
 
   def this(nid: Int) = {
     this();
@@ -29,6 +30,6 @@ class Node {
   }
 
   def setIps(newips: java.util.List[String]): Unit = {
-    ips = newips.toList
+    ips.addAll(newips)
   }
 }
