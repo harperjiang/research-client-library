@@ -11,6 +11,7 @@ import org.apache.commons.io.input.CountingInputStream
 import edu.clarkson.cs.clientlib.caida.itdk.model.NodeLink
 import edu.clarkson.cs.clientlib.caida.itdk.parser.Parser
 import java.io.ObjectInputStream
+import edu.clarkson.cs.clientlib.io.LineCountingInputStream
 
 class IndexSet private () {
 
@@ -61,10 +62,9 @@ class IndexSet private () {
     // Initialize buffer structure
     buffer += new ArrayBuffer[IndexNode](degree);
 
-    val cis = new CountingInputStream(new FileInputStream(input));
+    val cis = new LineCountingInputStream(new FileInputStream(input));
 
     var previousRecord = -1;
-    var oldoffset = cis.getByteCount();
     var currentLeaf = newOffsetLeaf(degree);
 
     for (currentRecord <- Source.fromInputStream(cis).getLines.filter(filter).map(parser)) {
@@ -75,10 +75,9 @@ class IndexSet private () {
           merge(0, (size, lvl) => size >= degree)
           currentLeaf = newOffsetLeaf(degree);
         }
-        currentLeaf.append((currentRecord, oldoffset));
+        currentLeaf.append((currentRecord, cis.linestart));
         previousRecord = currentRecord;
       }
-      oldoffset = cis.getByteCount();
     }
     if (currentLeaf.size != 0)
       buffer(0) += currentLeaf
