@@ -14,12 +14,12 @@ object BuildIndex extends App {
     fileLevel = args(1).toInt
   }
   var parser = new Parser();
-  val ib = new IndexSet("/home/harper/caida_data/topo-data.caida.org/ITDK/ITDK-2014-04/nodelinks.index");
-  ib.degree = degree
-  ib.fileLevel = fileLevel
-  ib.build("/home/harper/caida_data/topo-data.caida.org/ITDK/ITDK-2014-04/kapar-midar-iff.nodelinks",
-    line => { !line.startsWith("#") },
-    input => { var nl = parser.parse(input).asInstanceOf[NodeLink]; nl.node });
+  //  val ib = new IndexSet("/home/harper/caida_data/topo-data.caida.org/ITDK/ITDK-2014-04/nodelinks.index");
+  //  ib.degree = degree
+  //  ib.fileLevel = fileLevel
+  //  ib.build("/home/harper/caida_data/topo-data.caida.org/ITDK/ITDK-2014-04/kapar-midar-iff.nodelinks",
+  //    line => { !line.startsWith("#") },
+  //    input => { var nl = parser.parse(input).asInstanceOf[NodeLink]; nl.node });
   val ib2 = new IndexSet("/home/harper/caida_data/topo-data.caida.org/ITDK/ITDK-2014-04/nodes.index");
   ib2.degree = degree
   ib2.fileLevel = fileLevel

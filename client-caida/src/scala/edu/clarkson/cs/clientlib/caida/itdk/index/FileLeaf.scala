@@ -27,8 +27,14 @@ class FileLeaf(fn: String, r: (Int, Int)) extends IndexNode(1) {
     this.node = new SoftReference[IndexNode](n);
   }
 
+  def getnode: SoftReference[IndexNode] = {
+    if (null == this.node)
+      this.node = new SoftReference(null);
+    return this.node;
+  }
+
   override def find(target: Int): Long = {
-    node.get match {
+    getnode.get match {
       case Some(next) => { next.find(target) }
       case None => { fetch; refresh(container.get); find(target); }
     }
@@ -36,10 +42,7 @@ class FileLeaf(fn: String, r: (Int, Int)) extends IndexNode(1) {
 
   override def refresh(ctn: IndexSet): Unit = {
     container = Some(ctn);
-    if (node == null) {
-      return ;
-    }
-    node.get match {
+    getnode.get match {
       case Some(next) => { next.parent = Some(this); next.refresh(ctn); }
       case None => {}
     }
