@@ -74,13 +74,14 @@ class IndexSet private () {
     ) {
       if (currentRecord != previousRecord) {
         // Check current leaf and append
+        var rec = (currentRecord, cis.linestart);
         if (currentLeaf.size == degree) {
-          currentLeaf.updatelast(cis.linestart);
+          currentLeaf.updatelast(rec._2);
           buffer(0) += currentLeaf;
           merge(0, (size, lvl) => size >= degree)
           currentLeaf = newOffsetLeaf(degree);
         }
-        currentLeaf.append((currentRecord, cis.linestart));
+        currentLeaf.append(rec);
         previousRecord = currentRecord;
       }
     }

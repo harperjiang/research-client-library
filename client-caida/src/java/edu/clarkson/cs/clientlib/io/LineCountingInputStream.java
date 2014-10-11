@@ -42,6 +42,5 @@ public class LineCountingInputStream extends FilterInputStream {
 
 	public long linestart() {
 		return linestarts.poll();
-
 	}
 }
