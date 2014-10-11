@@ -10,7 +10,7 @@ object LoadIndexPerformance extends App {
 
   var sum = 0l;
   var success = 0l;
-  val loop = 1000;
+  val loop = 1000000;
   val random = new Random(System.currentTimeMillis)
   for (i <- 1 to loop) {
     var start = System.currentTimeMillis;

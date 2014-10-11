@@ -33,7 +33,7 @@ class FileLeaf(fn: String, r: (Int, Int)) extends IndexNode(1) {
     return this.node;
   }
 
-  override def find(target: Int): Long = {
+  override def find(target: Int): (Long, Long) = {
     getnode.get match {
       case Some(next) => { next.find(target) }
       case None => { fetch; refresh(container.get); find(target); }

@@ -44,7 +44,7 @@ class IndexSet private () {
 
   def range = (root.getOrElse(load).min, root.getOrElse(load).max)
 
-  def find(target: Int): Long = {
+  def find(target: Int): (Long,Long) = {
     var rootNode = root.getOrElse(load)
     rootNode find target;
   }
@@ -72,6 +72,8 @@ class IndexSet private () {
           var res = filter(line); if(!res) cis.linestart; res})
           .map(parser)) {
       if (currentRecord != previousRecord) {
+        
+        var newrec = (currentRecord, cis.linestart);
         // Check current leaf and append
         if (currentLeaf.size == degree) {
           buffer(0) += currentLeaf;

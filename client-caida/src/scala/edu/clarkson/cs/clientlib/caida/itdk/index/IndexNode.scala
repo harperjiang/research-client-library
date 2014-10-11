@@ -31,14 +31,14 @@ class IndexNode(degree: Int) extends Serializable {
     vmax
   }
 
-  def find(target: Int): Long = {
+  def find(target: Int): (Long, Long) = {
     var index = IndexUtils.bsearch[IndexNode](datas, target, (data, target) => {
       if (data.min > target) 1;
       else if (data.max < target) -1;
       else 0;
     });
     if (index == -1)
-      return -1;
+      return (-1, 0);
     return datas(index).find(target);
   }
 
