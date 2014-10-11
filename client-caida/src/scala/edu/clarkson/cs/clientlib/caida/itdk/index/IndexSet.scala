@@ -67,7 +67,10 @@ class IndexSet private () {
     var previousRecord = -1;
     var currentLeaf = newOffsetLeaf(degree);
 
-    for (currentRecord <- Source.fromInputStream(cis).getLines.filter(filter).map(parser)) {
+    for (currentRecord <- Source.fromInputStream(cis).getLines
+        .filter(line=>{
+          var res = filter(line); if(!res) cis.linestart; res})
+          .map(parser)) {
       if (currentRecord != previousRecord) {
         // Check current leaf and append
         if (currentLeaf.size == degree) {
