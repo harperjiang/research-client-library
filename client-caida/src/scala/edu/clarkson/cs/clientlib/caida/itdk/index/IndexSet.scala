@@ -44,7 +44,7 @@ class IndexSet private () {
 
   def range = (root.getOrElse(load).min, root.getOrElse(load).max)
 
-  def find(target: Int): (Long,Long) = {
+  def find(target: Int): (Long, Long) = {
     var rootNode = root.getOrElse(load)
     rootNode find target;
   }
@@ -61,21 +61,21 @@ class IndexSet private () {
   def build(input: String, filter: String => Boolean, parser: String => Int) = {
     // Initialize buffer structure
     buffer += new ArrayBuffer[IndexNode](degree);
-
     val cis = new LineCountingInputStream(new FileInputStream(input));
-
     var previousRecord = -1;
     var currentLeaf = newOffsetLeaf(degree);
 
-    for (currentRecord <- Source.fromInputStream(cis).getLines
-        .filter(line=>{
-          var res = filter(line); if(!res) cis.linestart; res})
-          .map(parser)) {
+    for (
+      currentRecord <- Source.fromInputStream(cis).getLines
+        .filter(line => {
+          var res = filter(line); if (!res) cis.linestart; res
+        })
+        .map(parser)
+    ) {
       if (currentRecord != previousRecord) {
-        
-        var newrec = (currentRecord, cis.linestart);
         // Check current leaf and append
         if (currentLeaf.size == degree) {
+          currentLeaf.updatelast(cis.linestart);
           buffer(0) += currentLeaf;
           merge(0, (size, lvl) => size >= degree)
           currentLeaf = newOffsetLeaf(degree);
@@ -89,7 +89,7 @@ class IndexSet private () {
 
     // Final cleanup and write root
     var curlevel = level;
-    merge(0, (size, lvl) => size >= 1 && lvl <= curlevel)
+    merge(0, (size, lvl) => size >= 1 && lvl < curlevel)
     curlevel = level
     if (buffer(curlevel).size > 1) {
       merge(curlevel, (size, lvl) => lvl == curlevel);
