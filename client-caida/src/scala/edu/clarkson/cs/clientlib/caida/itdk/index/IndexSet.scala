@@ -11,6 +11,8 @@ import org.apache.commons.io.input.CountingInputStream
 import edu.clarkson.cs.clientlib.caida.itdk.model.NodeLink
 import edu.clarkson.cs.clientlib.caida.itdk.parser.Parser
 import java.io.ObjectInputStream
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 class IndexSet private () {
 
@@ -62,11 +64,15 @@ class IndexSet private () {
     buffer += new ArrayBuffer[IndexNode](degree);
 
     val cis = new CountingInputStream(new FileInputStream(input));
-
+    // Tried to use Source.fromInputStream, but it will pre-read a lot of things and make offset inaccurate
+    // Falled back to BufferedReader
+    val linereader = new BufferedReader(new InputStreamReader(cis));
+    
     var previousRecord = -1;
-    var oldoffset = cis.getByteCount();
+    var offset = cis.getByteCount();
     var currentLeaf = newOffsetLeaf(degree);
 
+    
     for (currentRecord <- Source.fromInputStream(cis).getLines.filter(filter).map(parser)) {
       if (currentRecord != previousRecord) {
         // Check current leaf and append
@@ -75,10 +81,10 @@ class IndexSet private () {
           merge(0, (size, lvl) => size >= degree)
           currentLeaf = newOffsetLeaf(degree);
         }
-        currentLeaf.append((currentRecord, oldoffset));
+        currentLeaf.append((currentRecord, offset));
         previousRecord = currentRecord;
       }
-      oldoffset = cis.getByteCount();
+      offset = cis.getByteCount();
     }
     if (currentLeaf.size != 0)
       buffer(0) += currentLeaf

@@ -33,9 +33,9 @@ class IndexNode(degree: Int) extends Serializable {
 
   def find(target: Int): Long = {
     var index = IndexUtils.bsearch[IndexNode](datas, target, (data, target) => {
-      if (data.min > target) -1;
-      if (data.max < target) 1;
-      0;
+      if (data.min > target) 1;
+      else if (data.max < target) -1;
+      else 0;
     });
     if (index == -1)
       return -1;

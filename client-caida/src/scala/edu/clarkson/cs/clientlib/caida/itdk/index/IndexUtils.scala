@@ -9,12 +9,13 @@ object IndexUtils {
   }
 
   private def bsearch[A <: Any](buffer: Buffer[A], target: Int, from: Int, to: Int, comp: (A, Int) => Int): Int = {
-    if (from == to) {
+    if (from >= to) {
       comp(buffer(from), target) match {
         case 0 => return from
         case _ => return -1
       }
     }
+
     var sep = (from + to) / 2
     comp(buffer(sep), target) match {
       case x if (x < 0) => bsearch(buffer, target, sep + 1, to, comp)
