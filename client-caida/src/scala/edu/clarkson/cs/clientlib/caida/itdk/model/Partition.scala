@@ -17,8 +17,12 @@ class Partition {
    * Mapping from IP address to node
    */
   val nodeMap = scala.collection.mutable.Map[String, Node]();
-  val nodeLinkMap = scala.collection.mutable.Map[String, List[Int]]();
-  val linkMap = scala.collection.mutable.Map[Int, Link]();
+
+  val linkMap1 = scala.collection.mutable.Map[(Int, String), Link]();
+  val linkMap2 = scala.collection.mutable.Map[Int, List[Link]]();
+
+  val nodelinkMap1 = scala.collection.mutable.Map[(Int, String), Node]();
+  val nodelinkMap2 = scala.collection.mutable.Map[Int, List[Node]]();
   /**
    * Routing table
    */
@@ -52,22 +56,22 @@ class Partition {
     var nodeFile = "%s_%d".format(prop.get("node_file"), this.id);
     var nodeLinkFile = "%s_%d".format(prop.get("nodelink_file"), this.id);
     var linkFile = "%s_%d".format(prop.get("link_file"), this.id);
-    
+
     Source.fromFile(nodeFile).getLines.filter(!_.startsWith("#"))
       .map[Node](line => { parser.parse[Node](line) })
       .foreach(node => {
         node.ips.foreach(ip => { nodeMap += (ip -> node) })
       });
 
-    Source.fromFile(linkFile).getLines.filter(!_.startsWith("#"))
-      .map[Link](line => { parser.parse[Link](line) })
-      .foreach(link => { linkMap += (link.id -> link) });
-
-    Source.fromFile(nodeLinkFile).getLines
-      .map[NodeLink](line => parser.parse[NodeLink](line))
-      .foreach(nodelink => {
-    	  // TODO Here
-      });
+//    Source.fromFile(linkFile).getLines.filter(!_.startsWith("#"))
+//      .map[Link](line => { parser.parse[Link](line) })
+//      .foreach(link => { linkMap += (link.id -> link) });
+//
+//    Source.fromFile(nodeLinkFile).getLines
+//      .map[NodeLink](line => parser.parse[NodeLink](line))
+//      .foreach(nodelink => {
+//        // TODO Here
+//      });
   }
 
   def find(fromIp: String, toIp: String, step: Int) {
