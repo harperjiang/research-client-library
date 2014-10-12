@@ -1,10 +1,12 @@
 package edu.clarkson.cs.clientlib.caida.itdk.model
 
-import edu.clarkson.cs.clientlib.caida.itdk.model.routing.DefaultRouting
-import java.util.Properties
 import java.io.FileInputStream
-import edu.clarkson.cs.clientlib.caida.itdk.index.IndexSet
+import java.util.Properties
+
 import scala.io.Source
+
+import edu.clarkson.cs.clientlib.caida.itdk.index.IndexSet
+import edu.clarkson.cs.clientlib.caida.itdk.model.routing.DefaultRouting
 import edu.clarkson.cs.clientlib.caida.itdk.parser.Parser
 
 /**
@@ -16,13 +18,9 @@ class Partition {
   /**
    * Mapping from IP address to node
    */
-  val nodeMap = scala.collection.mutable.Map[String, Node]();
+  val nodeIpMap = scala.collection.mutable.Map[String, Node]();
+  val nodeMap = scala.collection.mutable.Map[Int, Node]();
 
-  val linkMap1 = scala.collection.mutable.Map[(Int, String), Link]();
-  val linkMap2 = scala.collection.mutable.Map[Int, List[Link]]();
-
-  val nodelinkMap1 = scala.collection.mutable.Map[(Int, String), Node]();
-  val nodelinkMap2 = scala.collection.mutable.Map[Int, List[Node]]();
   /**
    * Routing table
    */
@@ -37,7 +35,6 @@ class Partition {
   init;
 
   def init = {
-
     var parser = new Parser();
 
     // Load Id from configuration
@@ -52,7 +49,7 @@ class Partition {
     nodeIndex = new IndexSet(prop.get("node_index_file").toString);
     linkIndex = new IndexSet(prop.get("link_index_file").toString);
 
-    // Load nodes
+    // Load nodes, links from file
     var nodeFile = "%s_%d".format(prop.get("node_file"), this.id);
     var nodeLinkFile = "%s_%d".format(prop.get("nodelink_file"), this.id);
     var linkFile = "%s_%d".format(prop.get("link_file"), this.id);
@@ -60,21 +57,33 @@ class Partition {
     Source.fromFile(nodeFile).getLines.filter(!_.startsWith("#"))
       .map[Node](line => { parser.parse[Node](line) })
       .foreach(node => {
-        node.ips.foreach(ip => { nodeMap += (ip -> node) })
+        nodeMap += (node.id -> node);
+        node.ips.foreach(ip => { nodeIpMap += (ip -> node) })
       });
 
-//    Source.fromFile(linkFile).getLines.filter(!_.startsWith("#"))
-//      .map[Link](line => { parser.parse[Link](line) })
-//      .foreach(link => { linkMap += (link.id -> link) });
-//
-//    Source.fromFile(nodeLinkFile).getLines
-//      .map[NodeLink](line => parser.parse[NodeLink](line))
-//      .foreach(nodelink => {
-//        // TODO Here
-//      });
+    var nodeNotFound = { node_id: Int => { throw new IllegalArgumentException("Node not found: %d".format(node_id)); } };
+
+    Source.fromFile(linkFile).getLines.filter(!_.startsWith("#"))
+      .map[Link](line => { parser.parse[Link](line) })
+      .foreach(link => {
+        // Attach Link with nodes
+        link.attachNodes(nodeMap);
+        // Attach node with links
+        link.namedNodeIds.foreach(entry => {
+          var node = nodeMap.get(entry._2).getOrElse(nodeNotFound(entry._2));
+          node.appendLink(link, entry._1);
+        });
+        link.anonymousNodeIds.foreach(node_id => {
+          var node = nodeMap.get(node_id).getOrElse(nodeNotFound(node_id));
+          node.appendLink(link);
+        });
+      });
   }
 
-  def find(fromIp: String, toIp: String, step: Int) {
+  /**
+   * Propagate a task to other partitions
+   */
+  def propagate = {
 
   }
 

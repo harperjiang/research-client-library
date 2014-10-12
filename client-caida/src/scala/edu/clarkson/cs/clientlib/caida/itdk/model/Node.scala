@@ -23,6 +23,9 @@ class Node {
 
   var ips = Set[String]();
 
+  var namedLinks = scala.collection.mutable.Map[String, Link]();
+  var anonymousLinks = ArrayBuffer[Link]();
+
   def this(nid: Int) = {
     this();
     id = nid;
@@ -33,4 +36,11 @@ class Node {
     ips = ipList.toSet
   }
 
+  def appendLink(link: Link) = {
+    anonymousLinks += link;
+  }
+
+  def appendLink(link: Link, ip: String) = {
+    namedLinks += (ip -> link);
+  }
 }

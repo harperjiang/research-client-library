@@ -12,9 +12,13 @@ import scala.collection.mutable.Buffer
 class Link(lid: Int) {
 
   var id = lid;
-  val namedNodes = scala.collection.mutable.Map[String, Int]();
-  val anonymousNodes = new ArrayBuffer[Int];
-  
+
+  val namedNodeIds = scala.collection.mutable.Map[String, Int]();
+  val anonymousNodeIds = new ArrayBuffer[Int];
+
+  val namedNodes = scala.collection.mutable.Map[String, Node]();
+  val anonymousNodes = new ArrayBuffer[Node]();
+
   def this(sid: String, nodes: java.util.List[(String, String)]) = {
     this(Integer.parseInt(sid.substring(1)));
 
@@ -23,18 +27,32 @@ class Link(lid: Int) {
       var ip = a._2;
 
       if (ip == "") {
-        anonymousNodes += id;
+        anonymousNodeIds += id;
       } else {
         // Test 
-        if (namedNodes.contains(ip)) {
+        if (namedNodeIds.contains(ip)) {
           throw new RuntimeException("Duplicate IP for different nodes")
         }
-        namedNodes += { ip -> id };
+        namedNodeIds += { ip -> id };
       }
-
     });
   }
-  
+
+  def attachNodes(nodeMap: scala.collection.mutable.Map[Int, Node]) = {
+    var nodeNotFound = { node_id: Int => { throw new IllegalArgumentException("Node not found: %d".format(node_id)); } };
+
+    namedNodeIds.foreach(entry => {
+      namedNodes += (entry._1 -> nodeMap.get(entry._2).getOrElse(nodeNotFound(entry._2)));
+    });
+    anonymousNodeIds.foreach(entry => {
+      anonymousNodes += nodeMap.get(entry).getOrElse(nodeNotFound(entry));
+    });
+
+    // Clear data no longer needed
+    namedNodeIds.clear;
+    anonymousNodeIds.clear;
+  }
+
   def nodeSize = {
     namedNodes.size + anonymousNodes.length;
   }
