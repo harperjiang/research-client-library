@@ -22,7 +22,6 @@ class Node {
   var longitude: BigDecimal = 0;
 
   var ips = Set[String]();
-  val links = scala.collection.mutable.Map[String, List[String]]();
 
   def this(nid: Int) = {
     this();
@@ -33,6 +32,5 @@ class Node {
     this(Integer.parseInt(sid.substring(1)));
     ips = ipList.toSet
   }
-  
-  
+
 }

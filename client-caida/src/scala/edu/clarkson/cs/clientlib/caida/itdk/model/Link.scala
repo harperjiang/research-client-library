@@ -12,8 +12,9 @@ import scala.collection.mutable.Buffer
 class Link(lid: Int) {
 
   var id = lid;
-  val nodes = scala.collection.mutable.Map[String, Buffer[Int]]();
-
+  val namedNodes = scala.collection.mutable.Map[String, Int]();
+  val anonymousNodes = new ArrayBuffer[Int];
+  
   def this(sid: String, nodes: java.util.List[(String, String)]) = {
     this(Integer.parseInt(sid.substring(1)));
 
@@ -21,11 +22,21 @@ class Link(lid: Int) {
       var id = a._1.substring(1).toInt;
       var ip = a._2;
 
-      if (!nodes.contains(ip)) {
-        this.nodes.put(ip, new ArrayBuffer[Int]())
+      if (ip == "") {
+        anonymousNodes += id;
+      } else {
+        // Test 
+        if (namedNodes.contains(ip)) {
+          throw new RuntimeException("Duplicate IP for different nodes")
+        }
+        namedNodes += { ip -> id };
       }
-      this.nodes.get(ip).get += id;
+
     });
+  }
+  
+  def nodeSize = {
+    namedNodes.size + anonymousNodes.length;
   }
 
 }

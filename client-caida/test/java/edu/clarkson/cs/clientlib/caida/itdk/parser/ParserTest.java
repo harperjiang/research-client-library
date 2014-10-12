@@ -26,13 +26,11 @@ public class ParserTest {
 		Link link = parser
 				.parse("link L174: N13:13.42.23.23 N25:323.223.24.14 N16 N71");
 		assertEquals(174, link.id());
-		assertEquals(3, link.nodes().size());
-		assertEquals(13, link.nodes().get("13.42.23.23").get().apply(0));
-		assertEquals(25, link.nodes().get("323.223.24.14").get().apply(0));
-		assertTrue(Integer.valueOf(16).equals(
-				link.nodes().get("").get().apply(0))
-				|| Integer.valueOf(71).equals(
-						link.nodes().get("").get().apply(0)));
+		assertEquals(4, link.nodeSize());
+		assertEquals(13, link.namedNodes().get("13.42.23.23").get());
+		assertEquals(25, link.namedNodes().get("323.223.24.14").get());
+		assertTrue(Integer.valueOf(16).equals(link.anonymousNodes().apply(0))
+				|| Integer.valueOf(71).equals(link.anonymousNodes().apply(0)));
 	}
 
 	@Test
