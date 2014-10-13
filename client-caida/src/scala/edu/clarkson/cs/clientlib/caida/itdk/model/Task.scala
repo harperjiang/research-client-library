@@ -7,6 +7,14 @@ package edu.clarkson.cs.clientlib.caida.itdk.model
 trait Task {
 
   /**
+   * Task identification
+   */
+  def id: Int;
+  /**
+   *
+   */
+  def parent: Int;
+  /**
    * The start node id.
    */
   def start: Int;
