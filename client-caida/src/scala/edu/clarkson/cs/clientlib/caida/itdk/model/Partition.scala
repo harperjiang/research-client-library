@@ -81,9 +81,16 @@ class Partition {
   }
 
   /**
+   * Submit a  task
+   */
+  def submit(task: Task) = {
+
+  }
+
+  /**
    * Propagate a task to other partitions
    */
-  def propagate = {
+  def propagate(targets: List[Int]) = {
 
   }
 
