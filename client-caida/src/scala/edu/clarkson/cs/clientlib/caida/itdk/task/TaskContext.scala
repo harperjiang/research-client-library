@@ -1,4 +1,4 @@
-package edu.clarkson.cs.clientlib.caida.itdk.model.task
+package edu.clarkson.cs.clientlib.caida.itdk.task
 
 class TaskContext {
   

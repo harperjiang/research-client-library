@@ -2,12 +2,11 @@ package edu.clarkson.cs.clientlib.caida.itdk.model
 
 import java.io.FileInputStream
 import java.util.Properties
-
 import scala.io.Source
-
 import edu.clarkson.cs.clientlib.caida.itdk.index.IndexSet
 import edu.clarkson.cs.clientlib.caida.itdk.model.routing.DefaultRouting
 import edu.clarkson.cs.clientlib.caida.itdk.parser.Parser
+import edu.clarkson.cs.clientlib.caida.itdk.task.Task
 
 /**
  * Partition is the manager of everything in a machine
