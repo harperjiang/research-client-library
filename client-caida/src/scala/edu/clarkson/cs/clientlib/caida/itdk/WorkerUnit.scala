@@ -6,6 +6,7 @@ import edu.clarkson.cs.clientlib.caida.itdk.model.Partition
 class WorkerUnit {
 
   val node = new Worker();
+  
   val partition = new Partition();
   
 }
