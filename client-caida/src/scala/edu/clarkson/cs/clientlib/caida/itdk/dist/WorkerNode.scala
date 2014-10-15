@@ -8,7 +8,7 @@ import edu.clarkson.cs.clientlib.caida.itdk.dist.message.SubtaskResult
 import edu.clarkson.cs.clientlib.lang.Properties
 import edu.clarkson.cs.clientlib.message.Sender
 
-class Worker extends Sender {
+class WorkerNode extends Sender {
 
   private val WORKER_PROP = "worker.properties";
 

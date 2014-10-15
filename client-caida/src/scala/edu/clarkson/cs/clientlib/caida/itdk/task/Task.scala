@@ -17,13 +17,13 @@ trait Task {
   /**
    * Task identification
    */
-  def id: Int;
-  
+  def id: String;
+
   /**
-   *
+   * Subtask only, parent id
    */
-  def parent: Int;
-  
+  def parent: String;
+
   /**
    * The start node id.
    */
@@ -33,19 +33,15 @@ trait Task {
    * Current Status
    */
   def status: TaskStatus.TaskStatus;
-  
-  /**
-   * Work on the current node
-   */
-  def execute(partition: Partition, node: Node);
 
   /**
-   * The next node id(s) it wants to execute on
+   * Update Status
    */
-  def propagate: List[Node];
+  def changeStatus(status: TaskStatus.TaskStatus);
 
   /**
-   * Whether the task is finished
+   * Worker for task execution
    */
-  def done: Boolean;
+  def worker: TaskWorker;
+
 }
