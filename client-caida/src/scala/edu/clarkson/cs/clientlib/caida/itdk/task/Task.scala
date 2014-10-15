@@ -1,47 +1,33 @@
 package edu.clarkson.cs.clientlib.caida.itdk.task
 
-import edu.clarkson.cs.clientlib.caida.itdk.model.Node
-import edu.clarkson.cs.clientlib.caida.itdk.model.Partition
+import scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable.Buffer
 
 /**
  * A Task is a vertex program
  */
 
 object TaskStatus extends Enumeration {
-  type TaskStatus = Value
+  type T = Value
   val READY, ACTIVE, WAIT_FOR_SUB, END, ERROR = Value
 };
 
-trait Task {
+class Task(tid: String, pid: String) {
 
   /**
    * Task identification
    */
-  def id: String;
+  var id: String = tid;
 
   /**
    * Subtask only, parent id
    */
-  def parent: String;
+  var parent: String = pid;
 
-  /**
-   * The start node id.
-   */
-  def start: Int;
-
-  /**
-   * Current Status
-   */
-  def status: TaskStatus.TaskStatus;
-
-  /**
-   * Update Status
-   */
-  def changeStatus(status: TaskStatus.TaskStatus);
+  var status: TaskStatus.T = TaskStatus.READY;
 
   /**
    * Worker for task execution
    */
-  def worker: TaskWorker;
-
+  var worker: TaskWorker = null;
 }

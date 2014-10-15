@@ -1,21 +1,20 @@
 package edu.clarkson.cs.clientlib.caida.itdk.dist
 
 import scala.collection.mutable.ArrayBuffer
-
 import edu.clarkson.cs.clientlib.caida.itdk.dist.message.Heartbeat
 import edu.clarkson.cs.clientlib.caida.itdk.dist.message.SubtaskExecute
 import edu.clarkson.cs.clientlib.caida.itdk.dist.message.SubtaskResult
 import edu.clarkson.cs.clientlib.lang.Properties
 import edu.clarkson.cs.clientlib.message.Sender
+import edu.clarkson.cs.clientlib.lang.EventListenerSupport
+import java.util.EventListener
 
-class WorkerNode extends Sender {
+class WorkerNode extends Sender with EventListenerSupport[WorkerListener] {
 
   private val WORKER_PROP = "worker.properties";
 
   val groupId = Properties.load[Int](WORKER_PROP, "group_id");
   val machineId = Properties.load[Int](WORKER_PROP, "machine_id");
-
-  var listeners = new ArrayBuffer[WorkerListener]();
 
   def sendHeartbeat = {
     var hb = new Heartbeat(groupId, machineId);
@@ -25,19 +24,19 @@ class WorkerNode extends Sender {
   def sendSubtask(task: SubtaskExecute) = {
     send(task);
     for (listener <- listeners)
-      listener.taskSent(task);
+      listener.onTaskSent(task);
   }
 
-  def onSubtask(task: SubtaskResult) = {
+  def onSubtaskReceived(task: SubtaskResult) = {
     for (listener <- listeners)
-      listener.taskReceived(task);
+      listener.onTaskReceived(task);
   }
 }
 
-trait WorkerListener {
+trait WorkerListener extends EventListener {
 
-  def taskSent(task: SubtaskExecute);
+  def onTaskSent(task: SubtaskExecute) = {};
 
-  def taskReceived(task: SubtaskResult);
+  def onTaskReceived(task: SubtaskResult) = {};
 
 }
