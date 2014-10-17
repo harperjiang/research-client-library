@@ -10,11 +10,13 @@ class TaskRunner(t: Task, cb: (Boolean) => Unit) extends Runnable {
 
   private val callback = cb;
 
+  private var spawned = false;
+
   override def run = {
-    var worker = task.getWorker;
-    var context = worker.context;
-    context.partition
-    
+    val worker = task.getWorker;
+    val context = worker.context;
+    val partition = context.partition;
+    val com = context.worker ;
     worker.start();
 
     var toexecute = new ArrayBuffer[Node]();
@@ -22,7 +24,10 @@ class TaskRunner(t: Task, cb: (Boolean) => Unit) extends Runnable {
     while (!toexecute.isEmpty) {
       var newnodes = worker.execute(toexecute.remove(0));
       newnodes.foreach(nn => {
-    	  
+        val tospawn = partition.queryPartition(nn);
+        tospawn.foreach(dest => {
+        	
+        });
       })
     }
 

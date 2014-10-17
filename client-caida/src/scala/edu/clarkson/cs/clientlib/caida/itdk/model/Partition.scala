@@ -79,7 +79,7 @@ class Partition {
       });
   }
 
-  def queryPartition(nodeId: Int): Iterable[Int] = {
+  def queryPartition(node: Node): Iterable[Int] = {
     throw new RuntimeException("Not implemented");
   }
 
