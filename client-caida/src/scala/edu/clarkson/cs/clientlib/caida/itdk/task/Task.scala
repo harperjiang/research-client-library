@@ -29,5 +29,12 @@ class Task(tid: String, pid: String) {
   /**
    * Worker for task execution
    */
-  var worker: TaskWorker = null;
+  var workerClass: Class[TaskWorker] = null;
+
+  @transient
+  private var worker: Option[TaskWorker] = None;
+
+  def getWorker: TaskWorker = {
+    worker.getOrElse({ worker = Some(workerClass.newInstance()); worker.get; });
+  }
 }

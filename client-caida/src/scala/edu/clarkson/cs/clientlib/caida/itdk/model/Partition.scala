@@ -79,18 +79,8 @@ class Partition {
       });
   }
 
-  /**
-   * Submit a  task
-   */
-  def submit(task: Task) = {
-
-  }
-
-  /**
-   * Propagate a task to other partitions
-   */
-  def propagate(targets: List[Int]) = {
-
+  def queryPartition(nodeId: Int): Iterable[Int] = {
+    throw new RuntimeException("Not implemented");
   }
 
 }

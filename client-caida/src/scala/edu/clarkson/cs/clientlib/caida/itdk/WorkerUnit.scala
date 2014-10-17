@@ -21,11 +21,10 @@ class WorkerUnit extends WorkerListener with SchedulerListener {
   scheduler.addListener(this);
 
   def submit(task: Task) {
-    // Hold the task in a waiting queue 
-
-    // Submit the task into scheduler
     var ctx = new TaskContext(node, partition);
-    scheduler.schedule(task, ctx);
+    task.getWorker.context = ctx;
+    // Submit the task into scheduler
+    scheduler.schedule(task);
   }
 
   /**
@@ -36,7 +35,11 @@ class WorkerUnit extends WorkerListener with SchedulerListener {
     scheduler.collect(subtask.parentId, subtask.sourcePartitionId, subtask.result);
   }
 
+  /**
+   * Scheduler Listeners
+   */
   def onTaskEnd(e: SchedulerEvent) = {
-    //	On the completion of this task, process the waiting queue
+    //	On the completion of task
+
   }
 }

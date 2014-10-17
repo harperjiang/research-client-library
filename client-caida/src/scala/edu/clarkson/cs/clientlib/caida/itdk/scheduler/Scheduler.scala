@@ -9,7 +9,7 @@ import edu.clarkson.cs.clientlib.lang.EventListenerSupport
 
 trait Scheduler extends EventListenerSupport[SchedulerListener] {
 
-  def schedule(task: Task, context: TaskContext);
+  def schedule(task: Task);
 
   def collect(taskId: String, fromPartition: Int, result: Any);
 
