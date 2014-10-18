@@ -5,21 +5,24 @@ import edu.clarkson.cs.clientlib.caida.itdk.model.Partition
 
 trait TaskWorker {
 
-  var context: TaskContext;
-
   /**
    * Callback when the worker is to be started
    */
-  def start();
+  def start(t: Task);
 
   /**
    * Work on the current node.
    * Return The next node id(s) it wants to execute on
    */
-  def execute(node: Node): Iterable[Node];
+  def execute(t: Task, node: Node): Iterable[Node];
+
+  /**
+   * Collect result from spawned processes
+   */
+  def collect(t: Task, result: Any);
 
   /**
    * Callback when the task is done
    */
-  def done(error: Boolean);
+  def done(t: Task);
 }

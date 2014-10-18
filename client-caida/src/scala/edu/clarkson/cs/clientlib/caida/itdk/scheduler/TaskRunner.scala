@@ -1,38 +1,47 @@
 package edu.clarkson.cs.clientlib.caida.itdk.scheduler
 
-import edu.clarkson.cs.clientlib.caida.itdk.task.Task
 import scala.collection.mutable.ArrayBuffer
+
 import edu.clarkson.cs.clientlib.caida.itdk.model.Node
+import edu.clarkson.cs.clientlib.caida.itdk.task.Task
 
-class TaskRunner(t: Task, cb: (Boolean) => Unit) extends Runnable {
+class TaskRunner(t: Task, cb: (Task, Exception) => Unit) extends Runnable {
 
-  private val task: Task = t;
+  val task: Task = t;
 
-  private val callback = cb;
-
-  private var spawned = false;
+  val callback = cb;
 
   override def run = {
     val worker = task.getWorker;
-    val context = worker.context;
+    val context = task.context;
     val partition = context.partition;
-    val com = context.worker ;
-    worker.start();
+    val com = context.worker;
+    worker.start(t);
 
     var toexecute = new ArrayBuffer[Node]();
+    var exception: Exception = null;
+    try {
+      while (!toexecute.isEmpty) {
+        var target = toexecute.remove(0);
 
-    while (!toexecute.isEmpty) {
-      var newnodes = worker.execute(toexecute.remove(0));
-      newnodes.foreach(nn => {
-        val tospawn = partition.queryPartition(nn);
-        tospawn.foreach(dest => {
-        	
-        });
-      })
+        var tospawn = partition.queryPartition(target);
+        if (!tospawn.isEmpty) {
+          spawn(tospawn)
+        }
+        toexecute ++= worker.execute(t, target);
+      }
+    } catch {
+      case e: Exception => {
+        exception = e;
+      }
     }
+    task.hasError = (exception != null);
 
-    var success = false;
-    worker.done(success);
-    cb(success);
+    if (task.spawned == 0) { worker.done(t); }
+    callback(task, exception);
+  }
+
+  def spawn(dests: Iterable[Int]) = {
+    throw new RuntimeException("Not implemented");
   }
 }

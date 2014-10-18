@@ -13,8 +13,8 @@ trait Scheduler extends EventListenerSupport[SchedulerListener] {
 
   def collect(taskId: String, fromPartition: Int, result: Any);
 
-  protected def onTaskEnd(task: Task, success: Boolean, context: TaskContext) {
-    val e = new SchedulerEvent(this, task, success, context);
+  protected def onTaskEnd(task: Task, success: Boolean) {
+    val e = new SchedulerEvent(this, task, success);
     listeners.foreach(l => l.onTaskEnd(e));
   }
 }
@@ -23,9 +23,8 @@ trait SchedulerListener extends EventListener {
   def onTaskEnd(event: SchedulerEvent);
 }
 
-class SchedulerEvent(scheduler: Scheduler, t: Task, suc: Boolean, c: TaskContext)
+class SchedulerEvent(scheduler: Scheduler, t: Task, suc: Boolean)
   extends EventObject(scheduler) {
   val success = suc;
   val task = t;
-  val context = c;
 }

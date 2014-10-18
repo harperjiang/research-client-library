@@ -22,7 +22,7 @@ class WorkerUnit extends WorkerListener with SchedulerListener {
 
   def submit(task: Task) {
     var ctx = new TaskContext(node, partition);
-    task.getWorker.context = ctx;
+    task.context = ctx;
     // Submit the task into scheduler
     scheduler.schedule(task);
   }
