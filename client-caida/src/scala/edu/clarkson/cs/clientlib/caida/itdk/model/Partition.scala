@@ -1,17 +1,19 @@
 package edu.clarkson.cs.clientlib.caida.itdk.model
 
 import java.io.FileInputStream
-import java.util.Properties
 import scala.io.Source
 import edu.clarkson.cs.clientlib.caida.itdk.index.IndexSet
 import edu.clarkson.cs.clientlib.caida.itdk.model.routing.DefaultRouting
 import edu.clarkson.cs.clientlib.caida.itdk.parser.Parser
 import edu.clarkson.cs.clientlib.caida.itdk.task.Task
+import edu.clarkson.cs.clientlib.lang.Properties
 
 /**
  * Partition is the manager of everything in a machine
  */
 class Partition {
+
+  private val PROP = "partition.properties";
 
   var id = 0;
   /**
@@ -36,22 +38,16 @@ class Partition {
   def init = {
     var parser = new Parser();
 
-    // Load Id from configuration
-    var prop = new Properties();
-    var propFile = new FileInputStream("partition.properties");
-    prop.load(propFile);
-    propFile.close();
-
-    this.id = prop.get("partition_id").toString().toInt;
+    this.id = Properties.load(PROP, "partition_id");
 
     // Load indices
-    nodeIndex = new IndexSet(prop.get("node_index_file").toString);
-    linkIndex = new IndexSet(prop.get("link_index_file").toString);
+    nodeIndex = new IndexSet(Properties.load(PROP, "node_index_file"));
+    linkIndex = new IndexSet(Properties.load(PROP, "link_index_file"));
 
     // Load nodes, links from file
-    var nodeFile = "%s_%d".format(prop.get("node_file"), this.id);
-    var nodeLinkFile = "%s_%d".format(prop.get("nodelink_file"), this.id);
-    var linkFile = "%s_%d".format(prop.get("link_file"), this.id);
+    var nodeFile = "%s_%d".format(Properties.load[String](PROP, "node_file"), this.id);
+    var nodeLinkFile = "%s_%d".format(Properties.load[String](PROP, "nodelink_file"), this.id);
+    var linkFile = "%s_%d".format(Properties.load[String](PROP, "link_file"), this.id);
 
     Source.fromFile(nodeFile).getLines.filter(!_.startsWith("#"))
       .map[Node](line => { parser.parse[Node](line) })
@@ -80,7 +76,7 @@ class Partition {
   }
 
   def queryPartition(node: Node): Iterable[Int] = {
-    throw new RuntimeException("Not implemented");
+    routing.route(node.id);
   }
 
 }
