@@ -23,13 +23,15 @@ class WorkerNode extends Sender with EventListenerSupport[WorkerListener] {
 
   def sendSubtask(task: SubtaskExecute) = {
     send(task);
-    for (listener <- listeners)
-      listener.onTaskSent(task);
+    listeners.foreach(_.onTaskSent(task));
   }
 
-  def onSubtaskReceived(task: SubtaskResult) = {
-    for (listener <- listeners)
-      listener.onTaskReceived(task);
+  def onSubtaskSubmitted(task: SubtaskExecute) = {
+    listeners.foreach(_.onTaskSubmitted(task));
+  }
+
+  def onSubtaskReturned(task: SubtaskResult) = {
+    listeners.foreach(_.onTaskReturned(task));
   }
 }
 
@@ -37,6 +39,8 @@ trait WorkerListener extends EventListener {
 
   def onTaskSent(task: SubtaskExecute) = {};
 
-  def onTaskReceived(task: SubtaskResult) = {};
+  def onTaskSubmitted(task: SubtaskExecute) = {};
+
+  def onTaskReturned(task: SubtaskResult) = {};
 
 }

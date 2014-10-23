@@ -4,11 +4,11 @@ import edu.clarkson.cs.clientlib.caida.itdk.model.Node
 import edu.clarkson.cs.clientlib.caida.itdk.task.Task
 import edu.clarkson.cs.clientlib.caida.itdk.task.TaskWorker
 
-class SubtaskExecute(parent: Task) {
+class SubtaskExecute(parent: Task, tpid: Int, tnid: Int) {
 
-  var parentId: String = null;
-  var workerClass: Class[TaskWorker] = null;
-  var targetPartition: Int = 0;
-  var targetNodeId: Int = 0;
+  var parentId: String = parent.id;
+  var workerClass: Class[TaskWorker] = parent.workerClass;
+  var targetPartition: Int = tpid;
+  var targetNodeId: Int = tnid;
 
 }

@@ -1,9 +1,9 @@
 package edu.clarkson.cs.clientlib.caida.itdk.scheduler
 
 import scala.collection.mutable.ArrayBuffer
-
 import edu.clarkson.cs.clientlib.caida.itdk.model.Node
 import edu.clarkson.cs.clientlib.caida.itdk.task.Task
+import edu.clarkson.cs.clientlib.caida.itdk.dist.message.SubtaskExecute
 
 class TaskRunner(t: Task, cb: (Task, Exception) => Unit) extends Runnable {
 
@@ -26,7 +26,7 @@ class TaskRunner(t: Task, cb: (Task, Exception) => Unit) extends Runnable {
 
         var tospawn = partition.queryPartition(target);
         if (!tospawn.isEmpty) {
-          spawn(tospawn)
+          spawn(target.id, tospawn)
         }
         toexecute ++= worker.execute(t, target);
       }
@@ -41,7 +41,15 @@ class TaskRunner(t: Task, cb: (Task, Exception) => Unit) extends Runnable {
     callback(task, exception);
   }
 
-  def spawn(dests: Iterable[Int]) = {
-    throw new RuntimeException("Not implemented");
+  def spawn(nid: Int, dests: Iterable[Int]) = {
+    // The destination may contain local partition number, need to skip it
+    val localId = this.task.context.partition.id;
+
+    dests.filter(_ != localId).foreach(dest => {
+      // Create spawning task
+      var sub = new SubtaskExecute(task, dest, nid);
+      task.context.worker.sendSubtask(sub);
+      task.spawned += 1;
+    });
   }
 }

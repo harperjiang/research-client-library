@@ -30,7 +30,12 @@ class WorkerUnit extends WorkerListener with SchedulerListener {
   /**
    *  WorkerNode Listeners
    */
-  override def onTaskReceived(subtask: SubtaskResult) = {
+  override def onTaskSubmitted(task: SubtaskExecute) = {
+    // submit the subtask to schedule
+
+  }
+
+  override def onTaskReturned(subtask: SubtaskResult) = {
     // Send the result to scheduler
     scheduler.collect(subtask.parentId, subtask.sourcePartitionId, subtask.result);
   }
@@ -40,6 +45,7 @@ class WorkerUnit extends WorkerListener with SchedulerListener {
    */
   def onTaskEnd(e: SchedulerEvent) = {
     //	On the completion of task
-
+    // If this is a subtask, return it to original caller
+    
   }
 }
