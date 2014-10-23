@@ -11,7 +11,7 @@ trait Scheduler extends EventListenerSupport[SchedulerListener] {
 
   def schedule(task: Task);
 
-  def collect(taskId: String, fromPartition: Int, result: Any);
+  def collect(taskId: (Int, String), fromPartition: Int, result: String);
 
   protected def onTaskEnd(task: Task, success: Boolean) {
     val e = new SchedulerEvent(this, task, success);

@@ -28,16 +28,14 @@ class TaskRunner(t: Task, cb: (Task, Exception) => Unit) extends Runnable {
       toexecute += partition.nodeMap.get(task.startNodeId)
         .getOrElse(throw new IllegalArgumentException("No such node:%d".format(task.startNodeId)));
       while (!toexecute.isEmpty) {
-
         var target = toexecute.remove(0);
-        if (!task.parent.isEmpty() && task.startNodeId != target.id) {
+        if (task.parent != null && task.startNodeId != target.id) {
           // For subtasks that just started, don't spawn to avoid infinite loop on the spawn point
           var tospawn = partition.queryPartition(target);
           if (!tospawn.isEmpty) {
             spawn(target.id, tospawn)
           }
         }
-
         toexecute ++= worker.execute(t, target);
       }
     } catch {
@@ -59,7 +57,7 @@ class TaskRunner(t: Task, cb: (Task, Exception) => Unit) extends Runnable {
     dests.filter(_ != localId).foreach(dest => {
       // Create spawning task
       var sub = new SubtaskExecute(task, dest, nid);
-      task.context.worker.sendSubtask(sub);
+      task.context.worker.sendSubtaskRequest(sub);
       task.spawned += 1;
     });
   }

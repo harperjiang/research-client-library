@@ -15,7 +15,7 @@ class DefaultScheduler extends Scheduler {
   private val threadPool = Executors.newWorkStealingPool(
     Properties.load[Int](PROP, "thread_pool_size"));
 
-  private val waitingQueue = new ConcurrentHashMap[String, Task]();
+  private val waitingQueue = new ConcurrentHashMap[(Int, String), Task]();
 
   private val logger = LoggerFactory.getLogger(getClass());
 
@@ -39,7 +39,7 @@ class DefaultScheduler extends Scheduler {
   /**
    * Collect result from spawned tasks
    */
-  def collect(tid: String, pid: Int, result: Any): Unit = {
+  def collect(tid: (Int, String), fromPid: Int, result: String): Unit = {
     if (!waitingQueue.containsKey(tid)) {
       logger.warn("Requested task not found:%s".format(tid));
       return

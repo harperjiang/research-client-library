@@ -12,17 +12,17 @@ object TaskStatus extends Enumeration {
   val READY, ACTIVE, WAIT_FOR_SUB, END = Value
 };
 
-class Task(tid: String, pid: String) {
+class Task(tid: (Int, String), pid: (Int, String)) {
 
   /**
    * Task identification
    */
-  var id: String = tid;
+  var id: (Int, String) = tid;
 
   /**
    * Subtask only, parent id
    */
-  var parent: String = pid;
+  var parent: (Int, String) = pid;
 
   /**
    * Task Status
@@ -33,7 +33,7 @@ class Task(tid: String, pid: String) {
    * The start node of this task
    */
   var startNodeId: Int = 0;
-  
+
   /**
    * How many items has been spawned from it
    */

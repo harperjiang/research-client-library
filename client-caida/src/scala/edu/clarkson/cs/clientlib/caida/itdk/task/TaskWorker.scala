@@ -3,6 +3,10 @@ package edu.clarkson.cs.clientlib.caida.itdk.task
 import edu.clarkson.cs.clientlib.caida.itdk.model.Node
 import edu.clarkson.cs.clientlib.caida.itdk.model.Partition
 
+/**
+ * <code>TaskWorker</code> is the interface provided to users who want to
+ * implement their own vertex programs.
+ */
 trait TaskWorker {
 
   /**
@@ -12,7 +16,7 @@ trait TaskWorker {
 
   /**
    * Work on the current node.
-   * Return The next node id(s) it wants to execute on
+   * Return The next node(s) it wants to execute on
    */
   def execute(t: Task, node: Node): Iterable[Node];
 

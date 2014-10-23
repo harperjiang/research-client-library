@@ -1,9 +1,9 @@
 package edu.clarkson.cs.clientlib.caida.itdk.dist.message
 
-class SubtaskResult {
+class SubtaskResult(pid: (Int, String), res: String) {
 
-  var parentId: String = null;
+  var parentId: (Int, String) = pid;
   var sourcePartitionId: Int = 0;
-  var result: Serializable = null;
+  var result: String = res;
 
 }
