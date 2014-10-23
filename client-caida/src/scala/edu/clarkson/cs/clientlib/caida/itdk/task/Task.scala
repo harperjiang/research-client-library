@@ -30,6 +30,11 @@ class Task(tid: String, pid: String) {
   var status: TaskStatus.T = TaskStatus.READY;
 
   /**
+   * The start node of this task
+   */
+  var startNodeId: Int = 0;
+  
+  /**
    * How many items has been spawned from it
    */
   var spawned: Int = 0;
@@ -38,7 +43,7 @@ class Task(tid: String, pid: String) {
    * Has error in execution
    */
   var hasError: Boolean = false;
-  
+
   /**
    * Worker for task execution
    */
