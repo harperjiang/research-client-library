@@ -17,17 +17,6 @@ class DefaultRouting extends Routing {
 
   private val hashIndex = new ConcurrentHashMap[Int, List[Int]];
 
-  load;
-
-  def route(nodeId: Int): Iterable[Int] = {
-    if (bloomFilter.mightContain(nodeId)) {
-      if (hashIndex.containsKey(nodeId)) {
-        return hashIndex.get(nodeId);
-      }
-    }
-    return Iterable.empty[Int];
-  }
-
   private def load = {
     var file = Properties.load[String](PROP, "routing_table");
     Source.fromFile(file).getLines().foreach(line => {
@@ -36,5 +25,18 @@ class DefaultRouting extends Routing {
       bloomFilter.put(nodeId);
       hashIndex.put(nodeId, split.slice(1, split.length).map(a => a.toInt).toList);
     });
+  }
+
+  def init = {
+    load
+  }
+
+  def route(nodeId: Int): Iterable[Int] = {
+    if (bloomFilter.mightContain(nodeId)) {
+      if (hashIndex.containsKey(nodeId)) {
+        return hashIndex.get(nodeId);
+      }
+    }
+    return Iterable.empty[Int];
   }
 }

@@ -16,6 +16,19 @@ object Properties {
       prop
     }).getProperty(key);
 
-    return stringval.asInstanceOf[T];
+    m.erasure.toString() match {
+      case "int" => {
+        return stringval.toInt.asInstanceOf[T];
+      }
+      case "long" => {
+        return stringval.toLong.asInstanceOf[T];
+      }
+      case "bool" => {
+        return stringval.toBoolean.asInstanceOf[T];
+      }
+      case _ => {
+        return stringval.asInstanceOf[T];
+      }
+    }
   }
 }

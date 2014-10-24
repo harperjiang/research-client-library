@@ -32,7 +32,6 @@ class Partition {
    */
   var nodeIndex: IndexSet = null;
   var linkIndex: IndexSet = null;
-
   init;
 
   def init = {
@@ -40,13 +39,8 @@ class Partition {
 
     this.id = Properties.load(PROP, "partition_id");
 
-    // Load indices
-    nodeIndex = new IndexSet(Properties.load(PROP, "node_index_file"));
-    linkIndex = new IndexSet(Properties.load(PROP, "link_index_file"));
-
     // Load nodes, links from file
     var nodeFile = "%s_%d".format(Properties.load[String](PROP, "node_file"), this.id);
-    var nodeLinkFile = "%s_%d".format(Properties.load[String](PROP, "nodelink_file"), this.id);
     var linkFile = "%s_%d".format(Properties.load[String](PROP, "link_file"), this.id);
 
     Source.fromFile(nodeFile).getLines.filter(!_.startsWith("#"))
@@ -73,6 +67,8 @@ class Partition {
           node.appendLink(link);
         });
       });
+
+    routing.init;
   }
 
   def queryPartition(node: Node): Iterable[Int] = {
