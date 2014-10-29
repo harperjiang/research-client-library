@@ -8,6 +8,7 @@ import edu.clarkson.cs.clientlib.lang.Properties
 import edu.clarkson.cs.clientlib.message.Sender
 import edu.clarkson.cs.clientlib.lang.EventListenerSupport
 import java.util.EventListener
+import org.slf4j.LoggerFactory
 
 class WorkerNode extends Sender with EventListenerSupport[WorkerListener] {
 
@@ -15,19 +16,43 @@ class WorkerNode extends Sender with EventListenerSupport[WorkerListener] {
 
   val groupId = Properties.load[Int](WORKER_PROP, "group_id");
   val machineId = Properties.load[Int](WORKER_PROP, "machine_id");
+  val hbInterval = Properties.load[Int](WORKER_PROP, "hb_interval");
+
+  val logger = LoggerFactory.getLogger(getClass());
+
+  val heartbeatThread = new Thread() {
+    {
+      setName("Worker-Heartbeat");
+      setDaemon(true);
+    }
+
+    override def run = {
+      while (true) {
+        try {
+          sendHeartbeat;
+          Thread.sleep(hbInterval);
+        } catch {
+          case e: Exception => {
+            logger.error("Error occurred in heartbeat thread", e);
+          }
+        }
+      }
+    }
+  };
+  heartbeatThread.start();
 
   def sendHeartbeat = {
     var hb = new Heartbeat(groupId, machineId);
-    send(hb);
+    send("heartbeat", hb);
   }
 
   def sendSubtaskRequest(task: SubtaskExecute) = {
-    send(task);
+    send("work", task);
     listeners.foreach(_.onRequestSent(task));
   }
 
   def sendSubtaskResponse(task: SubtaskResult) = {
-    send(task);
+    send("work", task);
     listeners.foreach(_.onResponseSent(task));
   }
 
