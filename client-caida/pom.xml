@@ -42,9 +42,9 @@
 	</build>
 	<repositories>
 		<repository>
-			<id>milestone.repo.springsource.org</id>
-			<name>repo.springsource.org-milestone</name>
-			<url>https://repo.springsource.org/libs-milestone</url>
+			<id>repository.springsource.milestone</id>
+			<name>SpringSource Milestone Repository</name>
+			<url>http://repo.springsource.org/milestone</url>
 		</repository>
 	</repositories>
 	<dependencies>
@@ -114,6 +114,11 @@
 			<groupId>research-client</groupId>
 			<artifactId>client-lang</artifactId>
 			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.jms</groupId>
+			<artifactId>jms-api</artifactId>
+			<version>1.1-rev-1</version>
 		</dependency>
 	</dependencies>
 </project>
