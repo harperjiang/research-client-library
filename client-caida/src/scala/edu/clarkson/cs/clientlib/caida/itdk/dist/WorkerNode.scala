@@ -9,6 +9,7 @@ import edu.clarkson.cs.clientlib.message.Sender
 import edu.clarkson.cs.clientlib.lang.EventListenerSupport
 import java.util.EventListener
 import org.slf4j.LoggerFactory
+import javax.jms.Message
 
 class WorkerNode extends Sender with EventListenerSupport[WorkerListener] {
 
@@ -41,16 +42,16 @@ class WorkerNode extends Sender with EventListenerSupport[WorkerListener] {
 
   def sendHeartbeat = {
     var hb = new Heartbeat(groupId, machineId);
-    send("heartbeat", hb);
+    send("heartbeatDest", hb);
   }
 
   def sendSubtaskRequest(task: SubtaskExecute) = {
-    send("work", task);
+    send("workRequestDest", task)(m => { m.setIntProperty("targetPartition", task.targetPartition) });
     listeners.foreach(_.onRequestSent(task));
   }
 
   def sendSubtaskResponse(task: SubtaskResult) = {
-    send("work", task);
+    send("workResponseDest", task)(m => { m.setIntProperty("targetMachine", task.parentId._1) });
     listeners.foreach(_.onResponseSent(task));
   }
 

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.springframework.org/schema/jms"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
-	   					   http://www.springframework.org/schema/beans/spring-beans.xsd">
+	   					http://www.springframework.org/schema/beans/spring-beans.xsd 
+	   					http://www.springframework.org/schema/jms 
+	   					http://www.springframework.org/schema/jms/spring-jms.xsd">
 
+	<import resource="jms.xml" />
 
 	<bean id="workerUnit" class="edu.clarkson.cs.clientlib.caida.itdk.WorkerUnit">
 		<property name="node" ref="workerNode" />
@@ -13,9 +16,10 @@
 
 
 	<bean id="workerNode" class="edu.clarkson.cs.clientlib.caida.itdk.dist.WorkerNode">
-		<property name="groupId" value="" />
-		<property name="machineId" value="" />
+		<property name="groupId" value="1" />
+		<property name="machineId" value="1" />
 		<property name="hbInterval" value="2000" />
+		<property name="jmsTemplate" ref="jmsTemplate" />
 	</bean>
 
 	<bean id="partition" class="edu.clarkson.cs.clientlib.caida.itdk.model.Partition">
@@ -41,8 +45,12 @@
 				<property name="arguments" value="50" />
 			</bean>
 		</property>
-
 	</bean>
 
-
+	<jms:listener-container>
+		<jms:listener destination="clientlib.caida.queue.workRequest"
+			ref="workerNode" method="onRequestReceived" selector="targetPartition=#{partition.id}" />
+		<jms:listener destination="clientlib.caida.queue.workResponse"
+			ref="workerNode" method="onResponseReceived" selector="targetMachine=#{workerNode.machineId}" />
+	</jms:listener-container>
 </beans>

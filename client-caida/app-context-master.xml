@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.springframework.org/schema/jms"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
-	   					   http://www.springframework.org/schema/beans/spring-beans.xsd">
+	   					http://www.springframework.org/schema/beans/spring-beans.xsd 
+	   					http://www.springframework.org/schema/jms 
+	   					http://www.springframework.org/schema/jms/spring-jms.xsd">
+	<import resource="jms.xml" />
 
 
-	<bean id="masterUnit" class="edu.clarkson.cs.clientlib.caida.itdk.MasterUnit">
-		<property name="node">
-			<bean class="edu.clarkson.cs.clientlib.caida.itdk.dist.MasterNode">
-				<property name="maxMachineId" value="3000" />
-				<property name="abnormalInterval" value="60000" />
-				<property name="downInterval" value="60" />
-				<property name="stableCount" value="10" />
-			</bean>
-		</property>
+	<bean id="masterNode" class="edu.clarkson.cs.clientlib.caida.itdk.dist.MasterNode">
+		<property name="maxMachineId" value="3000" />
+		<property name="abnormalInterval" value="60000" />
+		<property name="downInterval" value="60" />
+		<property name="stableCount" value="10" />
+		<property name="jmsTemplate" ref="jmsTemplate" />
 	</bean>
 
+	<bean id="masterUnit" class="edu.clarkson.cs.clientlib.caida.itdk.MasterUnit">
+		<property name="node" ref="masterNode" />
+	</bean>
+
+	<jms:listener-container>
+		<jms:listener destination="clientlib.caida.queue.heartbeat"
+			ref="masterNode" method="onHeartbeat" />
+	</jms:listener-container>
+	
 </beans>

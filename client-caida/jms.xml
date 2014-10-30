@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:amq="http://activemq.apache.org/schema/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+  http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+	<bean id="jmsFactory" class="org.apache.activemq.pool.PooledConnectionFactory"
+		destroy-method="stop">
+		<property name="connectionFactory">
+			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
+				<property name="brokerURL">
+					<value>tcp://localhost:61616?daemon=true</value>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Spring JMS Template -->
+	<bean id="bfDestinationResolver"
+		class="org.springframework.jms.support.destination.BeanFactoryDestinationResolver" />
+
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory">
+			<ref local="jmsFactory" />
+		</property>
+		<property name="destinationResolver" ref="bfDestinationResolver" />
+	</bean>
+
+	<!-- Destinations -->
+	<bean id="heartbeatDest" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg index="0"
+			value="clientlib.caida.queue.heartbeat" />
+	</bean>
+
+	<bean id="workRequestDest" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg index="0"
+			value="clientlib.caida.topic.workRequest" />
+	</bean>
+
+	<bean id="workResponseDest" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg index="0"
+			value="clientlib.caida.topic.workResponse" />
+	</bean>
+</beans>

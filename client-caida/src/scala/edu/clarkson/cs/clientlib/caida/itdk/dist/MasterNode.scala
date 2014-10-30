@@ -13,12 +13,11 @@ class MasterNode {
 
   private val machineStatus = new ConcurrentHashMap[Int, MachineState]();
   private val logger = LoggerFactory.getLogger(getClass());
-  
+
   var maxMachineId = 0;
   var abnormalInterval = 0L;
   var downInterval = 0L;
   var stableCount = 0;
-
 
   for (i <- 1 to maxMachineId)
     machineStatus.put(i, new MachineState(MachineStatus.UNKNOWN, -1, 0));
