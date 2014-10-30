@@ -7,16 +7,13 @@ import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.ConcurrentHashMap
 import org.slf4j.LoggerFactory
 import edu.clarkson.cs.clientlib.caida.itdk.task.TaskStatus
+import org.springframework.beans.factory.InitializingBean
+import java.util.concurrent.ExecutorService
 
 class DefaultScheduler extends Scheduler {
 
-  private val PROP = "scheduler.properties"
-
-  private val threadPool = Executors.newWorkStealingPool(
-    Properties.load[Int](PROP, "thread_pool_size"));
-
+  var threadPool: ExecutorService = null;
   private val waitingQueue = new ConcurrentHashMap[(Int, String), Task]();
-
   private val logger = LoggerFactory.getLogger(getClass());
 
   /**

@@ -12,13 +12,11 @@ import org.slf4j.LoggerFactory
 
 class WorkerNode extends Sender with EventListenerSupport[WorkerListener] {
 
-  private val WORKER_PROP = "worker.properties";
+  var groupId = 0;
+  var machineId = 0;
+  var hbInterval = 2000;
 
-  val groupId = Properties.load[Int](WORKER_PROP, "group_id");
-  val machineId = Properties.load[Int](WORKER_PROP, "machine_id");
-  val hbInterval = Properties.load[Int](WORKER_PROP, "hb_interval");
-
-  val logger = LoggerFactory.getLogger(getClass());
+  private val logger = LoggerFactory.getLogger(getClass());
 
   val heartbeatThread = new Thread() {
     {

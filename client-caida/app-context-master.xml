@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   					   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="masterUnit" class="edu.clarkson.cs.clientlib.caida.itdk.MasterUnit">
+		<property name="node">
+			<bean class="edu.clarkson.cs.clientlib.caida.itdk.dist.MasterNode">
+				<property name="maxMachineId" value="3000" />
+				<property name="abnormalInterval" value="60000" />
+				<property name="downInterval" value="60" />
+				<property name="stableCount" value="10" />
+			</bean>
+		</property>
+	</bean>
+
+</beans>

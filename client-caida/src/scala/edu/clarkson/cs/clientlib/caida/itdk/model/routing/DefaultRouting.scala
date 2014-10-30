@@ -6,29 +6,25 @@ import com.google.common.hash.BloomFilter
 import edu.clarkson.cs.clientlib.lang.Properties
 import scala.io.Source
 import java.util.concurrent.ConcurrentHashMap
+import org.springframework.beans.factory.InitializingBean
 
-class DefaultRouting extends Routing {
+class DefaultRouting extends Routing with InitializingBean {
 
-  private val PROP = "routing.properties";
+  var routingSize = 0;
+  var routingFile = "";
 
-  private val bloomFilter = BloomFilter.create[Integer](
-    Funnels.integerFunnel(),
-    Properties.load[Int](PROP, "routing_size"), 0.001);
-
+  private var bloomFilter: BloomFilter[Integer] = null;
   private val hashIndex = new ConcurrentHashMap[Int, List[Int]];
 
-  private def load = {
-    var file = Properties.load[String](PROP, "routing_table");
-    Source.fromFile(file).getLines().foreach(line => {
+  def afterPropertiesSet() = {
+    bloomFilter = BloomFilter.create[Integer](
+      Funnels.integerFunnel(), routingSize, 0.001);
+    Source.fromFile(routingFile).getLines().foreach(line => {
       var split = line.split("\\s");
       var nodeId = split(0).toInt;
       bloomFilter.put(nodeId);
       hashIndex.put(nodeId, split.slice(1, split.length).map(a => a.toInt).toList);
     });
-  }
-
-  def init = {
-    load
   }
 
   def route(nodeId: Int): Iterable[Int] = {

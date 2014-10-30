@@ -11,19 +11,14 @@ import org.slf4j.LoggerFactory
  */
 class MasterNode {
 
-  private val MASTER_PROP = "master.properties";
-
   private val machineStatus = new ConcurrentHashMap[Int, MachineState]();
-
-  private val maxMachineId = Properties.load[Int](MASTER_PROP, "max_machine_id");
-
-  private val abnormalInterval = Properties.load[Long](MASTER_PROP, "abnormal_interval");
-
-  private val downInterval = Properties.load[Long](MASTER_PROP, "down_interval");
-
-  private val stableCount = Properties.load[Int](MASTER_PROP, "stable_count");
-
   private val logger = LoggerFactory.getLogger(getClass());
+  
+  var maxMachineId = 0;
+  var abnormalInterval = 0L;
+  var downInterval = 0L;
+  var stableCount = 0;
+
 
   for (i <- 1 to maxMachineId)
     machineStatus.put(i, new MachineState(MachineStatus.UNKNOWN, -1, 0));

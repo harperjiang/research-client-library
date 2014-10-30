@@ -13,15 +13,19 @@ import edu.clarkson.cs.clientlib.caida.itdk.task.Task
 import edu.clarkson.cs.clientlib.caida.itdk.task.TaskContext
 import edu.clarkson.cs.clientlib.caida.itdk.task.TaskWorker
 import edu.clarkson.cs.clientlib.caida.itdk.marshall.Marshaller
+import org.springframework.beans.factory.InitializingBean
+import edu.clarkson.cs.clientlib.caida.itdk.scheduler.Scheduler
 
-class WorkerUnit extends WorkerListener with SchedulerListener {
+class WorkerUnit extends WorkerListener with SchedulerListener with InitializingBean {
 
-  val node = new WorkerNode();
-  val partition = new Partition();
-  val scheduler = new DefaultScheduler();
+  var node: WorkerNode = null;
+  var partition: Partition = null;
+  var scheduler: Scheduler = null;
 
-  node.addListener(this);
-  scheduler.addListener(this);
+  def afterPropertiesSet() = {
+    node.addListener(this);
+    scheduler.addListener(this);
+  }
 
   def submit(task: Task) {
     var ctx = new TaskContext(node, partition);
@@ -65,7 +69,7 @@ class WorkerUnit extends WorkerListener with SchedulerListener {
       }
       case _ => {
         // Normal task, no need to handle it now
-    	  
+
       }
     }
   }
