@@ -61,12 +61,6 @@
   		<version>1.7.5</version>
   	</dependency>
   	<dependency>
-  		<groupId>com.google.guava</groupId>
-  		<artifactId>guava</artifactId>
-  		<version>18.0</version>
-  		<classifier>site</classifier>
-  	</dependency>
-  	<dependency>
   		<groupId>commons-io</groupId>
   		<artifactId>commons-io</artifactId>
   		<version>2.4</version>
@@ -85,6 +79,23 @@
   		<groupId>org.springframework</groupId>
   		<artifactId>spring-jms</artifactId>
   		<version>4.1.1.RELEASE</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.google.guava</groupId>
+  		<artifactId>guava</artifactId>
+  		<version>18.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.scala-lang</groupId>
+  		<artifactId>scala-library</artifactId>
+  		<version>2.11.3</version>
+  		<scope>test</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.scalatest</groupId>
+  		<artifactId>scalatest_2.11</artifactId>
+  		<version>2.2.2</version>
+  		<scope>test</scope>
   	</dependency>
   </dependencies>
 </project>
