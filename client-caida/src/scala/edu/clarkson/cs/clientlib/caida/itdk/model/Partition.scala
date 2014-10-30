@@ -37,7 +37,7 @@ class Partition {
   def init = {
     var parser = new Parser();
 
-    this.id = Properties.load(PROP, "partition_id");
+    this.id = Properties.load[Int](PROP, "partition_id");
 
     // Load nodes, links from file
     var nodeFile = "%s_%d".format(Properties.load[String](PROP, "node_file"), this.id);
