@@ -10,8 +10,9 @@ import edu.clarkson.cs.clientlib.lang.EventListenerSupport
 import java.util.EventListener
 import org.slf4j.LoggerFactory
 import javax.jms.Message
+import org.springframework.beans.factory.InitializingBean
 
-class WorkerNode extends Sender with EventListenerSupport[WorkerListener] {
+class WorkerNode extends Sender with EventListenerSupport[WorkerListener] with InitializingBean {
 
   var groupId = 0;
   var machineId = 0;
@@ -19,26 +20,28 @@ class WorkerNode extends Sender with EventListenerSupport[WorkerListener] {
 
   private val logger = LoggerFactory.getLogger(getClass());
 
-  val heartbeatThread = new Thread() {
-    {
-      setName("Worker-Heartbeat");
-      setDaemon(true);
-    }
+  def afterPropertiesSet() = {
+    val heartbeatThread = new Thread() {
+      {
+        setName("Worker-Heartbeat");
+        setDaemon(true);
+      }
 
-    override def run = {
-      while (true) {
-        try {
-          sendHeartbeat;
-          Thread.sleep(hbInterval);
-        } catch {
-          case e: Exception => {
-            logger.error("Error occurred in heartbeat thread", e);
+      override def run = {
+        while (true) {
+          try {
+            sendHeartbeat;
+            Thread.sleep(hbInterval);
+          } catch {
+            case e: Exception => {
+              logger.error("Error occurred in heartbeat thread", e);
+            }
           }
         }
       }
-    }
-  };
-  heartbeatThread.start();
+    };
+    heartbeatThread.start();
+  }
 
   def sendHeartbeat = {
     var hb = new Heartbeat(groupId, machineId);

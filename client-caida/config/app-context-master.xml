@@ -13,16 +13,15 @@
 		<property name="abnormalInterval" value="60000" />
 		<property name="downInterval" value="60" />
 		<property name="stableCount" value="10" />
-		<property name="jmsTemplate" ref="jmsTemplate" />
 	</bean>
 
 	<bean id="masterUnit" class="edu.clarkson.cs.clientlib.caida.itdk.MasterUnit">
 		<property name="node" ref="masterNode" />
 	</bean>
 
-	<jms:listener-container>
-		<jms:listener destination="clientlib.caida.queue.heartbeat"
-			ref="masterNode" method="onHeartbeat" />
+	<jms:listener-container connection-factory="jmsFactory">
+		<jms:listener destination="heartbeatDest" ref="masterNode"
+			method="onHeartbeat" />
 	</jms:listener-container>
-	
+
 </beans>

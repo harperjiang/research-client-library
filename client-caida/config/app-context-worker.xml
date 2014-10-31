@@ -47,10 +47,10 @@
 		</property>
 	</bean>
 
-	<jms:listener-container>
-		<jms:listener destination="clientlib.caida.queue.workRequest"
-			ref="workerNode" method="onRequestReceived" selector="targetPartition=#{partition.id}" />
-		<jms:listener destination="clientlib.caida.queue.workResponse"
-			ref="workerNode" method="onResponseReceived" selector="targetMachine=#{workerNode.machineId}" />
+	<jms:listener-container connection-factory="jmsFactory">
+		<jms:listener destination="workRequestDest" ref="workerNode"
+			method="onRequestReceived" selector="targetPartition=#{partition.id}" />
+		<jms:listener destination="workResponseDest" ref="workerNode"
+			method="onResponseReceived" selector="targetMachine=#{workerNode.machineId}" />
 	</jms:listener-container>
 </beans>

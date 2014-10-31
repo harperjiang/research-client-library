@@ -5,11 +5,12 @@ import java.util.concurrent.ConcurrentHashMap
 import edu.clarkson.cs.clientlib.lang.Properties
 import scala.collection.JavaConversions._
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.InitializingBean
 
 /**
  * <code>MasterNode</code> is the control plane of the system. It can report status of each machine.
  */
-class MasterNode {
+class MasterNode extends InitializingBean {
 
   private val machineStatus = new ConcurrentHashMap[Int, MachineState]();
   private val logger = LoggerFactory.getLogger(getClass());
@@ -19,13 +20,13 @@ class MasterNode {
   var downInterval = 0L;
   var stableCount = 0;
 
-  for (i <- 1 to maxMachineId)
-    machineStatus.put(i, new MachineState(MachineStatus.UNKNOWN, -1, 0));
+  def afterPropertiesSet() = {
+    for (i <- 1 to maxMachineId)
+      machineStatus.put(i, new MachineState(MachineStatus.UNKNOWN, -1, 0));
 
-  // Start a monitor thread
-  new DaemonThread(() => {
-    detectdown
-  }).start();
+    // Start a monitor thread
+    new DaemonThread().start();
+  }
 
   def status(machineId: Int): MachineStatus.T = {
     if (machineId > maxMachineId || machineId < 0)
@@ -76,6 +77,26 @@ class MasterNode {
       })
     }
   }
+
+  class DaemonThread extends Thread {
+
+    private val interval = 1000;
+    setDaemon(true);
+    setName("MasterNode-DaemonThread");
+
+    override def run = {
+      while (true) {
+        try {
+          Thread.sleep(interval);
+          detectdown;
+        } catch {
+          case e: Exception => {
+            logger.error("Exception in MasterNode-Daemon Thread", e);
+          }
+        }
+      }
+    }
+  }
 }
 
 class MachineState(mt: MachineStatus.T, lu: Long, c: Int) {
@@ -87,21 +108,6 @@ class MachineState(mt: MachineStatus.T, lu: Long, c: Int) {
     status = mt;
     lastUpdate = lu;
     counter = c;
-  }
-}
-
-class DaemonThread(f: () => Unit) extends Thread {
-
-  private val task = f;
-  private val interval = 5000;
-  setDaemon(true);
-  setName("MasterNode-DaemonThread");
-
-  override def run = {
-    while (true) {
-      Thread.sleep(interval);
-      task
-    }
   }
 }
 
