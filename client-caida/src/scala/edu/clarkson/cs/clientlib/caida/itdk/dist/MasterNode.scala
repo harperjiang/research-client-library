@@ -1,11 +1,13 @@
 package edu.clarkson.cs.clientlib.caida.itdk.dist
 
-import edu.clarkson.cs.clientlib.caida.itdk.dist.message.Heartbeat
 import java.util.concurrent.ConcurrentHashMap
-import edu.clarkson.cs.clientlib.lang.Properties
-import scala.collection.JavaConversions._
+
+import scala.collection.JavaConversions.collectionAsScalaIterable
+
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.InitializingBean
+
+import edu.clarkson.cs.clientlib.caida.itdk.dist.message.Heartbeat
 
 /**
  * <code>MasterNode</code> is the control plane of the system. It can report status of each machine.

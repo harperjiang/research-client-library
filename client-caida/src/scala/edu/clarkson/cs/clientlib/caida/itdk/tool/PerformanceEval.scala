@@ -1,14 +1,17 @@
 package edu.clarkson.cs.clientlib.caida.itdk.tool
 
-import java.io.PrintWriter
-import java_cup.parser
-import edu.clarkson.cs.clientlib.caida.itdk.model.NodeLink
 import java.io.File
-import scala.io.Source
+import java.io.PrintWriter
 import java.util.Comparator
-import scala.collection.JavaConversions._
+
+import scala.collection.JavaConversions.asScalaBuffer
+import scala.collection.JavaConversions.bufferAsJavaList
+import scala.collection.JavaConversions.seqAsJavaList
+import scala.io.Source
+
+import edu.clarkson.cs.clientlib.caida.itdk.model.NodeLink
 import edu.clarkson.cs.clientlib.caida.itdk.parser.Parser
-import edu.clarkson.cs.clientlib.lang.HeapSorter
+import edu.clarkson.cs.clientlib.common.HeapSorter
 
 object PerformanceEval extends App {
   

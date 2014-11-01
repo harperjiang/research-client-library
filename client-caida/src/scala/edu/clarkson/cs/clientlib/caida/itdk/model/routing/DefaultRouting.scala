@@ -1,12 +1,15 @@
 package edu.clarkson.cs.clientlib.caida.itdk.model.routing
 
-import edu.clarkson.cs.clientlib.caida.itdk.model.Routing
-import com.google.common.hash.Funnels
-import com.google.common.hash.BloomFilter
-import edu.clarkson.cs.clientlib.lang.Properties
-import scala.io.Source
 import java.util.concurrent.ConcurrentHashMap
+
+import scala.io.Source
+
 import org.springframework.beans.factory.InitializingBean
+
+import com.google.common.hash.BloomFilter
+import com.google.common.hash.Funnels
+
+import edu.clarkson.cs.clientlib.caida.itdk.model.Routing
 
 class DefaultRouting extends Routing with InitializingBean {
 

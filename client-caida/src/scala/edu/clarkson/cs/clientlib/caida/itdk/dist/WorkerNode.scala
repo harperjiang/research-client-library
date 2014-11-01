@@ -4,13 +4,13 @@ import scala.collection.mutable.ArrayBuffer
 import edu.clarkson.cs.clientlib.caida.itdk.dist.message.Heartbeat
 import edu.clarkson.cs.clientlib.caida.itdk.dist.message.SubtaskExecute
 import edu.clarkson.cs.clientlib.caida.itdk.dist.message.SubtaskResult
-import edu.clarkson.cs.clientlib.lang.Properties
-import edu.clarkson.cs.clientlib.message.Sender
-import edu.clarkson.cs.clientlib.lang.EventListenerSupport
+import edu.clarkson.cs.clientlib.common.message.Sender
 import java.util.EventListener
 import org.slf4j.LoggerFactory
 import javax.jms.Message
 import org.springframework.beans.factory.InitializingBean
+import edu.clarkson.cs.clientlib.common.EventListenerSupport
+import com.google.gson.Gson
 
 class WorkerNode extends Sender with EventListenerSupport[WorkerListener] with InitializingBean {
 
@@ -45,16 +45,16 @@ class WorkerNode extends Sender with EventListenerSupport[WorkerListener] with I
 
   def sendHeartbeat = {
     var hb = new Heartbeat(groupId, machineId);
-    send("heartbeatDest", hb);
+    send("heartbeatDest", (hb, null));
   }
 
   def sendSubtaskRequest(task: SubtaskExecute) = {
-    send("workRequestDest", task)(m => { m.setIntProperty("targetPartition", task.targetPartition) });
+    send("workRequestDest", (task, m => { m.setIntProperty("targetPartition", task.targetPartition) }));
     listeners.foreach(_.onRequestSent(task));
   }
 
   def sendSubtaskResponse(task: SubtaskResult) = {
-    send("workResponseDest", task)(m => { m.setIntProperty("targetMachine", task.parentId._1) });
+    send("workResponseDest", (task, m => { m.setIntProperty("targetMachine", task.parentId._1) }));
     listeners.foreach(_.onResponseSent(task));
   }
 

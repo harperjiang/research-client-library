@@ -11,7 +11,7 @@ import edu.clarkson.cs.clientlib.caida.itdk.parser.Parser
 import java.util.Comparator
 import java.text.MessageFormat
 import scala.collection.mutable.ListBuffer
-import edu.clarkson.cs.clientlib.lang.HeapSorter
+import edu.clarkson.cs.clientlib.common.HeapSorter
 
 /**
  * Link data is originally in the format of

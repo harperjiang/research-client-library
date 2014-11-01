@@ -11,7 +11,7 @@ import org.apache.commons.io.input.CountingInputStream
 import edu.clarkson.cs.clientlib.caida.itdk.model.NodeLink
 import edu.clarkson.cs.clientlib.caida.itdk.parser.Parser
 import java.io.ObjectInputStream
-import edu.clarkson.cs.clientlib.io.LineCountingInputStream
+import edu.clarkson.cs.clientlib.common.io.LineCountingInputStream
 
 class IndexSet private () {
 

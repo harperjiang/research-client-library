@@ -1,9 +1,9 @@
 package edu.clarkson.cs.clientlib.caida.itdk.scheduler
 
 import edu.clarkson.cs.clientlib.caida.itdk.task.Task
-import edu.clarkson.cs.clientlib.caida.itdk.marshall.Marshaller
+import edu.clarkson.cs.clientlib.common.message.KVStore
 
-class CollectRunner(origin: Task, r: String, cb: (Task, Exception) => Unit) extends Runnable {
+class CollectRunner(origin: Task, r: KVStore, cb: (Task, Exception) => Unit) extends Runnable {
 
   val task = origin;
   val callback = cb;
@@ -13,7 +13,6 @@ class CollectRunner(origin: Task, r: String, cb: (Task, Exception) => Unit) exte
     var exception: Exception = null;
 
     try {
-      var objres = Marshaller.unmarshall(r);
       task.getWorker.collect(task, result);
     } catch {
       case e: Exception => {

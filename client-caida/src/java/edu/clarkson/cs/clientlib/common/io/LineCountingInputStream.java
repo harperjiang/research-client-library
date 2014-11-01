@@ -1,4 +1,4 @@
-package edu.clarkson.cs.clientlib.io;
+package edu.clarkson.cs.clientlib.common.io;
 
 import java.io.FilterInputStream;
 import java.io.IOException;

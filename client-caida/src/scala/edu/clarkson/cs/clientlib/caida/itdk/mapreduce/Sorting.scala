@@ -8,8 +8,8 @@ import java_cup.parser
 import edu.clarkson.cs.clientlib.caida.itdk.model.NodeLink
 import java.io.File
 import scala.io.Source
-import edu.clarkson.cs.clientlib.lang.HeapSorter
 import scala.sys.process.stringToProcess
+import edu.clarkson.cs.clientlib.common.HeapSorter
 
 object Sorting {
 

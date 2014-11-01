@@ -1,4 +1,4 @@
-package edu.clarkson.cs.clientlib.lang
+package edu.clarkson.cs.clientlib.common
 
 import scala.collection.JavaConversions._
 import scala.collection.mutable.ArrayBuffer

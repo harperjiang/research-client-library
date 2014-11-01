@@ -1,4 +1,4 @@
-package edu.clarkson.cs.clientlib.lang
+package edu.clarkson.cs.clientlib.common
 
 import edu.clarkson.cs.clientlib.caida.itdk.scheduler.SchedulerListener
 import scala.collection.mutable.ArrayBuffer

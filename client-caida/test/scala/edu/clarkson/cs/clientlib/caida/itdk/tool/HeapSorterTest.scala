@@ -1,7 +1,7 @@
 package edu.clarkson.cs.clientlib.caida.itdk.tool
 
 import org.scalatest.FunSuite
-import edu.clarkson.cs.clientlib.lang.HeapSorter
+import edu.clarkson.cs.clientlib.common.HeapSorter
 
 class HeapSorterTest extends FunSuite {
   test("Test Sort Integers") {

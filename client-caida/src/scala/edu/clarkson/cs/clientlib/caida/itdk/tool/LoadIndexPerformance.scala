@@ -16,7 +16,7 @@ object LoadIndexPerformance extends App {
     var start = System.currentTimeMillis;
     var target = random.nextInt(range._2);
     var result = nodeIndex.find(target);
-    if (result != -1)
+    if (result._1 != -1)
       success += 1;
     var elapse = System.currentTimeMillis - start;
     sum += elapse;

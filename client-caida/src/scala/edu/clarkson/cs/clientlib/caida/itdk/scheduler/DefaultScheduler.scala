@@ -1,14 +1,11 @@
 package edu.clarkson.cs.clientlib.caida.itdk.scheduler
 
-import java.util.concurrent.Executors
-import edu.clarkson.cs.clientlib.caida.itdk.task.Task
-import edu.clarkson.cs.clientlib.lang.Properties
-import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.ConcurrentHashMap
-import org.slf4j.LoggerFactory
-import edu.clarkson.cs.clientlib.caida.itdk.task.TaskStatus
-import org.springframework.beans.factory.InitializingBean
 import java.util.concurrent.ExecutorService
+import org.slf4j.LoggerFactory
+import edu.clarkson.cs.clientlib.caida.itdk.task.Task
+import edu.clarkson.cs.clientlib.caida.itdk.task.TaskStatus
+import edu.clarkson.cs.clientlib.common.message.KVStore
 
 class DefaultScheduler extends Scheduler {
 
@@ -36,7 +33,7 @@ class DefaultScheduler extends Scheduler {
   /**
    * Collect result from spawned tasks
    */
-  def collect(tid: (Int, String), fromPid: Int, result: String): Unit = {
+  def collect(tid: (Int, String), fromPid: Int, result: KVStore): Unit = {
     if (!waitingQueue.containsKey(tid)) {
       logger.warn("Requested task not found:%s".format(tid));
       return

@@ -12,9 +12,9 @@ import edu.clarkson.cs.clientlib.caida.itdk.scheduler.SchedulerListener
 import edu.clarkson.cs.clientlib.caida.itdk.task.Task
 import edu.clarkson.cs.clientlib.caida.itdk.task.TaskContext
 import edu.clarkson.cs.clientlib.caida.itdk.task.TaskWorker
-import edu.clarkson.cs.clientlib.caida.itdk.marshall.Marshaller
 import org.springframework.beans.factory.InitializingBean
 import edu.clarkson.cs.clientlib.caida.itdk.scheduler.Scheduler
+import com.google.gson.Gson
 
 class WorkerUnit extends WorkerListener with SchedulerListener with InitializingBean {
 
@@ -64,7 +64,7 @@ class WorkerUnit extends WorkerListener with SchedulerListener with Initializing
     e.task.parent match {
       case pid if (pid != null) => {
         // Non-empty parent, subtask, should be returned to original partition
-        var resp = new SubtaskResult(pid, Marshaller.marshall(e.task.context.result));
+        var resp = new SubtaskResult(pid, e.task.context.result);
         node.sendSubtaskResponse(resp);
       }
       case _ => {

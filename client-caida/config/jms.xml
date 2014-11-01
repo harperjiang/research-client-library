@@ -14,6 +14,9 @@
 		</property>
 	</bean>
 
+	<bean id="gsonTranslator"
+		class="edu.clarkson.cs.clientlib.common.message.GsonFactoryBean" />
+
 	<!-- Spring JMS Template -->
 	<bean id="bfDestinationResolver"
 		class="org.springframework.jms.support.destination.BeanFactoryDestinationResolver" />
@@ -21,6 +24,11 @@
 	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
 		<property name="connectionFactory">
 			<ref local="jmsFactory" />
+		</property>
+		<property name="messageConverter">
+			<bean class="edu.clarkson.cs.clientlib.common.message.JsonMessageConverter">
+				<property name="translator" ref="gsonTranslator" />
+			</bean>
 		</property>
 		<property name="destinationResolver" ref="bfDestinationResolver" />
 	</bean>

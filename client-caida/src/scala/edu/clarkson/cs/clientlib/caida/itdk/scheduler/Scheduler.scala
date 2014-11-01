@@ -2,16 +2,16 @@ package edu.clarkson.cs.clientlib.caida.itdk.scheduler
 
 import java.util.EventListener
 import java.util.EventObject
-
 import edu.clarkson.cs.clientlib.caida.itdk.task.Task
 import edu.clarkson.cs.clientlib.caida.itdk.task.TaskContext
-import edu.clarkson.cs.clientlib.lang.EventListenerSupport
+import edu.clarkson.cs.clientlib.common.EventListenerSupport
+import edu.clarkson.cs.clientlib.common.message.KVStore
 
 trait Scheduler extends EventListenerSupport[SchedulerListener] {
 
   def schedule(task: Task);
 
-  def collect(taskId: (Int, String), fromPartition: Int, result: String);
+  def collect(taskId: (Int, String), fromPartition: Int, result: KVStore);
 
   protected def onTaskEnd(task: Task, success: Boolean) {
     val e = new SchedulerEvent(this, task, success);
