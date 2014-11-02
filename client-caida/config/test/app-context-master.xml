@@ -19,9 +19,4 @@
 		<property name="node" ref="masterNode" />
 	</bean>
 
-	<jms:listener-container connection-factory="jmsFactory">
-		<jms:listener destination="heartbeatDest" ref="masterNode"
-			method="onHeartbeat" />
-	</jms:listener-container>
-
 </beans>

@@ -20,8 +20,9 @@ class JsonMessageConverter extends MessageConverter {
       var tm = message.asInstanceOf[TextMessage];
       var jsonElem = parser.parse(tm.getText());
       if (jsonElem.isInstanceOf[JsonObject]) {
-        var jsonobj = jsonElem.asInstanceOf[JsonObject];
+        var jsonobj = jsonElem.getAsJsonObject();
         var classStr = jsonobj.get("class").getAsString();
+        jsonobj.remove("class");
         return translator.fromJson(jsonElem, Class.forName(classStr));
       } else {
         return jsonElem.getAsString();

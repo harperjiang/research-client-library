@@ -44,7 +44,7 @@ class WorkerUnit extends WorkerListener with SchedulerListener with Initializing
   override def onRequestReceived(stask: SubtaskExecute) = {
     // submit the subtask to schedule
     var subtask = new Task(taskId, stask.parentId);
-    subtask.workerClass = stask.workerClass;
+    subtask.workerClass = Class.forName(stask.workerClass).asInstanceOf[Class[TaskWorker]];
     subtask.startNodeId = stask.targetNodeId;
 
     submit(subtask);

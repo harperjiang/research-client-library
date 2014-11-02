@@ -5,14 +5,26 @@ import edu.clarkson.cs.clientlib.caida.itdk.task.Task
 import edu.clarkson.cs.clientlib.caida.itdk.task.TaskWorker
 import scala.beans.BeanProperty
 
-class SubtaskExecute(parent: Task, tpid: Int, tnid: Int) {
+class SubtaskExecute {
   @BeanProperty
-  var parentId: (Int, String) = parent.id;
+  var parentMachine = 0;
   @BeanProperty
-  var workerClass: Class[TaskWorker] = parent.workerClass;
+  var parentTaskId = "";
   @BeanProperty
-  var targetPartition: Int = tpid;
+  var workerClass = "";
   @BeanProperty
-  var targetNodeId: Int = tnid;
+  var targetPartition = 0;
+  @BeanProperty
+  var targetNodeId = 0;
 
+  def this(parent: Task, tpid: Int, tnid: Int) = {
+    this();
+    this.parentMachine = parent.id._1;
+    this.parentTaskId = parent.id._2;
+    this.workerClass = parent.workerClass.getName();
+    this.targetNodeId = tnid;
+    this.targetPartition = tpid;
+  }
+
+  def parentId = (parentMachine, parentTaskId);
 }

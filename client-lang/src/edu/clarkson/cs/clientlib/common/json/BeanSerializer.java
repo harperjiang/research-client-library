@@ -73,9 +73,7 @@ public class BeanSerializer<T> implements JsonSerializer<T> {
 							object.add(attrName, new JsonPrimitive(
 									(Boolean) value));
 						} else {
-							throw new RuntimeException("Unsupported type:"
-									+ desc.getName() + ":"
-									+ desc.getPropertyType().toString());
+							object.add(attrName, context.serialize(value));
 						}
 					}
 				}

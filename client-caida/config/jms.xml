@@ -15,7 +15,7 @@
 	</bean>
 
 	<bean id="gsonTranslator"
-		class="edu.clarkson.cs.clientlib.common.message.GsonFactoryBean" />
+		class="edu.clarkson.cs.clientlib.caida.itdk.dist.message.GsonFactoryBean" />
 
 	<!-- Spring JMS Template -->
 	<bean id="bfDestinationResolver"

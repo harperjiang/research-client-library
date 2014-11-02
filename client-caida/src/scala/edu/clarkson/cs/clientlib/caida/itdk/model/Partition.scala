@@ -47,14 +47,10 @@ class Partition extends InitializingBean {
         // Attach Link with nodes
         link.attachNodes(nodeMap);
         // Attach node with links
-        link.namedNodeIds.foreach(entry => {
-          var node = nodeMap.get(entry._2).getOrElse(nodeNotFound(entry._2));
-          node.appendLink(link, entry._1);
+        link.namedNodes.foreach(entry => {
+          entry._2.appendLink(link, entry._1);
         });
-        link.anonymousNodeIds.foreach(node_id => {
-          var node = nodeMap.get(node_id).getOrElse(nodeNotFound(node_id));
-          node.appendLink(link);
-        });
+        link.anonymousNodes.foreach({ _.appendLink(link) });
       });
   }
 

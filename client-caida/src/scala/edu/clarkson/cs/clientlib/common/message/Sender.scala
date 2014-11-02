@@ -11,6 +11,6 @@ trait Sender {
   var jmsTemplate: JmsTemplate = null;
 
   def send(dest: String, message: (Object, (Message => Unit))) = {
-    jmsTemplate.convertAndSend(message)
+    jmsTemplate.convertAndSend(dest, message)
   }
 }

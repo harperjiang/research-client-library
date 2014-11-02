@@ -3,12 +3,23 @@ package edu.clarkson.cs.clientlib.caida.itdk.dist.message
 import scala.beans.BeanProperty
 import edu.clarkson.cs.clientlib.common.message.KVStore
 
-class SubtaskResult(pid: (Int, String), res: KVStore) {
+class SubtaskResult {
   @BeanProperty
-  var parentId: (Int, String) = pid;
+  var parentMachine = 0;
+  @BeanProperty
+  var parentTaskId = "";
   @BeanProperty
   var sourcePartitionId: Int = 0;
   @BeanProperty
-  var result = res;
+  var result: KVStore = null;
+
+  def this(pid: (Int, String), res: KVStore) = {
+    this();
+    this.parentMachine = pid._1;
+    this.parentTaskId = pid._2;
+    this.sourcePartitionId = 0;
+    this.result = res;
+  }
+  def parentId = (parentMachine, parentTaskId);
 
 }

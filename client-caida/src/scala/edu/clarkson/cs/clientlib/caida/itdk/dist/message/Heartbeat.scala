@@ -2,11 +2,16 @@ package edu.clarkson.cs.clientlib.caida.itdk.dist.message
 
 import scala.beans.BeanProperty
 
-class Heartbeat(gid: Int, mid: Int) {
+class Heartbeat {
 
   @BeanProperty
-  val machineId = mid;
+  var machineId = 0;
   @BeanProperty
-  val groupId = gid;
+  var groupId = 0;
 
+  def this(gid: Int, mid: Int) = {
+    this();
+    machineId = mid;
+    groupId = gid;
+  }
 }

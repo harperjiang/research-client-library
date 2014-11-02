@@ -13,7 +13,7 @@ import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 
 class KVStore {
-  var map = new java.util.HashMap[String, Object]();
+  var map: java.util.Map[String, Object] = new java.util.HashMap[String, Object]();
 }
 
 class KVStoreSD extends JsonSerializer[KVStore] with JsonDeserializer[KVStore] {
