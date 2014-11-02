@@ -47,7 +47,7 @@ class Task(tid: (Int, String), pid: (Int, String)) {
   /**
    * Worker for task execution
    */
-  var workerClass: Class[TaskWorker] = null;
+  var workerClass: Class[_ <: TaskWorker] = null;
 
   /**
    * Task Context
