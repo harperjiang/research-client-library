@@ -64,7 +64,7 @@ class WorkerUnit extends WorkerListener with SchedulerListener with Initializing
     e.task.parent match {
       case pid if (pid != null) => {
         // Non-empty parent, subtask, should be returned to original partition
-        var resp = new SubtaskResult(pid, e.task.context.result);
+        var resp = new SubtaskResult(pid, partition.id, e.task.context.result);
         node.sendSubtaskResponse(resp);
       }
       case _ => {

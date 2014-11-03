@@ -29,7 +29,7 @@ class TaskRunner(t: Task, cb: (Task, Exception) => Unit) extends Runnable {
         .getOrElse(throw new IllegalArgumentException("No such node:%d".format(task.startNodeId)));
       while (!toexecute.isEmpty) {
         var target = toexecute.remove(0);
-        if (task.parent != null && task.startNodeId != target.id) {
+        if (task.parent == null || task.startNodeId != target.id) {
           // For subtasks that just started, don't spawn to avoid infinite loop on the spawn point
           var tospawn = partition.queryPartition(target);
           if (!tospawn.isEmpty) {
