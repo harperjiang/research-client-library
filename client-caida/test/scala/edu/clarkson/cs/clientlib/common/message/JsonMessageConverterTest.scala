@@ -1,0 +1,36 @@
+package edu.clarkson.cs.clientlib.common.message
+
+import org.apache.activemq.command.ActiveMQTextMessage
+import org.junit.Test
+import org.junit.Assert._
+import org.junit.runner.RunWith
+import org.springframework.test.context.ContextConfiguration
+import com.google.gson.Gson
+import javax.annotation.Resource
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
+import edu.clarkson.cs.clientlib.caida.itdk.dist.message.Heartbeat
+
+@RunWith(classOf[SpringJUnit4ClassRunner])
+@ContextConfiguration(locations = Array("classpath:test/jms.xml"))
+class JsonMessageConverterTest {
+
+  @Resource(name = "gsonTranslator")
+  var gson: Gson = null;
+
+  @Test
+  def testFromMessage() = {
+    var mc = new JsonMessageConverter();
+
+    var hb = new Heartbeat(3, 5);
+
+    var json = gson.toJsonTree(hb);
+    json.getAsJsonObject.addProperty("class", classOf[Heartbeat].getName);
+    var message = new ActiveMQTextMessage();
+    message.setText(json.toString());
+
+    var result = mc.fromMessage(message);
+
+    assertEquals(classOf[Heartbeat],result.getClass);
+    
+  }
+}
