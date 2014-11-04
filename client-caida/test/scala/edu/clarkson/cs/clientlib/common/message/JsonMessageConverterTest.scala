@@ -20,7 +20,8 @@ class JsonMessageConverterTest {
   @Test
   def testFromMessage() = {
     var mc = new JsonMessageConverter();
-
+    mc.translator = gson;
+    
     var hb = new Heartbeat(3, 5);
 
     var json = gson.toJsonTree(hb);
@@ -30,7 +31,6 @@ class JsonMessageConverterTest {
 
     var result = mc.fromMessage(message);
 
-    assertEquals(classOf[Heartbeat],result.getClass);
-    
+    assertEquals(classOf[Heartbeat], result.getClass);
   }
 }
