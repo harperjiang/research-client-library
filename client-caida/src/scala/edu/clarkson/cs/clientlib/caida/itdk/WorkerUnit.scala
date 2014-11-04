@@ -1,20 +1,19 @@
 package edu.clarkson.cs.clientlib.caida.itdk
 
 import java.util.UUID
+import org.springframework.beans.factory.InitializingBean
 import edu.clarkson.cs.clientlib.caida.itdk.dist.WorkerListener
 import edu.clarkson.cs.clientlib.caida.itdk.dist.WorkerNode
 import edu.clarkson.cs.clientlib.caida.itdk.dist.message.SubtaskExecute
 import edu.clarkson.cs.clientlib.caida.itdk.dist.message.SubtaskResult
 import edu.clarkson.cs.clientlib.caida.itdk.model.Partition
-import edu.clarkson.cs.clientlib.caida.itdk.scheduler.DefaultScheduler
+import edu.clarkson.cs.clientlib.caida.itdk.scheduler.Scheduler
 import edu.clarkson.cs.clientlib.caida.itdk.scheduler.SchedulerEvent
 import edu.clarkson.cs.clientlib.caida.itdk.scheduler.SchedulerListener
 import edu.clarkson.cs.clientlib.caida.itdk.task.Task
 import edu.clarkson.cs.clientlib.caida.itdk.task.TaskContext
 import edu.clarkson.cs.clientlib.caida.itdk.task.TaskWorker
-import org.springframework.beans.factory.InitializingBean
-import edu.clarkson.cs.clientlib.caida.itdk.scheduler.Scheduler
-import com.google.gson.Gson
+import org.springframework.context.support.ClassPathXmlApplicationContext
 
 class WorkerUnit extends WorkerListener with SchedulerListener with InitializingBean {
 
@@ -27,15 +26,19 @@ class WorkerUnit extends WorkerListener with SchedulerListener with Initializing
     scheduler.addListener(this);
   }
 
-  def submit(task: Task) {
+  def submit(task: Task): Unit = {
+    // Assign valid task id
+    task.id = taskId
     var ctx = new TaskContext(node, partition);
     task.context = ctx;
     // Submit the task into scheduler
     scheduler.schedule(task);
   }
 
-  def submit(worker: Class[TaskWorker]) = {
-
+  def submit(worker: Class[TaskWorker], startNode: Int): Unit = {
+    var task = new Task;
+    task.startNodeId = startNode;
+    submit(task);
   }
 
   /**
@@ -43,7 +46,7 @@ class WorkerUnit extends WorkerListener with SchedulerListener with Initializing
    */
   override def onRequestReceived(stask: SubtaskExecute) = {
     // submit the subtask to schedule
-    var subtask = new Task(taskId, stask.parentId);
+    var subtask = new Task(stask.parentId);
     subtask.workerClass = Class.forName(stask.workerClass).asInstanceOf[Class[TaskWorker]];
     subtask.startNodeId = stask.targetNodeId;
 
@@ -77,4 +80,9 @@ class WorkerUnit extends WorkerListener with SchedulerListener with Initializing
   def taskId: (Int, String) = {
     (node.machineId, UUID.randomUUID().toString())
   }
+}
+
+
+object RunWorker extends App {
+  var appContext = new ClassPathXmlApplicationContext("app-context-worker.xml");
 }

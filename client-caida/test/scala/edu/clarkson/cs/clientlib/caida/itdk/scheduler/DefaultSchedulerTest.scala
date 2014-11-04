@@ -47,7 +47,7 @@ class DefaultSchedulerTest {
 
     workerNode = new WorkerNode {
       override def send(dest: String, message: (Object, Message => Unit)) = {
-    	  // Do nothing for message sending
+        // Do nothing for message sending
       }
     }
     workerNode.machineId = 1;
@@ -68,7 +68,7 @@ class DefaultSchedulerTest {
     };
     scheduler.addListener(slistener)
 
-    var task = new Task((1, "taskid"), null);
+    var task = new Task(null);
     task.startNodeId = 1;
     task.workerClass = classOf[LocalWorker];
     task.context = new TaskContext(null, partition);
@@ -92,7 +92,8 @@ class DefaultSchedulerTest {
     };
     scheduler.addListener(slistener)
 
-    var task = new Task((1, "taskid"), null);
+    var task = new Task(null);
+    task.id = (1, "taskid");
     task.startNodeId = 7;
     task.workerClass = classOf[LocalWorker];
     task.context = new TaskContext(workerNode, partition);

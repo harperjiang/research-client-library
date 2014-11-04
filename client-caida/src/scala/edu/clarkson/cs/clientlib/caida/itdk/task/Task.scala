@@ -12,17 +12,17 @@ object TaskStatus extends Enumeration {
   val READY, ACTIVE, WAIT_FOR_SUB, END = Value
 };
 
-class Task(tid: (Int, String), pid: (Int, String)) {
+class Task {
 
   /**
    * Task identification
    */
-  var id: (Int, String) = tid;
+  var id: (Int, String) = null;
 
   /**
    * Subtask only, parent id
    */
-  var parent: (Int, String) = pid;
+  var parent: (Int, String) = null;
 
   /**
    * Task Status
@@ -56,6 +56,11 @@ class Task(tid: (Int, String), pid: (Int, String)) {
 
   @transient
   private var worker: Option[TaskWorker] = None;
+
+  def this(pid: (Int, String)) = {
+    this();
+    this.parent = pid;
+  }
 
   def getWorker: TaskWorker = {
     worker.getOrElse({ worker = Some(workerClass.newInstance()); worker.get; });
