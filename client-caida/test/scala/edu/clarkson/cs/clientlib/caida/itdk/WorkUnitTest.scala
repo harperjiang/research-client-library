@@ -7,7 +7,7 @@ import org.junit.Test
 import javax.annotation.Resource
 
 @RunWith(classOf[SpringJUnit4ClassRunner])
-@ContextConfiguration(locations = Array("classpath:test/app-context-worker.xml"))
+@ContextConfiguration(locations = Array("classpath:app-context-worker.xml"))
 class WorkUnitTest {
 
   @Resource

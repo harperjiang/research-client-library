@@ -13,7 +13,7 @@ import edu.clarkson.cs.clientlib.caida.itdk.dist.message.SubtaskResult
 import edu.clarkson.cs.clientlib.common.message.KVStore
 
 @RunWith(classOf[SpringJUnit4ClassRunner])
-@ContextConfiguration(locations = Array("classpath:test/app-context-worker.xml"))
+@ContextConfiguration(locations = Array("classpath:app-context-worker.xml"))
 class GsonFactoryBeanTest {
 
   @Resource(name = "gsonTranslator")

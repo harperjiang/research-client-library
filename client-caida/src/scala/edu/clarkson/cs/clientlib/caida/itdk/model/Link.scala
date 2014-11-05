@@ -54,7 +54,10 @@ class Link(lid: Int) {
   }
 
   def nodeSize = {
-    namedNodes.size + anonymousNodes.length;
+    if (namedNodes.isEmpty && anonymousNodes.isEmpty)
+      namedNodeIds.size + anonymousNodeIds.size;
+    else
+      namedNodes.size + anonymousNodes.length;
   }
 
 }

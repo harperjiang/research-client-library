@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import javax.annotation.Resource
 
 @RunWith(classOf[SpringJUnit4ClassRunner])
-@ContextConfiguration(locations = Array("classpath:test/app-context-master.xml"))
+@ContextConfiguration(locations = Array("classpath:app-context-master.xml"))
 class MasterNodeTest {
 
   @Resource(name = "masterNode")

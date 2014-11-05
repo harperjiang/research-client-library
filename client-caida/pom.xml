@@ -5,28 +5,28 @@
 	<artifactId>client-caida</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<build>
-		<sourceDirectory>src/java</sourceDirectory>
-		<testSourceDirectory>test/java</testSourceDirectory>
+		<sourceDirectory>src/scala</sourceDirectory>
+		<testSourceDirectory>test/scala</testSourceDirectory>
 		<resources>
 			<resource>
 				<directory>src/java</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</resource>
-			<resource>
-				<directory>src/scala</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
+				<includes>
+					<include>**/*.java</include>
+				</includes>
 			</resource>
 		</resources>
 		<testResources>
 			<testResource>
-				<directory>test/scala</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
+				<directory>test/java</directory>
+				<includes>
+					<include>**/*.java</include>
+				</includes>
+			</testResource>
+			<testResource>
+				<directory>test/config</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
 			</testResource>
 		</testResources>
 		<plugins>
@@ -37,6 +37,24 @@
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<descriptors>
+						<descriptor>src/assembly/config.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>tar-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -97,7 +115,6 @@
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scala-library</artifactId>
 			<version>2.11.3</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.scalatest</groupId>
@@ -140,6 +157,12 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

@@ -8,7 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import javax.annotation.Resource
 
 @RunWith(classOf[SpringJUnit4ClassRunner])
-@ContextConfiguration(locations = Array("classpath:test/app-context-worker.xml"))
+@ContextConfiguration(locations = Array("classpath:app-context-worker.xml"))
 class PartitionTest {
 
   @Resource(name = "partition")

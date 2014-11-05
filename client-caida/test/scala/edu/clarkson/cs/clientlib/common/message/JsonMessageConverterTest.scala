@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import edu.clarkson.cs.clientlib.caida.itdk.dist.message.Heartbeat
 
 @RunWith(classOf[SpringJUnit4ClassRunner])
-@ContextConfiguration(locations = Array("classpath:test/jms.xml"))
+@ContextConfiguration(locations = Array("classpath:jms.xml"))
 class JsonMessageConverterTest {
 
   @Resource(name = "gsonTranslator")
