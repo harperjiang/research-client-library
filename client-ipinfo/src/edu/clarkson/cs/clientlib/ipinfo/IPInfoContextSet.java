@@ -7,11 +7,11 @@ import org.apache.http.impl.client.HttpClients;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 
-import edu.clarkson.cs.clientlib.common.json.BeanDeserializer;
 import edu.clarkson.cs.clientlib.ipinfo.dao.JpaIPInfoDao;
 import edu.clarkson.cs.clientlib.ipinfo.model.IPInfo;
-import edu.clarkson.cs.clientlib.lang.BeanContext;
-import edu.clarkson.cs.clientlib.lang.ContextSet;
+import edu.clarkson.cs.common.BeanContext;
+import edu.clarkson.cs.common.ContextSet;
+import edu.clarkson.cs.httpjson.json.BeanDeserializer;
 
 public class IPInfoContextSet implements ContextSet {
 

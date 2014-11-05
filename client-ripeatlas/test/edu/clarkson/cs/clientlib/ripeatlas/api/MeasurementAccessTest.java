@@ -8,7 +8,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.clarkson.cs.clientlib.lang.BeanContext;
 import edu.clarkson.cs.clientlib.ripeatlas.TestContextSet;
 import edu.clarkson.cs.clientlib.ripeatlas.api.MeasurementAccess;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Measurement;
@@ -19,6 +18,7 @@ import edu.clarkson.cs.clientlib.ripeatlas.model.ProbeSpec;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteOutput;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteOutput.TracerouteData;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteTarget;
+import edu.clarkson.cs.common.BeanContext;
 
 public class MeasurementAccessTest {
 

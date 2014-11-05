@@ -5,8 +5,8 @@ import java.text.MessageFormat;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 
-import edu.clarkson.cs.clientlib.common.http.Request;
 import edu.clarkson.cs.clientlib.ripeatlas.api.Configuration;
+import edu.clarkson.cs.httpjson.http.Request;
 
 public class MeasurementGetRequest extends Request<MeasurementGetResponse> {
 

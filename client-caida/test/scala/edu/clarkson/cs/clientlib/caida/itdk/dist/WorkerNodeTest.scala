@@ -26,7 +26,7 @@ class WorkerNodeTest {
 
     var tm = djt.getStorage().get("heartbeatDest").poll().asInstanceOf[TextMessage];
 
-    assertEquals("{\"machine_id\":1,\"group_id\":1,\"class\":\"edu.clarkson.cs.clientlib.caida.itdk.dist.message.Heartbeat\"}", tm.getText());
+    assertEquals("{\"machine_id\":1,\"group_id\":1,\"class\":\"edu.clarkson.cs.caida.itdk.dist.message.Heartbeat\"}", tm.getText());
   }
 
 }

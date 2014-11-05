@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import edu.clarkson.cs.clientlib.lang.BeanContext;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Probe;
+import edu.clarkson.cs.common.BeanContext;
 
 public class ProbeServiceTest {
 

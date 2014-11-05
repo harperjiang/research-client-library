@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import edu.clarkson.cs.clientlib.lang.BeanContext;
 import edu.clarkson.cs.clientlib.ripeatlas.api.ProbeAccess;
 import edu.clarkson.cs.clientlib.ripeatlas.dao.ProbeDao;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Probe;
+import edu.clarkson.cs.common.BeanContext;
 import edu.clarkson.cs.persistence.dv.DataVersionDao;
 
 public class ProbeService {

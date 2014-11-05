@@ -2,8 +2,8 @@ package edu.clarkson.cs.clientlib.ripeatlas.api.probe;
 
 import java.text.MessageFormat;
 
-import edu.clarkson.cs.clientlib.common.http.ListRequest;
 import edu.clarkson.cs.clientlib.ripeatlas.api.Configuration;
+import edu.clarkson.cs.httpjson.http.ListRequest;
 
 public class ProbeListRequest extends ListRequest<ProbeListResponse> {
 

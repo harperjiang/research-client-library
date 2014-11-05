@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import edu.clarkson.cs.clientlib.common.json.JsonAttribute;
+import edu.clarkson.cs.httpjson.json.JsonAttribute;
 
 @Entity
 @Table(name = "ip_info")

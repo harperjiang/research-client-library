@@ -7,9 +7,9 @@ import java.io.InputStreamReader;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import edu.clarkson.cs.clientlib.common.http.Response;
-import edu.clarkson.cs.clientlib.common.http.ResponseError;
 import edu.clarkson.cs.clientlib.ipinfo.model.IPInfo;
+import edu.clarkson.cs.httpjson.http.Response;
+import edu.clarkson.cs.httpjson.http.ResponseError;
 
 public class QueryIPInfoResponse extends Response<IPInfo> {
 

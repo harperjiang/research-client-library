@@ -2,8 +2,8 @@ package edu.clarkson.cs.clientlib.ripeatlas.model;
 
 import java.util.Date;
 
-import edu.clarkson.cs.clientlib.common.json.JsonAttribute;
-import edu.clarkson.cs.clientlib.common.json.JsonIgnore;
+import edu.clarkson.cs.httpjson.json.JsonAttribute;
+import edu.clarkson.cs.httpjson.json.JsonIgnore;
 
 public class Measurement {
 	

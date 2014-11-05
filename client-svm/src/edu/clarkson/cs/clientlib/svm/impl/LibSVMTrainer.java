@@ -5,13 +5,13 @@ import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.clarkson.cs.clientlib.lang.proc.OutputHandler;
-import edu.clarkson.cs.clientlib.lang.proc.ProcessRunner;
 import edu.clarkson.cs.clientlib.svm.DataSet;
 import edu.clarkson.cs.clientlib.svm.FileDataSet;
 import edu.clarkson.cs.clientlib.svm.FileModel;
 import edu.clarkson.cs.clientlib.svm.Model;
 import edu.clarkson.cs.clientlib.svm.Trainer;
+import edu.clarkson.cs.common.proc.OutputHandler;
+import edu.clarkson.cs.common.proc.ProcessRunner;
 
 public class LibSVMTrainer implements Trainer {
 

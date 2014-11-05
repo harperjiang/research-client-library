@@ -1,7 +1,7 @@
 package edu.clarkson.cs.clientlib.gsearch;
 
-import edu.clarkson.cs.clientlib.common.DefaultHttpService;
 import edu.clarkson.cs.clientlib.gsearch.api.GSearchRequest;
+import edu.clarkson.cs.httpjson.DefaultHttpService;
 
 public class GSearchAccess extends DefaultHttpService {
 

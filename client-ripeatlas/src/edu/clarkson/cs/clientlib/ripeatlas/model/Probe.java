@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import edu.clarkson.cs.clientlib.common.json.JsonAttribute;
+import edu.clarkson.cs.httpjson.json.JsonAttribute;
 import edu.clarkson.cs.persistence.EntityObject;
 
 @Entity

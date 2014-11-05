@@ -4,8 +4,8 @@ import javax.persistence.Persistence;
 
 import edu.clarkson.cs.clientlib.geolite.dao.JpaBlockDao;
 import edu.clarkson.cs.clientlib.geolite.dao.JpaLocationDao;
-import edu.clarkson.cs.clientlib.lang.BeanContext;
-import edu.clarkson.cs.clientlib.lang.ContextSet;
+import edu.clarkson.cs.common.BeanContext;
+import edu.clarkson.cs.common.ContextSet;
 
 public class GeoliteContextSet implements ContextSet {
 

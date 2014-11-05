@@ -9,10 +9,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 
-import edu.clarkson.cs.clientlib.common.json.BeanDeserializer;
-import edu.clarkson.cs.clientlib.common.json.BeanSerializer;
-import edu.clarkson.cs.clientlib.lang.BeanContext;
-import edu.clarkson.cs.clientlib.lang.ContextSet;
 import edu.clarkson.cs.clientlib.ripeatlas.api.MeasurementAccess;
 import edu.clarkson.cs.clientlib.ripeatlas.api.ProbeAccess;
 import edu.clarkson.cs.clientlib.ripeatlas.dao.JpaProbeDao;
@@ -29,6 +25,10 @@ import edu.clarkson.cs.clientlib.ripeatlas.model.Probe;
 import edu.clarkson.cs.clientlib.ripeatlas.model.ProbeSpec;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteOutput;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteTarget;
+import edu.clarkson.cs.common.BeanContext;
+import edu.clarkson.cs.common.ContextSet;
+import edu.clarkson.cs.httpjson.json.BeanDeserializer;
+import edu.clarkson.cs.httpjson.json.BeanSerializer;
 import edu.clarkson.cs.persistence.dv.JpaDataVersionDao;
 
 public class RipeAtlasContextSet implements ContextSet {

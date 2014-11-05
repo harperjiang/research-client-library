@@ -10,7 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.clarkson.cs.clientlib.gsearch.model.SearchResponse;
-import edu.clarkson.cs.clientlib.lang.BeanContext;
+import edu.clarkson.cs.common.BeanContext;
 
 public class GSearchAccessTest {
 

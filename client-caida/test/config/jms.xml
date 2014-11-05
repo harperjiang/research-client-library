@@ -5,14 +5,14 @@
 
 
 	<bean id="gsonTranslator"
-		class="edu.clarkson.cs.clientlib.caida.itdk.dist.message.GsonFactoryBean" />
+		class="edu.clarkson.cs.caida.itdk.dist.message.GsonFactoryBean" />
 
 	<!-- Spring JMS Template -->
 
 	<bean id="jmsTemplate"
-		class="edu.clarkson.cs.clientlib.common.message.DummyJmsTemplate">
+		class="edu.clarkson.cs.httpjson.message.DummyJmsTemplate">
 		<property name="messageConverter">
-			<bean class="edu.clarkson.cs.clientlib.common.message.JsonMessageConverter">
+			<bean class="edu.clarkson.cs.httpjson.message.JsonMessageConverter">
 				<property name="translator" ref="gsonTranslator" />
 			</bean>
 		</property>

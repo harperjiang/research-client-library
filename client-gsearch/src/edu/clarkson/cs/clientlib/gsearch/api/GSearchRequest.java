@@ -9,7 +9,7 @@ import org.apache.commons.lang3.Validate;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 
-import edu.clarkson.cs.clientlib.common.http.Request;
+import edu.clarkson.cs.httpjson.http.Request;
 
 public class GSearchRequest extends Request<GSearchResponse> {
 

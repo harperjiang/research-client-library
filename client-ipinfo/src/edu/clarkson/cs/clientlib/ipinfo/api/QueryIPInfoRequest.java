@@ -12,7 +12,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.message.BasicNameValuePair;
 
-import edu.clarkson.cs.clientlib.common.http.Request;
+import edu.clarkson.cs.httpjson.http.Request;
 
 public class QueryIPInfoRequest extends Request<QueryIPInfoResponse> {
 

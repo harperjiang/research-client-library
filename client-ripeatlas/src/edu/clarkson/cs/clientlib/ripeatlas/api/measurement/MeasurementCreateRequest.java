@@ -7,10 +7,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.ByteArrayEntity;
 
-import edu.clarkson.cs.clientlib.common.QueryUtils;
-import edu.clarkson.cs.clientlib.common.http.Request;
 import edu.clarkson.cs.clientlib.ripeatlas.api.Configuration;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementCreate;
+import edu.clarkson.cs.httpjson.QueryUtils;
+import edu.clarkson.cs.httpjson.http.Request;
 
 public class MeasurementCreateRequest extends
 		Request<MeasurementCreateResponse> {

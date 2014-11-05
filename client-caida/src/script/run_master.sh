@@ -4,4 +4,4 @@
 CLASSPATH=../lib/*
 CLASSPATH=$CLASSPATH:../config
 
-java -cp $CLASSPATH edu.clarkson.cs.clientlib.RunMaster
+java -cp $CLASSPATH edu.clarkson.cs.RunMaster

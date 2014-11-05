@@ -7,10 +7,10 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.clarkson.cs.clientlib.lang.BeanContext;
 import edu.clarkson.cs.clientlib.ripeatlas.TestContextSet;
 import edu.clarkson.cs.clientlib.ripeatlas.api.ProbeAccess;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Probe;
+import edu.clarkson.cs.common.BeanContext;
 
 public class ProbeAccessTest {
 

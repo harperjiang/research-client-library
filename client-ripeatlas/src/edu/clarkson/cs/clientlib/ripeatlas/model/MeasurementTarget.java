@@ -1,6 +1,6 @@
 package edu.clarkson.cs.clientlib.ripeatlas.model;
 
-import edu.clarkson.cs.clientlib.common.json.JsonAttribute;
+import edu.clarkson.cs.httpjson.json.JsonAttribute;
 
 public class MeasurementTarget {
 

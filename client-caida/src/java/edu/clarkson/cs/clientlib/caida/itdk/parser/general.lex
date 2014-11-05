@@ -1,5 +1,5 @@
 /* JFlex example: part of Java language lexer specification */
-package edu.clarkson.cs.clientlib.caida.itdk.parser;
+package edu.clarkson.cs.caida.itdk.parser;
 
 import java_cup.runtime.*;
 

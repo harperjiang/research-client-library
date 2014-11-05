@@ -5,9 +5,9 @@ import java.text.MessageFormat;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpUriRequest;
 
-import edu.clarkson.cs.clientlib.common.QueryUtils;
-import edu.clarkson.cs.clientlib.common.http.Request;
 import edu.clarkson.cs.clientlib.ripeatlas.api.Configuration;
+import edu.clarkson.cs.httpjson.QueryUtils;
+import edu.clarkson.cs.httpjson.http.Request;
 
 public class MeasurementStopRequest extends Request<MeasurementStopResponse> {
 

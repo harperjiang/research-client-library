@@ -21,6 +21,14 @@
 			</includes>
 		</fileSet>
 		<fileSet>
+			<directory>src</directory>
+			<outputDirectory>/src</outputDirectory>
+			<includes>
+				<include>**/*.java</include>
+				<include>**/*.scala</include>
+			</includes>
+		</fileSet>
+		<fileSet>
 			<directory>src/script</directory>
 			<outputDirectory>/bin</outputDirectory>
 		</fileSet>

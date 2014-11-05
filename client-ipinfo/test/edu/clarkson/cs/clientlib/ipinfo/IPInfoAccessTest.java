@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.clarkson.cs.clientlib.ipinfo.model.IPInfo;
-import edu.clarkson.cs.clientlib.lang.BeanContext;
+import edu.clarkson.cs.common.BeanContext;
 
 public class IPInfoAccessTest {
 

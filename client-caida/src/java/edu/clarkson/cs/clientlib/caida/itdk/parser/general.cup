@@ -1,11 +1,11 @@
-package edu.clarkson.cs.clientlib.caida.itdk.parser;
+package edu.clarkson.cs.caida.itdk.parser;
 
 import java_cup.runtime.*;
 import java.util.List;
 import java.util.ArrayList;
 import scala.Tuple2;
 
-import edu.clarkson.cs.clientlib.caida.itdk.model.*;
+import edu.clarkson.cs.caida.itdk.model.*;
 
 /* Preliminaries to set up and use the scanner.  */
 init with {:               :};

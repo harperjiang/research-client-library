@@ -9,11 +9,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
-import edu.clarkson.cs.clientlib.common.json.DeserializerUtils;
 import edu.clarkson.cs.clientlib.ripeatlas.model.MeasurementResult;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Output;
 import edu.clarkson.cs.clientlib.ripeatlas.model.PingOutput;
 import edu.clarkson.cs.clientlib.ripeatlas.model.TracerouteOutput;
+import edu.clarkson.cs.httpjson.json.DeserializerUtils;
 
 public class MeasurementResultDeserializer implements
 		JsonDeserializer<MeasurementResult> {

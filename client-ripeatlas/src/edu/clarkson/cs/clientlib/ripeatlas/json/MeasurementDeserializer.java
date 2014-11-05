@@ -1,7 +1,7 @@
 package edu.clarkson.cs.clientlib.ripeatlas.json;
 
-import edu.clarkson.cs.clientlib.common.json.BeanDeserializer;
 import edu.clarkson.cs.clientlib.ripeatlas.model.Measurement;
+import edu.clarkson.cs.httpjson.json.BeanDeserializer;
 
 import java.lang.reflect.Type;
 

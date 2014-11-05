@@ -6,8 +6,8 @@ import java.io.InputStreamReader;
 
 import com.google.gson.JsonObject;
 
-import edu.clarkson.cs.clientlib.common.http.Response;
-import edu.clarkson.cs.clientlib.common.http.ResponseError;
+import edu.clarkson.cs.httpjson.http.Response;
+import edu.clarkson.cs.httpjson.http.ResponseError;
 
 public abstract class RipeAtlasResponse<T> extends Response<T> {
 

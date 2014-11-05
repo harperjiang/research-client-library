@@ -7,12 +7,12 @@ import org.apache.http.impl.client.HttpClients;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 
-import edu.clarkson.cs.clientlib.common.json.BeanDeserializer;
 import edu.clarkson.cs.clientlib.gsearch.model.SearchCursor;
 import edu.clarkson.cs.clientlib.gsearch.model.SearchResponse;
 import edu.clarkson.cs.clientlib.gsearch.model.SearchResult;
-import edu.clarkson.cs.clientlib.lang.BeanContext;
-import edu.clarkson.cs.clientlib.lang.ContextSet;
+import edu.clarkson.cs.common.BeanContext;
+import edu.clarkson.cs.common.ContextSet;
+import edu.clarkson.cs.httpjson.json.BeanDeserializer;
 
 public class GSearchContextSet implements ContextSet {
 
