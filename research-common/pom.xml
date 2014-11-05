@@ -88,5 +88,11 @@
 			<artifactId>spring-jms</artifactId>
 			<version>4.1.1.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>
