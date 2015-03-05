@@ -54,10 +54,6 @@ public class TestContextSet implements ContextSet {
 		Gson gson = builder.create();
 		env.setGson(gson);
 
-		mcbs.setGson(gson);
-		ttbs.setGson(gson);
-		psbs.setGson(gson);
-
 		env.setReader(new JsonParser());
 		
 		

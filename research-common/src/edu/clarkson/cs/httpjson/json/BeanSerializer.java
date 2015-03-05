@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
@@ -22,8 +21,6 @@ import com.google.gson.JsonSerializer;
 import edu.clarkson.cs.httpjson.ReflectUtils;
 
 public class BeanSerializer<T> implements JsonSerializer<T> {
-
-	private Gson gson;
 
 	public BeanSerializer() {
 	}
@@ -53,7 +50,7 @@ public class BeanSerializer<T> implements JsonSerializer<T> {
 					if (value != null) {
 						if (value.getClass().isArray()
 								|| value instanceof Collection) {
-							object.add(attrName, gson.toJsonTree(value));
+							object.add(attrName, context.serialize(value));
 						} else if (value instanceof Integer
 								|| desc.getPropertyType() == Integer.TYPE) {
 							object.add(attrName, new JsonPrimitive(
@@ -82,14 +79,6 @@ public class BeanSerializer<T> implements JsonSerializer<T> {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	public Gson getGson() {
-		return gson;
-	}
-
-	public void setGson(Gson gson) {
-		this.gson = gson;
 	}
 
 	static Pattern UPPERCASE = Pattern.compile("^.*([A-Z]).*$");
